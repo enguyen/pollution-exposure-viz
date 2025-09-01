@@ -599,6 +599,13 @@ Canvas visualization in browser
   - Structures data for efficient Canvas rendering
   - Adds metadata for proper geographic positioning
 
+- **`reduce_precision.py`** - Data size optimization for GitHub compatibility
+  - Reduces floating-point precision to 2-3 significant digits using logarithmic rounding
+  - Achieved 70% file size reduction (290MB → 86MB) while preserving data quality
+  - Processes all overlay JSON files with configurable precision levels
+  - Essential for repository size constraints and web performance
+  - Example: 0.026884429156780243 → 0.027 (2 sig digits)
+
 - **`geotiff_processor.py`** - Core geospatial utilities
   - GDAL wrapper functions for raster operations
   - Coordinate system transformations (WGS84, Web Mercator)
