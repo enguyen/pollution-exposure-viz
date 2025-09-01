@@ -554,3 +554,158 @@ This feature will provide powerful analytical capabilities for understanding cum
 - **Web worker integration**: Move heavy calculations to background threads
 
 The point analysis feature provides a powerful new way to understand cumulative PM2.5 impacts while maintaining scientific accuracy about the additional (not total) nature of the modeled exposures.
+
+---
+
+## **Current Data Processing Pipeline**
+
+### **Active Directories:**
+1. **`input_geotiffs/`** - Source TIFF files organized by country (concentration + population)
+2. **`raw_data/`** - Extracted JSON pixel arrays (`*_raw.json` files)  
+3. **`overlays/`** - Optimized visualization data (`*_data.json` files)
+4. **`frontend/`** - Web application and JavaScript modules
+
+### **Processing Flow:**
+```
+input_geotiffs/{country}/{asset}-v2.tiff
+input_geotiffs/{country}/{asset}-pop-v2.tiff
+                    ↓ (export_raw_data.py)
+raw_data/{country}_{asset}_raw.json
+                    ↓ (create_overlay_data.py)  
+overlays/{country}_{asset}_data.json
+                    ↓ (frontend/js/map.js)
+Canvas visualization in browser
+```
+
+### **🗑️ Legacy/Unused Directories:**
+- **`processed/`** - Contains person-exposure TIFF files, no longer used in current pipeline
+  - Was used for PNG overlay generation (deprecated approach)
+  - Person-exposure calculation now handled client-side from concentration + population data
+  - **Status**: Can be safely removed or archived
+
+### **Key Scripts (Active Pipeline):**
+
+#### **Data Extraction & Processing:**
+- **`export_raw_data.py`** - Primary data extraction script
+  - Reads TIFF rasters using GDAL/rasterio
+  - Extracts concentration and population pixel arrays 
+  - Outputs structured JSON with geographic bounds and pixel data
+  - Handles coordinate transformations and nodata filtering
+  - ~200 assets processed across 24 countries
+
+- **`create_overlay_data.py`** - Optimization for web visualization  
+  - Converts raw pixel arrays to web-optimized format
+  - Removes zero-value pixels to reduce file sizes
+  - Structures data for efficient Canvas rendering
+  - Adds metadata for proper geographic positioning
+
+- **`geotiff_processor.py`** - Core geospatial utilities
+  - GDAL wrapper functions for raster operations
+  - Coordinate system transformations (WGS84, Web Mercator)
+  - Pixel-to-geographic coordinate mapping
+  - Shared utilities across all processing scripts
+
+#### **Web Application (Frontend):**
+- **`frontend/js/map.js`** (2,500+ lines) - Core application logic
+  - Leaflet map initialization and base layer management
+  - Asset marker rendering with population-based sizing
+  - Canvas overlay system for concentration visualization  
+  - Point analysis mode with spatial search algorithms
+  - Data loading, caching, and error handling
+  - Risk-based color classification and legend generation
+
+- **`frontend/js/point-analysis-layer.js`** (220+ lines) - Visual feedback system
+  - HTML5 Canvas-based overlay for point analysis visualization
+  - Crosshair reticle rendering with drop shadows
+  - Animated connection lines between assets and analysis points
+  - Concentration-based color coding and line thickness scaling
+  - Stable coordinate system handling to prevent drift
+
+- **`frontend/js/asset-panel.js`** (180+ lines) - Sidebar interface
+  - Asset information display and formatting
+  - Statistical summaries and data visualization
+  - Point analysis results presentation with bar charts
+  - Interactive elements and mode switching
+
+#### **Development & Testing Scripts:**
+- **`server.py`** - Local development server with CORS handling
+- **`exposure_stats_viewer.py`** - Data quality analysis and statistics
+- **`edge_pattern_analyzer.py`** - Detects artifacts in concentration data
+- **`test_overlay.py`** - Validation of data processing pipeline
+
+#### **🗂️ Legacy Scripts (Deprecated but Preserved):**
+- **`generate_all_overlays.py`** - Multi-threaded PNG overlay generation (old approach)
+- **`raster_overlay.py`** - PNG-based visualization pipeline (superseded by JSON approach)  
+- **`generate_uniform_overlays.py`** - Alternative overlay approach for testing
+- **`test_canvas_layout.js`** - Canvas positioning tests during coordinate system debugging
+
+---
+
+## **Technical Implementation Details**
+
+### **Data Format Evolution:**
+The project has evolved through three distinct visualization approaches:
+
+1. **PNG Overlay Phase** (deprecated)
+   - Generated static PNG images from TIFF rasters
+   - Required server-side processing for each zoom level
+   - Large file sizes and inflexible visualization options
+
+2. **Raw JSON Phase** (intermediate)
+   - Direct extraction of pixel arrays to JSON
+   - Included all pixels (including zeros) resulting in large files
+   - Enabled client-side rendering but with performance issues
+
+3. **Optimized Overlay Phase** (current)
+   - Compressed JSON with zero-value pixels removed
+   - Structured for efficient Canvas rendering
+   - ~70% file size reduction compared to raw JSON
+   - Real-time client-side person-exposure calculations
+
+### **Performance Optimizations:**
+
+#### **Data Loading:**
+- **Lazy loading**: Assets loaded on-demand when selected
+- **Caching system**: `loadedAssetData` Map prevents duplicate requests  
+- **Graceful fallback**: Automatic retry mechanism for network failures
+- **Error boundaries**: Robust error handling prevents application crashes
+
+#### **Rendering Performance:**
+- **Canvas-based rendering**: Hardware-accelerated graphics for large datasets
+- **Graduated symbol scaling**: Circle areas computed using square root scaling for perceptual accuracy
+- **Z-index management**: Layered rendering system prevents visual conflicts
+- **Animation optimization**: RequestAnimationFrame for smooth 60fps animations
+
+#### **Spatial Analysis:**
+- **100km search radius**: Configurable distance-based asset filtering
+- **Haversine distance**: Great-circle distance calculations for geographic accuracy
+- **Grid intersection**: Efficient pixel-level data extraction at analysis points
+- **Concurrent processing**: Parallel asset analysis for improved response times
+
+### **Color Science & Accessibility:**
+
+#### **Risk-Based Color Progression:**
+- **Sequential color scheme**: Yellow → Orange → Red → Purple progression
+- **Health-context colors**: Colors intuitively represent increasing health risk
+- **Perceptually uniform**: Color differences represent meaningful concentration differences  
+- **High contrast ratios**: Ensures accessibility for color vision differences
+
+#### **Concentration Classification:**
+- **Manual breaks**: Health-based thresholds rather than statistical quantiles
+- **WHO guidelines alignment**: Risk categories reflect established health impact research
+- **No safe threshold principle**: Acknowledges that any additional PM2.5 carries health risk
+- **Linear risk scaling**: Color intensity correlates with documented health impact severity
+
+### **Coordinate System Precision:**
+
+#### **Geographic Accuracy:**
+- **WGS84 geographic coordinates**: Standard lat/lng coordinate system for global compatibility
+- **Layer point transformations**: `latLngToLayerPoint()` for stable overlay positioning
+- **Pixel-perfect alignment**: Eliminates coordinate drift during map interactions
+- **Multi-zoom consistency**: Overlays maintain accuracy across all zoom levels
+
+#### **Canvas Positioning:**
+- **Overlay pane integration**: Proper layer stacking within Leaflet's pane system
+- **Dynamic canvas sizing**: Responsive to map viewport changes and device scaling  
+- **High-DPI support**: Automatic scaling for retina and high-resolution displays
+- **Memory efficient**: Canvas resources properly managed and garbage collected

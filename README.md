@@ -16,11 +16,6 @@ An interactive web-based visualization tool for analyzing additional PM2.5 pollu
 - **Concentration-based colors**: Connection lines and bar charts use consistent risk-level colors
 - **Detailed metrics**: Distance, direction, and contribution data for each contributing asset
 
-### 🎨 Professional Visual Design
-- **Drop shadows**: Enhanced visibility of all visual elements over any background
-- **Smooth animations**: Subtle animated patterns show pollution flow direction
-- **Responsive interface**: Clean sidebar with detailed asset information and statistics
-
 ## Technical Architecture
 
 ### Frontend (JavaScript + HTML5 Canvas)
@@ -29,9 +24,10 @@ An interactive web-based visualization tool for analyzing additional PM2.5 pollu
 - **Modular design**: Separate classes for different overlay types and analysis modes
 
 ### Data Processing Pipeline
-- **Raster data**: TIFF files containing PM2.5 concentration and population data
-- **Geospatial analysis**: Grid-based exposure calculations with proper coordinate transformations
-- **Caching system**: Optimized data loading and caching for improved performance
+1. **Source rasters**: TIFF files with PM2.5 concentration and population data (`input_geotiffs/`)
+2. **Raw data extraction**: Python scripts extract pixel arrays to JSON (`raw_data/`)  
+3. **Overlay optimization**: Processed data optimized for web visualization (`overlays/`)
+4. **Frontend rendering**: Canvas-based visualization with efficient data loading
 
 ## Installation & Setup
 
@@ -49,15 +45,18 @@ An interactive web-based visualization tool for analyzing additional PM2.5 pollu
 The tool expects data files in specific directories (excluded from git):
 
 ```
-assets/
-├── assets.json                    # Asset metadata with coordinates
-└── {COUNTRY}_{ASSET_ID}/
-    ├── {ASSET_ID}-v2.tiff         # PM2.5 concentration raster
-    ├── {ASSET_ID}-pop-v2.tiff     # Population raster
-    └── {COUNTRY}_{ASSET_ID}_person_exposure.tiff  # Person-exposure raster
+input_geotiffs/
+└── {COUNTRY}/
+    ├── {ASSET_ID}-v2.tiff         # PM2.5 concentration raster  
+    └── {ASSET_ID}-pop-v2.tiff     # Population raster
 
-data/overlays/
-└── {COUNTRY}_{ASSET_ID}_overlay.json  # Pre-processed overlay data
+raw_data/
+└── {COUNTRY}_{ASSET_ID}_raw.json  # Extracted pixel arrays
+
+overlays/  
+└── {COUNTRY}_{ASSET_ID}_data.json # Optimized visualization data
+
+assets.json                        # Asset metadata with coordinates and bounds
 ```
 
 ## Usage
