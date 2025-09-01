@@ -1898,7 +1898,7 @@ function showCanvasOverlay(asset) {
     const zoom = map.getZoom();
     
     // Check if we should show canvas rendering
-    if (zoom < 9) {
+    if (zoom < 6) {
         hideExposureLegend();
         return;
     }
@@ -1911,6 +1911,7 @@ function showCanvasOverlay(asset) {
     
     // Load new overlay data format
     loadOverlayDataForAsset(asset).then(overlayData => {
+        console.log(`Loaded overlay data for ${requestId}:`, overlayData ? 'SUCCESS' : 'FAILED');
         // Check if this is still the active request
         if (activeOverlayRequest !== requestId) {
             console.log(`Aborting overlay load for ${requestId} - newer request active`);
