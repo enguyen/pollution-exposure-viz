@@ -1,11 +1,18 @@
-# Data files - exclude all actual pollution and population data
+# Raw source data - exclude actual pollution and population raster files
 assets/
-data/
+input_geotiffs/
+raw_data/
+processed/
 *.tiff
 *.tif
-*.json
 !assets/.gitkeep
-!data/.gitkeep
+
+# Include processed overlay data for web application
+!overlays/
+!overlays/*.json
+
+# Include essential metadata
+!assets.json
 
 # Sample/demo data (small files for testing) - include these
 !*sample*
