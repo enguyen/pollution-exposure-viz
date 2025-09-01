@@ -37,7 +37,7 @@ def process_data_structure(data, sig_digits=3):
     else:
         return data
 
-def reduce_overlay_precision(input_dir="overlays", output_dir="overlays_reduced", sig_digits=3):
+def reduce_overlay_precision(input_dir="overlays", output_dir="overlays", sig_digits=3):
     """
     Process all overlay files to reduce numerical precision.
     
@@ -131,4 +131,4 @@ if __name__ == "__main__":
     
     # Process files
     print("\n📁 Processing overlay files...")
-    reduce_overlay_precision(sig_digits=3)
+    reduce_overlay_precision(sig_digits=2)
