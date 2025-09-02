@@ -605,6 +605,12 @@ Canvas visualization in browser
   - Processes all overlay JSON files with configurable precision levels
   - Essential for repository size constraints and web performance
   - Example: 0.026884429156780243 → 0.027 (2 sig digits)
+  - **IMPORTANT**: Preserves geographic bounds at 6 decimal places to maintain spatial extent
+
+- **`fix_bounds.py`** - Emergency fix for precision-induced bounds collapse
+  - Restores original precision bounds from raw data files
+  - Fixed 118 assets where east==west or north==south coordinates after precision reduction
+  - One-time script to resolve critical rendering bug caused by zero-width canvases
 
 - **`geotiff_processor.py`** - Core geospatial utilities
   - GDAL wrapper functions for raster operations
@@ -716,3 +722,42 @@ The project has evolved through three distinct visualization approaches:
 - **Dynamic canvas sizing**: Responsive to map viewport changes and device scaling  
 - **High-DPI support**: Automatic scaling for retina and high-resolution displays
 - **Memory efficient**: Canvas resources properly managed and garbage collected
+
+## Critical Bug: Precision Reduction Breaking Overlay Rendering
+
+### **Bug Description:**
+During optimization for GitHub repository size constraints, precision reduction of overlay data inadvertently collapsed geographic bounds for 118 assets, causing complete failure of overlay visualization.
+
+### **Root Cause:**
+The `reduce_precision.py` script reduced all floating-point numbers to 2 significant digits, including geographic boundary coordinates. For assets with small geographic extents, this caused east and west coordinates to round to identical values.
+
+**Example:**
+- **Original bounds**: `east: 119.4766686479561, west: 117.47333526611328`
+- **After precision reduction**: `east: 120.0, west: 120.0`
+- **Canvas width calculation**: `Math.abs(120.0 - 120.0) = 0`
+- **Result**: Zero-width canvas automatically hidden by minimum size check
+
+### **Impact:**
+- **Complete overlay failure**: Assets affected showed no visualization when clicked
+- **Silent failure**: No error messages, overlays simply didn't appear
+- **Scope**: 118 out of 200 assets (59%) were affected
+- **Detection difficulty**: Required detailed debugging to identify precision as the cause
+
+### **Resolution:**
+1. **Modified `reduce_precision.py`**: Added special handling to preserve geographic bounds at 6 decimal places (~1 meter accuracy)
+2. **Created `fix_bounds.py`**: Emergency script to restore original precision bounds from raw data files
+3. **Selective precision**: Data arrays still use 2 significant digits, only bounds preserve higher precision
+4. **Validation**: Confirmed all 118 affected assets now render correctly
+
+### **Lessons Learned:**
+- **Geographic data sensitivity**: Coordinate precision is critical for spatial extent calculations
+- **Test edge cases**: Small geographic areas are particularly vulnerable to precision loss
+- **Preserve critical data**: Not all numerical data can be treated equally for precision reduction
+- **Silent failures**: Visualization bugs can be particularly difficult to debug without proper logging
+- **Data validation**: Need systematic validation after any data transformation operations
+
+### **Prevention Measures:**
+- **Bounds preservation**: Always maintain geographic coordinates at sufficient precision
+- **Automated testing**: Include overlay rendering tests in the development pipeline
+- **Data integrity checks**: Validate that bounds maintain positive width/height after processing
+- **Documentation**: Clearly document precision requirements for different data types
