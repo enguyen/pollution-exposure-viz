@@ -1867,11 +1867,15 @@ class CanvasOverlay extends L.Layer {
 // New data loading function for overlay format
 async function loadOverlayDataForAsset(asset) {
     try {
-        const response = await fetch(`overlays/${asset.country}_${asset.asset_id}_data.json`);
+        const url = `overlays/${asset.country}_${asset.asset_id}_data.json`;
+        console.log('Fetching overlay data from:', url);
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Failed to load overlay data: ${response.statusText}`);
         }
-        return await response.json();
+        const data = await response.json();
+        console.log('Overlay data loaded successfully, keys:', Object.keys(data));
+        return data;
     } catch (error) {
         console.error(`Error loading overlay data for ${asset.country}_${asset.asset_id}:`, error);
         return null;
@@ -1925,6 +1929,7 @@ function showCanvasOverlay(asset) {
         }
         
         console.log(`Creating overlay for: ${requestId}`);
+        console.log('overlayData type and value:', typeof overlayData, overlayData);
         
         if (!overlayData) {
             // Try fallback to legacy raw data format
@@ -1963,6 +1968,7 @@ function showCanvasOverlay(asset) {
         
         // Use new circle-based visualization approach
         console.log(`Adding circle canvas overlay for: ${requestId}`);
+        console.log('Overlay data exists:', !!overlayData);
         console.log('Overlay data structure:', {
             asset_id: overlayData.asset_id,
             dimensions: overlayData.dimensions,
