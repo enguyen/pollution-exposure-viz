@@ -2417,25 +2417,35 @@ class CircleCanvasOverlay extends L.Layer {
         const overlayPane = this.map.getPane('overlayPane');
         overlayPane.appendChild(this.canvas);
         console.log('Canvas appended to overlay pane, canvas size:', this.canvas.width, 'x', this.canvas.height);
+        console.log('Canvas element:', this.canvas);
+        console.log('Canvas position:', this.canvas.style.left, this.canvas.style.top);
         
         
     }
     
     updateCanvasPosition() {
         if (!this.canvas) return;
+        console.log('updateCanvasPosition called');
         
         const zoom = this.map.getZoom();
+        console.log('Current zoom:', zoom);
         
         // Use layerPointToContainerPoint for proper coordinate transformation
         // First get the layer points (overlay pane coordinates)
+        console.log('Asset bounds:', this.bounds);
         const layerNW = this.map.latLngToLayerPoint([this.bounds.north, this.bounds.west]);
         const layerSE = this.map.latLngToLayerPoint([this.bounds.south, this.bounds.east]);
+        
+        console.log('Layer points - NW:', layerNW, 'SE:', layerSE);
         
         let width = Math.abs(layerSE.x - layerNW.x);
         let height = Math.abs(layerSE.y - layerNW.y);
         
+        console.log('Calculated canvas dimensions:', width, 'x', height);
+        
         // Ensure minimum size
         if (width < 10 || height < 10) {
+            console.log('Canvas too small, hiding:', width, 'x', height);
             this.canvas.style.display = 'none';
             return;
         }
@@ -2449,7 +2459,9 @@ class CircleCanvasOverlay extends L.Layer {
         this.canvas.style.top = canvasTop + 'px';
         
         // Update canvas dimensions if changed
+        console.log('Canvas size check - current:', this.canvas.width, 'x', this.canvas.height, 'new:', width, 'x', height);
         if (Math.abs(width - this.canvas.width) > 5 || Math.abs(height - this.canvas.height) > 5) {
+            console.log('Updating canvas dimensions and rendering circles');
             this.canvas.width = width;
             this.canvas.height = height;
             this.renderCircles();
@@ -2463,7 +2475,11 @@ class CircleCanvasOverlay extends L.Layer {
     }
     
     renderCircles() {
-        if (!this.ctx || !this.overlayData) return;
+        console.log('renderCircles called');
+        if (!this.ctx || !this.overlayData) {
+            console.log('renderCircles early return - ctx:', !!this.ctx, 'overlayData:', !!this.overlayData);
+            return;
+        }
         
         const canvasWidth = this.canvas.width;
         const canvasHeight = this.canvas.height;
