@@ -1,0 +1,9 @@
+# This directory contains processed overlay data
+#
+# Expected structure:
+# data/
+#   └── overlays/
+#       └── {COUNTRY}_{ASSET_ID}_overlay.json  # Pre-processed circle overlay data
+#
+# These files are excluded from git due to size.
+# They are generated from the raw raster files in the assets/ directory.

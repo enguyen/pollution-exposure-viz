@@ -1,0 +1,7202 @@
+[
+  {
+    "country": "BRA",
+    "asset_id": "1566447",
+    "file_path": "input_geotiffs/BRA/1566447-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 3558,
+    "positive_pixels": 357643,
+    "zero_percentage": 0.9850471067355849,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "BRA",
+    "asset_id": "1566450",
+    "file_path": "input_geotiffs/BRA/1566450-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 59670,
+    "positive_pixels": 301531,
+    "zero_percentage": 16.519887818693746,
+    "data_extent": {
+      "min_row": 25,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 525
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 25,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 75
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "BRA",
+    "asset_id": "1566455",
+    "file_path": "input_geotiffs/BRA/1566455-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 119629,
+    "positive_pixels": 241572,
+    "zero_percentage": 33.119786490070624,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 530,
+      "min_col": 0,
+      "max_col": 464
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 70,
+      "left_zero_cols": 0,
+      "right_zero_cols": 136
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "BRA",
+    "asset_id": "3143749",
+    "file_path": "input_geotiffs/BRA/3143749-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 48740,
+    "positive_pixels": 312461,
+    "zero_percentage": 13.49387183313446,
+    "data_extent": {
+      "min_row": 79,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 79,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "BRA",
+    "asset_id": "31922355",
+    "file_path": "input_geotiffs/BRA/31922355-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 36409,
+    "positive_pixels": 324792,
+    "zero_percentage": 10.07998316726698,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 53,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 53,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "BRA",
+    "asset_id": "31922368",
+    "file_path": "input_geotiffs/BRA/31922368-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 33220,
+    "positive_pixels": 327981,
+    "zero_percentage": 9.197095246137192,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 546,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 54,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "BRA",
+    "asset_id": "32437325",
+    "file_path": "input_geotiffs/BRA/32437325-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 20549,
+    "positive_pixels": 340652,
+    "zero_percentage": 5.6890761653483795,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 21,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 21,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "BRA",
+    "asset_id": "32440381",
+    "file_path": "input_geotiffs/BRA/32440381-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 88684,
+    "positive_pixels": 272517,
+    "zero_percentage": 24.552534461421757,
+    "data_extent": {
+      "min_row": 145,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 145,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566485",
+    "file_path": "input_geotiffs/CHN/1566485-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 11285,
+    "positive_pixels": 349916,
+    "zero_percentage": 3.124299212903619,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 589
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 11
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566487",
+    "file_path": "input_geotiffs/CHN/1566487-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 68926,
+    "positive_pixels": 292275,
+    "zero_percentage": 19.082449937846242,
+    "data_extent": {
+      "min_row": 77,
+      "max_row": 600,
+      "min_col": 40,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 77,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 40,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566497",
+    "file_path": "input_geotiffs/CHN/1566497-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 16391,
+    "positive_pixels": 344810,
+    "zero_percentage": 4.537916561692797,
+    "data_extent": {
+      "min_row": 7,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 587
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 7,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 13
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566499",
+    "file_path": "input_geotiffs/CHN/1566499-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 53148,
+    "positive_pixels": 308053,
+    "zero_percentage": 14.714244977173374,
+    "data_extent": {
+      "min_row": 16,
+      "max_row": 600,
+      "min_col": 69,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 16,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 69,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566500",
+    "file_path": "input_geotiffs/CHN/1566500-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 36647,
+    "positive_pixels": 324554,
+    "zero_percentage": 10.14587445771191,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 543
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 57
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566505",
+    "file_path": "input_geotiffs/CHN/1566505-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 137131,
+    "positive_pixels": 224070,
+    "zero_percentage": 37.965288025226954,
+    "data_extent": {
+      "min_row": 114,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 486
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 114,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 114
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566507",
+    "file_path": "input_geotiffs/CHN/1566507-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 82692,
+    "positive_pixels": 278509,
+    "zero_percentage": 22.893624325514047,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 585,
+      "min_col": 0,
+      "max_col": 478
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 15,
+      "left_zero_cols": 0,
+      "right_zero_cols": 122
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566509",
+    "file_path": "input_geotiffs/CHN/1566509-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 33461,
+    "positive_pixels": 327740,
+    "zero_percentage": 9.263817099066724,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 555,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 45,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566513",
+    "file_path": "input_geotiffs/CHN/1566513-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 43138,
+    "positive_pixels": 318063,
+    "zero_percentage": 11.94293482022475,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 565,
+      "min_col": 0,
+      "max_col": 564
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 35,
+      "left_zero_cols": 0,
+      "right_zero_cols": 36
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566514",
+    "file_path": "input_geotiffs/CHN/1566514-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 14357,
+    "positive_pixels": 346844,
+    "zero_percentage": 3.974795197134006,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 8,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 8,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566515",
+    "file_path": "input_geotiffs/CHN/1566515-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 44079,
+    "positive_pixels": 317122,
+    "zero_percentage": 12.203454586227613,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 71,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 71,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566516",
+    "file_path": "input_geotiffs/CHN/1566516-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 35016,
+    "positive_pixels": 326185,
+    "zero_percentage": 9.694325320251052,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 53,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 53,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566517",
+    "file_path": "input_geotiffs/CHN/1566517-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 118135,
+    "positive_pixels": 243066,
+    "zero_percentage": 32.70616637273983,
+    "data_extent": {
+      "min_row": 138,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 527
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 138,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 73
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566518",
+    "file_path": "input_geotiffs/CHN/1566518-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 125573,
+    "positive_pixels": 235628,
+    "zero_percentage": 34.76540762622473,
+    "data_extent": {
+      "min_row": 147,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 521
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 147,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 79
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566519",
+    "file_path": "input_geotiffs/CHN/1566519-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 37531,
+    "positive_pixels": 323670,
+    "zero_percentage": 10.390613536507374,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 57,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 57,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566521",
+    "file_path": "input_geotiffs/CHN/1566521-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 33202,
+    "positive_pixels": 327999,
+    "zero_percentage": 9.192111871229592,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 50,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 50,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566522",
+    "file_path": "input_geotiffs/CHN/1566522-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 2749,
+    "positive_pixels": 358452,
+    "zero_percentage": 0.7610720900551217,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 598,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 2,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566523",
+    "file_path": "input_geotiffs/CHN/1566523-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 19225,
+    "positive_pixels": 341976,
+    "zero_percentage": 5.322521255478252,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 597,
+      "min_col": 0,
+      "max_col": 574
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 3,
+      "left_zero_cols": 0,
+      "right_zero_cols": 26
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566524",
+    "file_path": "input_geotiffs/CHN/1566524-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 86269,
+    "positive_pixels": 274932,
+    "zero_percentage": 23.883931661318766,
+    "data_extent": {
+      "min_row": 10,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 467
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 10,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 133
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566525",
+    "file_path": "input_geotiffs/CHN/1566525-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 75458,
+    "positive_pixels": 285743,
+    "zero_percentage": 20.890861320981948,
+    "data_extent": {
+      "min_row": 61,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 535
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 61,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 65
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566526",
+    "file_path": "input_geotiffs/CHN/1566526-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 45199,
+    "positive_pixels": 316002,
+    "zero_percentage": 12.513531247144941,
+    "data_extent": {
+      "min_row": 53,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 583
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 53,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 17
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566527",
+    "file_path": "input_geotiffs/CHN/1566527-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 105444,
+    "positive_pixels": 255757,
+    "zero_percentage": 29.192610208720353,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 560,
+      "min_col": 0,
+      "max_col": 462
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 40,
+      "left_zero_cols": 0,
+      "right_zero_cols": 138
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566528",
+    "file_path": "input_geotiffs/CHN/1566528-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 92877,
+    "positive_pixels": 268324,
+    "zero_percentage": 25.713383960731008,
+    "data_extent": {
+      "min_row": 117,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 559
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 117,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 41
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566529",
+    "file_path": "input_geotiffs/CHN/1566529-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 81095,
+    "positive_pixels": 280106,
+    "zero_percentage": 22.451488229545323,
+    "data_extent": {
+      "min_row": 24,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 487
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 24,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 113
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566531",
+    "file_path": "input_geotiffs/CHN/1566531-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 51530,
+    "positive_pixels": 309671,
+    "zero_percentage": 14.266294943812449,
+    "data_extent": {
+      "min_row": 85,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 85,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566532",
+    "file_path": "input_geotiffs/CHN/1566532-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 51444,
+    "positive_pixels": 309757,
+    "zero_percentage": 14.24248548592058,
+    "data_extent": {
+      "min_row": 79,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 595
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 79,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 5
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566536",
+    "file_path": "input_geotiffs/CHN/1566536-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 23850,
+    "positive_pixels": 337351,
+    "zero_percentage": 6.602971752569899,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 594,
+      "min_col": 0,
+      "max_col": 569
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 6,
+      "left_zero_cols": 0,
+      "right_zero_cols": 31
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566539",
+    "file_path": "input_geotiffs/CHN/1566539-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 31668,
+    "positive_pixels": 329533,
+    "zero_percentage": 8.767417587437464,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 47,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 47,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566541",
+    "file_path": "input_geotiffs/CHN/1566541-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 24242,
+    "positive_pixels": 336959,
+    "zero_percentage": 6.711498583890964,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 34,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 34,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566544",
+    "file_path": "input_geotiffs/CHN/1566544-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 9740,
+    "positive_pixels": 351461,
+    "zero_percentage": 2.696559533334625,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 588,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 12,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566545",
+    "file_path": "input_geotiffs/CHN/1566545-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 34353,
+    "positive_pixels": 326848,
+    "zero_percentage": 9.510771011154453,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 544
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 56
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566547",
+    "file_path": "input_geotiffs/CHN/1566547-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 127500,
+    "positive_pixels": 233701,
+    "zero_percentage": 35.298905595499456,
+    "data_extent": {
+      "min_row": 147,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 518
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 147,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 82
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566549",
+    "file_path": "input_geotiffs/CHN/1566549-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 70375,
+    "positive_pixels": 290826,
+    "zero_percentage": 19.483611617908032,
+    "data_extent": {
+      "min_row": 35,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 516
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 35,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 84
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566552",
+    "file_path": "input_geotiffs/CHN/1566552-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 92020,
+    "positive_pixels": 269181,
+    "zero_percentage": 25.476119944296943,
+    "data_extent": {
+      "min_row": 144,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 591
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 144,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 9
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566553",
+    "file_path": "input_geotiffs/CHN/1566553-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 51012,
+    "positive_pixels": 310189,
+    "zero_percentage": 14.122884488138181,
+    "data_extent": {
+      "min_row": 24,
+      "max_row": 600,
+      "min_col": 56,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 24,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 56,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566560",
+    "file_path": "input_geotiffs/CHN/1566560-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 97626,
+    "positive_pixels": 263575,
+    "zero_percentage": 27.028164373852785,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 564,
+      "min_col": 0,
+      "max_col": 468
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 36,
+      "left_zero_cols": 0,
+      "right_zero_cols": 132
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566561",
+    "file_path": "input_geotiffs/CHN/1566561-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 71410,
+    "positive_pixels": 289791,
+    "zero_percentage": 19.77015567509503,
+    "data_extent": {
+      "min_row": 116,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 116,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566572",
+    "file_path": "input_geotiffs/CHN/1566572-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 5253,
+    "positive_pixels": 355948,
+    "zero_percentage": 1.4543149105345776,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566573",
+    "file_path": "input_geotiffs/CHN/1566573-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 10588,
+    "positive_pixels": 350613,
+    "zero_percentage": 2.9313318623148885,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566575",
+    "file_path": "input_geotiffs/CHN/1566575-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 88235,
+    "positive_pixels": 272966,
+    "zero_percentage": 24.428226942893293,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 583,
+      "min_col": 0,
+      "max_col": 470
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 17,
+      "left_zero_cols": 0,
+      "right_zero_cols": 130
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566584",
+    "file_path": "input_geotiffs/CHN/1566584-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 33454,
+    "positive_pixels": 327747,
+    "zero_percentage": 9.26187911993599,
+    "data_extent": {
+      "min_row": 54,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 54,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566585",
+    "file_path": "input_geotiffs/CHN/1566585-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 57562,
+    "positive_pixels": 303639,
+    "zero_percentage": 15.93627924618149,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 505
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 95
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566591",
+    "file_path": "input_geotiffs/CHN/1566591-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 85606,
+    "positive_pixels": 275595,
+    "zero_percentage": 23.700377352222173,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 550,
+      "min_col": 0,
+      "max_col": 501
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 50,
+      "left_zero_cols": 0,
+      "right_zero_cols": 99
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566600",
+    "file_path": "input_geotiffs/CHN/1566600-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 103313,
+    "positive_pixels": 257888,
+    "zero_percentage": 28.602633990492826,
+    "data_extent": {
+      "min_row": 106,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 522
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 106,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 78
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566601",
+    "file_path": "input_geotiffs/CHN/1566601-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 24496,
+    "positive_pixels": 336705,
+    "zero_percentage": 6.781819540920429,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 39,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 39,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566604",
+    "file_path": "input_geotiffs/CHN/1566604-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 50199,
+    "positive_pixels": 311002,
+    "zero_percentage": 13.897802054811587,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 517
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 83
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566607",
+    "file_path": "input_geotiffs/CHN/1566607-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 5056,
+    "positive_pixels": 356145,
+    "zero_percentage": 1.3997746407125118,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 597
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 3
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566608",
+    "file_path": "input_geotiffs/CHN/1566608-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 94311,
+    "positive_pixels": 266890,
+    "zero_percentage": 26.1103928283698,
+    "data_extent": {
+      "min_row": 95,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 529
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 95,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 71
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566610",
+    "file_path": "input_geotiffs/CHN/1566610-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 24847,
+    "positive_pixels": 336354,
+    "zero_percentage": 6.878995351618627,
+    "data_extent": {
+      "min_row": 39,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 39,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566611",
+    "file_path": "input_geotiffs/CHN/1566611-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 75024,
+    "positive_pixels": 286177,
+    "zero_percentage": 20.77070661487648,
+    "data_extent": {
+      "min_row": 92,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 564
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 92,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 36
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566613",
+    "file_path": "input_geotiffs/CHN/1566613-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 82931,
+    "positive_pixels": 278270,
+    "zero_percentage": 22.959792470120515,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 580,
+      "min_col": 0,
+      "max_col": 482
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 20,
+      "left_zero_cols": 0,
+      "right_zero_cols": 118
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566620",
+    "file_path": "input_geotiffs/CHN/1566620-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 80738,
+    "positive_pixels": 280463,
+    "zero_percentage": 22.352651293877923,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 564,
+      "min_col": 0,
+      "max_col": 499
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 36,
+      "left_zero_cols": 0,
+      "right_zero_cols": 101
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566623",
+    "file_path": "input_geotiffs/CHN/1566623-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 53416,
+    "positive_pixels": 307785,
+    "zero_percentage": 14.788441892464308,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 561,
+      "min_col": 51,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 39,
+      "left_zero_cols": 51,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566628",
+    "file_path": "input_geotiffs/CHN/1566628-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 85158,
+    "positive_pixels": 276043,
+    "zero_percentage": 23.57634668785524,
+    "data_extent": {
+      "min_row": 45,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 498
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 45,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 102
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566629",
+    "file_path": "input_geotiffs/CHN/1566629-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 58820,
+    "positive_pixels": 302381,
+    "zero_percentage": 16.284561781390416,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 571,
+      "min_col": 0,
+      "max_col": 531
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 29,
+      "left_zero_cols": 0,
+      "right_zero_cols": 69
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566631",
+    "file_path": "input_geotiffs/CHN/1566631-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 75408,
+    "positive_pixels": 285793,
+    "zero_percentage": 20.877018612905278,
+    "data_extent": {
+      "min_row": 66,
+      "max_row": 600,
+      "min_col": 65,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 66,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 65,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566636",
+    "file_path": "input_geotiffs/CHN/1566636-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 19249,
+    "positive_pixels": 341952,
+    "zero_percentage": 5.329165755355052,
+    "data_extent": {
+      "min_row": 31,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 31,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566640",
+    "file_path": "input_geotiffs/CHN/1566640-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 13734,
+    "positive_pixels": 347467,
+    "zero_percentage": 3.8023150544987416,
+    "data_extent": {
+      "min_row": 21,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 21,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566651",
+    "file_path": "input_geotiffs/CHN/1566651-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 120612,
+    "positive_pixels": 240589,
+    "zero_percentage": 33.391934130857884,
+    "data_extent": {
+      "min_row": 122,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 513
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 122,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 87
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566652",
+    "file_path": "input_geotiffs/CHN/1566652-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 72415,
+    "positive_pixels": 288786,
+    "zero_percentage": 20.048394107436028,
+    "data_extent": {
+      "min_row": 103,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 584
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 103,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 16
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566654",
+    "file_path": "input_geotiffs/CHN/1566654-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 73986,
+    "positive_pixels": 287215,
+    "zero_percentage": 20.483331995204885,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 546,
+      "min_col": 21,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 54,
+      "left_zero_cols": 21,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566655",
+    "file_path": "input_geotiffs/CHN/1566655-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 91319,
+    "positive_pixels": 269882,
+    "zero_percentage": 25.28204517706208,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 540
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 60
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566657",
+    "file_path": "input_geotiffs/CHN/1566657-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 47730,
+    "positive_pixels": 313471,
+    "zero_percentage": 13.214249129985797,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 597,
+      "min_col": 74,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 3,
+      "left_zero_cols": 74,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566658",
+    "file_path": "input_geotiffs/CHN/1566658-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 27207,
+    "positive_pixels": 333994,
+    "zero_percentage": 7.532371172837285,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 556,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 44,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566661",
+    "file_path": "input_geotiffs/CHN/1566661-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 88771,
+    "positive_pixels": 272430,
+    "zero_percentage": 24.576620773475156,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 454
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 146
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566662",
+    "file_path": "input_geotiffs/CHN/1566662-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 53656,
+    "positive_pixels": 307545,
+    "zero_percentage": 14.854886891232304,
+    "data_extent": {
+      "min_row": 88,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 88,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566670",
+    "file_path": "input_geotiffs/CHN/1566670-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 105758,
+    "positive_pixels": 255443,
+    "zero_percentage": 29.279542415441817,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 489
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 111
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566671",
+    "file_path": "input_geotiffs/CHN/1566671-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 173628,
+    "positive_pixels": 187573,
+    "zero_percentage": 48.06963435870886,
+    "data_extent": {
+      "min_row": 138,
+      "max_row": 600,
+      "min_col": 61,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 138,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 61,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566675",
+    "file_path": "input_geotiffs/CHN/1566675-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 5423,
+    "positive_pixels": 355778,
+    "zero_percentage": 1.5013801179952437,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566676",
+    "file_path": "input_geotiffs/CHN/1566676-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 290,
+    "positive_pixels": 360911,
+    "zero_percentage": 0.08028770684466544,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566679",
+    "file_path": "input_geotiffs/CHN/1566679-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 96945,
+    "positive_pixels": 264256,
+    "zero_percentage": 26.83962668984859,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 549,
+      "min_col": 0,
+      "max_col": 485
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 51,
+      "left_zero_cols": 0,
+      "right_zero_cols": 115
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566683",
+    "file_path": "input_geotiffs/CHN/1566683-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 53980,
+    "positive_pixels": 307221,
+    "zero_percentage": 14.944587639569104,
+    "data_extent": {
+      "min_row": 65,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 575
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 65,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 25
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566684",
+    "file_path": "input_geotiffs/CHN/1566684-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 96543,
+    "positive_pixels": 264658,
+    "zero_percentage": 26.72833131691219,
+    "data_extent": {
+      "min_row": 57,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 488
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 57,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 112
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566685",
+    "file_path": "input_geotiffs/CHN/1566685-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 57749,
+    "positive_pixels": 303452,
+    "zero_percentage": 15.988050974388221,
+    "data_extent": {
+      "min_row": 95,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 95,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566687",
+    "file_path": "input_geotiffs/CHN/1566687-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 56688,
+    "positive_pixels": 304513,
+    "zero_percentage": 15.694308709001358,
+    "data_extent": {
+      "min_row": 80,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 586
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 80,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 14
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566688",
+    "file_path": "input_geotiffs/CHN/1566688-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 54102,
+    "positive_pixels": 307099,
+    "zero_percentage": 14.97836384727617,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 579,
+      "min_col": 69,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 21,
+      "left_zero_cols": 69,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566689",
+    "file_path": "input_geotiffs/CHN/1566689-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 2777,
+    "positive_pixels": 358424,
+    "zero_percentage": 0.7688240065780548,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566695",
+    "file_path": "input_geotiffs/CHN/1566695-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 51100,
+    "positive_pixels": 310101,
+    "zero_percentage": 14.147247654353116,
+    "data_extent": {
+      "min_row": 82,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 82,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566697",
+    "file_path": "input_geotiffs/CHN/1566697-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 11049,
+    "positive_pixels": 350152,
+    "zero_percentage": 3.058961630781753,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 583,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 17,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566702",
+    "file_path": "input_geotiffs/CHN/1566702-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 104769,
+    "positive_pixels": 256432,
+    "zero_percentage": 29.005733649685357,
+    "data_extent": {
+      "min_row": 33,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 453
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 33,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 147
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566711",
+    "file_path": "input_geotiffs/CHN/1566711-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 43329,
+    "positive_pixels": 317872,
+    "zero_percentage": 11.995813965077616,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 46,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 46,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566713",
+    "file_path": "input_geotiffs/CHN/1566713-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 75541,
+    "positive_pixels": 285660,
+    "zero_percentage": 20.91384021638921,
+    "data_extent": {
+      "min_row": 125,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 125,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566756",
+    "file_path": "input_geotiffs/CHN/1566756-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 16935,
+    "positive_pixels": 344266,
+    "zero_percentage": 4.688525225566928,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 576,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 24,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566759",
+    "file_path": "input_geotiffs/CHN/1566759-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 64312,
+    "positive_pixels": 296889,
+    "zero_percentage": 17.80504483653146,
+    "data_extent": {
+      "min_row": 73,
+      "max_row": 600,
+      "min_col": 35,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 73,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 35,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1566763",
+    "file_path": "input_geotiffs/CHN/1566763-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 47288,
+    "positive_pixels": 313913,
+    "zero_percentage": 13.091879590588066,
+    "data_extent": {
+      "min_row": 62,
+      "max_row": 600,
+      "min_col": 16,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 62,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 16,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1567217",
+    "file_path": "input_geotiffs/CHN/1567217-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 58674,
+    "positive_pixels": 302527,
+    "zero_percentage": 16.24414107380655,
+    "data_extent": {
+      "min_row": 86,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 589
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 86,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 11
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1567219",
+    "file_path": "input_geotiffs/CHN/1567219-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 95974,
+    "positive_pixels": 265227,
+    "zero_percentage": 26.570801298999726,
+    "data_extent": {
+      "min_row": 120,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 561
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 120,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 39
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1567251",
+    "file_path": "input_geotiffs/CHN/1567251-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 15049,
+    "positive_pixels": 346152,
+    "zero_percentage": 4.1663782769150695,
+    "data_extent": {
+      "min_row": 24,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 24,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1567260",
+    "file_path": "input_geotiffs/CHN/1567260-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 20758,
+    "positive_pixels": 340443,
+    "zero_percentage": 5.746938685108845,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 570,
+      "min_col": 1,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 30,
+      "left_zero_cols": 1,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1567262",
+    "file_path": "input_geotiffs/CHN/1567262-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 92994,
+    "positive_pixels": 268207,
+    "zero_percentage": 25.74577589763041,
+    "data_extent": {
+      "min_row": 113,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 555
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 113,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 45
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1753467",
+    "file_path": "input_geotiffs/CHN/1753467-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 14527,
+    "positive_pixels": 346674,
+    "zero_percentage": 4.021860404594672,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 23,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 23,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "1753507",
+    "file_path": "input_geotiffs/CHN/1753507-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 29432,
+    "positive_pixels": 331769,
+    "zero_percentage": 8.148371682248943,
+    "data_extent": {
+      "min_row": 48,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 48,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "3143793",
+    "file_path": "input_geotiffs/CHN/3143793-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 15981,
+    "positive_pixels": 345220,
+    "zero_percentage": 4.424406355464132,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 25,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 25,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "3143817",
+    "file_path": "input_geotiffs/CHN/3143817-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 56845,
+    "positive_pixels": 304356,
+    "zero_percentage": 15.737774812362094,
+    "data_extent": {
+      "min_row": 92,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 92,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "3143820",
+    "file_path": "input_geotiffs/CHN/3143820-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 29514,
+    "positive_pixels": 331687,
+    "zero_percentage": 8.171073723494676,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 39,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 39,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32267423",
+    "file_path": "input_geotiffs/CHN/32267423-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 34742,
+    "positive_pixels": 326459,
+    "zero_percentage": 9.61846727999092,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 544,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 56,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32437866",
+    "file_path": "input_geotiffs/CHN/32437866-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 111725,
+    "positive_pixels": 249476,
+    "zero_percentage": 30.93153119731119,
+    "data_extent": {
+      "min_row": 114,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 514
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 114,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 86
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440419",
+    "file_path": "input_geotiffs/CHN/32440419-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 44998,
+    "positive_pixels": 316203,
+    "zero_percentage": 12.457883560676743,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 568,
+      "min_col": 42,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 32,
+      "left_zero_cols": 42,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440426",
+    "file_path": "input_geotiffs/CHN/32440426-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 63152,
+    "positive_pixels": 298049,
+    "zero_percentage": 17.4838940091528,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 517
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 83
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440428",
+    "file_path": "input_geotiffs/CHN/32440428-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 42267,
+    "positive_pixels": 318934,
+    "zero_percentage": 11.70179484552922,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 589,
+      "min_col": 32,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 11,
+      "left_zero_cols": 32,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440450",
+    "file_path": "input_geotiffs/CHN/32440450-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 14407,
+    "positive_pixels": 346794,
+    "zero_percentage": 3.988637905210672,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 18,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 18,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440460",
+    "file_path": "input_geotiffs/CHN/32440460-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 77185,
+    "positive_pixels": 284016,
+    "zero_percentage": 21.368988457950007,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 531,
+      "min_col": 44,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 69,
+      "left_zero_cols": 44,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440512",
+    "file_path": "input_geotiffs/CHN/32440512-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 20894,
+    "positive_pixels": 340307,
+    "zero_percentage": 5.784590851077378,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 31,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 31,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440516",
+    "file_path": "input_geotiffs/CHN/32440516-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 2869,
+    "positive_pixels": 358332,
+    "zero_percentage": 0.7942945894391212,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 1,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 1,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440535",
+    "file_path": "input_geotiffs/CHN/32440535-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 6614,
+    "positive_pixels": 354587,
+    "zero_percentage": 1.8311134243814384,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440544",
+    "file_path": "input_geotiffs/CHN/32440544-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 53556,
+    "positive_pixels": 307645,
+    "zero_percentage": 14.827201475078972,
+    "data_extent": {
+      "min_row": 81,
+      "max_row": 600,
+      "min_col": 8,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 81,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 8,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440557",
+    "file_path": "input_geotiffs/CHN/32440557-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 25274,
+    "positive_pixels": 335927,
+    "zero_percentage": 6.99721207859336,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 567,
+      "min_col": 7,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 33,
+      "left_zero_cols": 7,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440560",
+    "file_path": "input_geotiffs/CHN/32440560-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 58476,
+    "positive_pixels": 302725,
+    "zero_percentage": 16.18932394982295,
+    "data_extent": {
+      "min_row": 64,
+      "max_row": 600,
+      "min_col": 35,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 64,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 35,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440567",
+    "file_path": "input_geotiffs/CHN/32440567-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 138111,
+    "positive_pixels": 223090,
+    "zero_percentage": 38.23660510352961,
+    "data_extent": {
+      "min_row": 128,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 474
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 128,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 126
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440568",
+    "file_path": "input_geotiffs/CHN/32440568-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 38267,
+    "positive_pixels": 322934,
+    "zero_percentage": 10.594378199395905,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 61,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 61,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440589",
+    "file_path": "input_geotiffs/CHN/32440589-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 47665,
+    "positive_pixels": 313536,
+    "zero_percentage": 13.196253609486131,
+    "data_extent": {
+      "min_row": 6,
+      "max_row": 600,
+      "min_col": 71,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 6,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 71,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440593",
+    "file_path": "input_geotiffs/CHN/32440593-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 70711,
+    "positive_pixels": 290490,
+    "zero_percentage": 19.576634616183235,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 513
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 87
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32440635",
+    "file_path": "input_geotiffs/CHN/32440635-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 101682,
+    "positive_pixels": 259519,
+    "zero_percentage": 28.151084853031964,
+    "data_extent": {
+      "min_row": 145,
+      "max_row": 600,
+      "min_col": 27,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 145,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 27,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "32441214",
+    "file_path": "input_geotiffs/CHN/32441214-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 126410,
+    "positive_pixels": 234791,
+    "zero_percentage": 34.997134559428126,
+    "data_extent": {
+      "min_row": 80,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 480
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 80,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 120
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "33998936",
+    "file_path": "input_geotiffs/CHN/33998936-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 40141,
+    "positive_pixels": 321060,
+    "zero_percentage": 11.113202898109362,
+    "data_extent": {
+      "min_row": 8,
+      "max_row": 600,
+      "min_col": 57,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 8,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 57,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "3672990",
+    "file_path": "input_geotiffs/CHN/3672990-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 90610,
+    "positive_pixels": 270591,
+    "zero_percentage": 25.085755576534947,
+    "data_extent": {
+      "min_row": 4,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 454
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 4,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 146
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "3673046",
+    "file_path": "input_geotiffs/CHN/3673046-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 54885,
+    "positive_pixels": 306316,
+    "zero_percentage": 15.195140655756767,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 514
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 86
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "38089178",
+    "file_path": "input_geotiffs/CHN/38089178-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 90330,
+    "positive_pixels": 270871,
+    "zero_percentage": 25.008236411305617,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 589,
+      "min_col": 0,
+      "max_col": 462
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 11,
+      "left_zero_cols": 0,
+      "right_zero_cols": 138
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "38467505",
+    "file_path": "input_geotiffs/CHN/38467505-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 101663,
+    "positive_pixels": 259538,
+    "zero_percentage": 28.145824623962834,
+    "data_extent": {
+      "min_row": 69,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 501
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 69,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 99
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "CHN",
+    "asset_id": "38467506",
+    "file_path": "input_geotiffs/CHN/38467506-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 109033,
+    "positive_pixels": 252168,
+    "zero_percentage": 30.18623979446347,
+    "data_extent": {
+      "min_row": 55,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 464
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 55,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 136
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "COD",
+    "asset_id": "1896547",
+    "file_path": "input_geotiffs/COD/1896547-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 152330,
+    "positive_pixels": 208871,
+    "zero_percentage": 42.17319442637202,
+    "data_extent": {
+      "min_row": 137,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 501
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 137,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 99
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "COD",
+    "asset_id": "42546131",
+    "file_path": "input_geotiffs/COD/42546131-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 128376,
+    "positive_pixels": 232825,
+    "zero_percentage": 35.54142984100265,
+    "data_extent": {
+      "min_row": 131,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 499
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 131,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 101
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "COD",
+    "asset_id": "42547316",
+    "file_path": "input_geotiffs/COD/42547316-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 113757,
+    "positive_pixels": 247444,
+    "zero_percentage": 31.494098853546916,
+    "data_extent": {
+      "min_row": 110,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 541
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 110,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 59
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "DEU",
+    "asset_id": "1566771",
+    "file_path": "input_geotiffs/DEU/1566771-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 90721,
+    "positive_pixels": 270480,
+    "zero_percentage": 25.116486388465148,
+    "data_extent": {
+      "min_row": 145,
+      "max_row": 600,
+      "min_col": 4,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 145,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 4,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "DEU",
+    "asset_id": "1753569",
+    "file_path": "input_geotiffs/DEU/1753569-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 29973,
+    "positive_pixels": 331228,
+    "zero_percentage": 8.298149783638472,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 555,
+      "min_col": 0,
+      "max_col": 599
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 45,
+      "left_zero_cols": 0,
+      "right_zero_cols": 1
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "DEU",
+    "asset_id": "1753570",
+    "file_path": "input_geotiffs/DEU/1753570-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 51874,
+    "positive_pixels": 309327,
+    "zero_percentage": 14.361532775379912,
+    "data_extent": {
+      "min_row": 83,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 83,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "DEU",
+    "asset_id": "1753572",
+    "file_path": "input_geotiffs/DEU/1753572-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 55641,
+    "positive_pixels": 305560,
+    "zero_percentage": 15.404442401875965,
+    "data_extent": {
+      "min_row": 26,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 535
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 26,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 65
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "DEU",
+    "asset_id": "3143891",
+    "file_path": "input_geotiffs/DEU/3143891-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 68208,
+    "positive_pixels": 292993,
+    "zero_percentage": 18.88366864986531,
+    "data_extent": {
+      "min_row": 15,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 506
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 15,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 94
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "DEU",
+    "asset_id": "3143897",
+    "file_path": "input_geotiffs/DEU/3143897-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 274,
+    "positive_pixels": 360927,
+    "zero_percentage": 0.07585804026013217,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "IDN",
+    "asset_id": "1566836",
+    "file_path": "input_geotiffs/IDN/1566836-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 6610,
+    "positive_pixels": 354591,
+    "zero_percentage": 1.8300060077353055,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "IDN",
+    "asset_id": "1566837",
+    "file_path": "input_geotiffs/IDN/1566837-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 6710,
+    "positive_pixels": 354491,
+    "zero_percentage": 1.8576914238886384,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "IDN",
+    "asset_id": "1566838",
+    "file_path": "input_geotiffs/IDN/1566838-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 70487,
+    "positive_pixels": 290714,
+    "zero_percentage": 19.514619283999767,
+    "data_extent": {
+      "min_row": 49,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 554
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 49,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 46
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IDN",
+    "asset_id": "1896897",
+    "file_path": "input_geotiffs/IDN/1896897-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 40682,
+    "positive_pixels": 320519,
+    "zero_percentage": 11.262980999498893,
+    "data_extent": {
+      "min_row": 39,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 39,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IDN",
+    "asset_id": "32438498",
+    "file_path": "input_geotiffs/IDN/32438498-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 50178,
+    "positive_pixels": 311023,
+    "zero_percentage": 13.891988117419388,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 532,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 68,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IDN",
+    "asset_id": "32441187",
+    "file_path": "input_geotiffs/IDN/32441187-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 43946,
+    "positive_pixels": 317255,
+    "zero_percentage": 12.16663298274368,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 591,
+      "min_col": 0,
+      "max_col": 568
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 9,
+      "left_zero_cols": 0,
+      "right_zero_cols": 32
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IDN",
+    "asset_id": "3673071",
+    "file_path": "input_geotiffs/IDN/3673071-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 73739,
+    "positive_pixels": 287462,
+    "zero_percentage": 20.414949017306153,
+    "data_extent": {
+      "min_row": 52,
+      "max_row": 600,
+      "min_col": 72,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 52,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 72,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IDN",
+    "asset_id": "4404173",
+    "file_path": "input_geotiffs/IDN/4404173-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 83792,
+    "positive_pixels": 277409,
+    "zero_percentage": 23.19816390320071,
+    "data_extent": {
+      "min_row": 131,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 131,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "1566848",
+    "file_path": "input_geotiffs/IND/1566848-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 14522,
+    "positive_pixels": 346679,
+    "zero_percentage": 4.020476133787005,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 578,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 22,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "1566849",
+    "file_path": "input_geotiffs/IND/1566849-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 99844,
+    "positive_pixels": 261357,
+    "zero_percentage": 27.64222690413371,
+    "data_extent": {
+      "min_row": 54,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 484
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 54,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 116
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "1566850",
+    "file_path": "input_geotiffs/IND/1566850-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 30890,
+    "positive_pixels": 330311,
+    "zero_percentage": 8.552025049764536,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 580,
+      "min_col": 0,
+      "max_col": 571
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 20,
+      "left_zero_cols": 0,
+      "right_zero_cols": 29
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "1566852",
+    "file_path": "input_geotiffs/IND/1566852-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 40099,
+    "positive_pixels": 321102,
+    "zero_percentage": 11.101575023324962,
+    "data_extent": {
+      "min_row": 62,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 62,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "1566853",
+    "file_path": "input_geotiffs/IND/1566853-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 35471,
+    "positive_pixels": 325730,
+    "zero_percentage": 9.820293963748716,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 543
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 57
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "1566854",
+    "file_path": "input_geotiffs/IND/1566854-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 1392,
+    "positive_pixels": 359809,
+    "zero_percentage": 0.3853809928543941,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "IND",
+    "asset_id": "1566855",
+    "file_path": "input_geotiffs/IND/1566855-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 60951,
+    "positive_pixels": 300250,
+    "zero_percentage": 16.874537999617942,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 560,
+      "min_col": 0,
+      "max_col": 546
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 40,
+      "left_zero_cols": 0,
+      "right_zero_cols": 54
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "1567206",
+    "file_path": "input_geotiffs/IND/1567206-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 48270,
+    "positive_pixels": 312931,
+    "zero_percentage": 13.363750377213796,
+    "data_extent": {
+      "min_row": 27,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 552
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 27,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 48
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "1896976",
+    "file_path": "input_geotiffs/IND/1896976-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 76313,
+    "positive_pixels": 284888,
+    "zero_percentage": 21.12757162909294,
+    "data_extent": {
+      "min_row": 46,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 515
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 46,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 85
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "1897064",
+    "file_path": "input_geotiffs/IND/1897064-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 17103,
+    "positive_pixels": 344098,
+    "zero_percentage": 4.735036724704527,
+    "data_extent": {
+      "min_row": 5,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 599
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 5,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 1
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "IND",
+    "asset_id": "3143912",
+    "file_path": "input_geotiffs/IND/3143912-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 69407,
+    "positive_pixels": 291794,
+    "zero_percentage": 19.21561678954377,
+    "data_extent": {
+      "min_row": 98,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 98,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "3143915",
+    "file_path": "input_geotiffs/IND/3143915-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 68100,
+    "positive_pixels": 293101,
+    "zero_percentage": 18.85376840041971,
+    "data_extent": {
+      "min_row": 96,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 96,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "3143919",
+    "file_path": "input_geotiffs/IND/3143919-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 64,
+    "positive_pixels": 361137,
+    "zero_percentage": 0.017718666338133064,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "IND",
+    "asset_id": "3143920",
+    "file_path": "input_geotiffs/IND/3143920-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 85429,
+    "positive_pixels": 275772,
+    "zero_percentage": 23.65137416563077,
+    "data_extent": {
+      "min_row": 109,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 566
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 109,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 34
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "3143923",
+    "file_path": "input_geotiffs/IND/3143923-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 67517,
+    "positive_pixels": 293684,
+    "zero_percentage": 18.692362424245783,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 489
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 111
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "32440770",
+    "file_path": "input_geotiffs/IND/32440770-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 47903,
+    "positive_pixels": 313298,
+    "zero_percentage": 13.262144899931064,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 525
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 75
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "32440773",
+    "file_path": "input_geotiffs/IND/32440773-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 2317,
+    "positive_pixels": 358884,
+    "zero_percentage": 0.6414710922727235,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "IND",
+    "asset_id": "32440775",
+    "file_path": "input_geotiffs/IND/32440775-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 24426,
+    "positive_pixels": 336775,
+    "zero_percentage": 6.762439749613096,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 583,
+      "min_col": 0,
+      "max_col": 591
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 17,
+      "left_zero_cols": 0,
+      "right_zero_cols": 9
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "32440777",
+    "file_path": "input_geotiffs/IND/32440777-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 47223,
+    "positive_pixels": 313978,
+    "zero_percentage": 13.073884070088399,
+    "data_extent": {
+      "min_row": 52,
+      "max_row": 600,
+      "min_col": 25,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 52,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 25,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "712429",
+    "file_path": "input_geotiffs/IND/712429-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 68318,
+    "positive_pixels": 292883,
+    "zero_percentage": 18.914122607633978,
+    "data_extent": {
+      "min_row": 71,
+      "max_row": 600,
+      "min_col": 44,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 71,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 44,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IND",
+    "asset_id": "712432",
+    "file_path": "input_geotiffs/IND/712432-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 2479,
+    "positive_pixels": 358722,
+    "zero_percentage": 0.6863214664411228,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "IRN",
+    "asset_id": "1566876",
+    "file_path": "input_geotiffs/IRN/1566876-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 115484,
+    "positive_pixels": 245717,
+    "zero_percentage": 31.972225990514975,
+    "data_extent": {
+      "min_row": 70,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 476
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 70,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 124
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "IRN",
+    "asset_id": "32440802",
+    "file_path": "input_geotiffs/IRN/32440802-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 131714,
+    "positive_pixels": 229487,
+    "zero_percentage": 36.465569032200904,
+    "data_extent": {
+      "min_row": 125,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 507
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 125,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 93
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "ITA",
+    "asset_id": "1566891",
+    "file_path": "input_geotiffs/ITA/1566891-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 77318,
+    "positive_pixels": 283883,
+    "zero_percentage": 21.40581006143394,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 530,
+      "min_col": 0,
+      "max_col": 542
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 70,
+      "left_zero_cols": 0,
+      "right_zero_cols": 58
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "JPN",
+    "asset_id": "1566917",
+    "file_path": "input_geotiffs/JPN/1566917-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 143974,
+    "positive_pixels": 217227,
+    "zero_percentage": 39.85980105259952,
+    "data_extent": {
+      "min_row": 138,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 472
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 138,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 128
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "KOR",
+    "asset_id": "1566956",
+    "file_path": "input_geotiffs/KOR/1566956-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 2249,
+    "positive_pixels": 358952,
+    "zero_percentage": 0.6226450092884571,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 2,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 2,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "KOR",
+    "asset_id": "1566957",
+    "file_path": "input_geotiffs/KOR/1566957-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 74115,
+    "positive_pixels": 287086,
+    "zero_percentage": 20.519046182042686,
+    "data_extent": {
+      "min_row": 2,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 486
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 2,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 114
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "KOR",
+    "asset_id": "32440882",
+    "file_path": "input_geotiffs/KOR/32440882-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 6832,
+    "positive_pixels": 354369,
+    "zero_percentage": 1.8914676315957044,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 9,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 9,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "MYS",
+    "asset_id": "1566987",
+    "file_path": "input_geotiffs/MYS/1566987-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 25986,
+    "positive_pixels": 335215,
+    "zero_percentage": 7.194332241605089,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 42,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 42,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "MYS",
+    "asset_id": "1566988",
+    "file_path": "input_geotiffs/MYS/1566988-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 80774,
+    "positive_pixels": 280427,
+    "zero_percentage": 22.362618043693125,
+    "data_extent": {
+      "min_row": 133,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 133,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "MYS",
+    "asset_id": "1566989",
+    "file_path": "input_geotiffs/MYS/1566989-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 118194,
+    "positive_pixels": 243007,
+    "zero_percentage": 32.722500768270294,
+    "data_extent": {
+      "min_row": 84,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 472
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 84,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 128
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "MYS",
+    "asset_id": "1567194",
+    "file_path": "input_geotiffs/MYS/1567194-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 127144,
+    "positive_pixels": 234057,
+    "zero_percentage": 35.20034551399359,
+    "data_extent": {
+      "min_row": 119,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 486
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 119,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 114
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "MYS",
+    "asset_id": "1567195",
+    "file_path": "input_geotiffs/MYS/1567195-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 64743,
+    "positive_pixels": 296458,
+    "zero_percentage": 17.924368980152323,
+    "data_extent": {
+      "min_row": 2,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 499
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 2,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 101
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "MYS",
+    "asset_id": "1567197",
+    "file_path": "input_geotiffs/MYS/1567197-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 28054,
+    "positive_pixels": 333147,
+    "zero_percentage": 7.7668666476560135,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 45,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 45,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "MYS",
+    "asset_id": "3673106",
+    "file_path": "input_geotiffs/MYS/3673106-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 67112,
+    "positive_pixels": 294089,
+    "zero_percentage": 18.58023648882478,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 490
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 110
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "MYS",
+    "asset_id": "3673107",
+    "file_path": "input_geotiffs/MYS/3673107-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 88183,
+    "positive_pixels": 273018,
+    "zero_percentage": 24.41383052649356,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 542,
+      "min_col": 0,
+      "max_col": 506
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 58,
+      "left_zero_cols": 0,
+      "right_zero_cols": 94
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "NGA",
+    "asset_id": "1897568",
+    "file_path": "input_geotiffs/NGA/1897568-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 41077,
+    "positive_pixels": 320124,
+    "zero_percentage": 11.37233839330456,
+    "data_extent": {
+      "min_row": 15,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 551
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 15,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 49
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "NGA",
+    "asset_id": "1897571",
+    "file_path": "input_geotiffs/NGA/1897571-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 78414,
+    "positive_pixels": 282787,
+    "zero_percentage": 21.70924222247447,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 474
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 126
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "NLD",
+    "asset_id": "1566991",
+    "file_path": "input_geotiffs/NLD/1566991-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 104452,
+    "positive_pixels": 256749,
+    "zero_percentage": 28.917970880479288,
+    "data_extent": {
+      "min_row": 141,
+      "max_row": 600,
+      "min_col": 39,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 141,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 39,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "PAK",
+    "asset_id": "1897625",
+    "file_path": "input_geotiffs/PAK/1897625-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 57227,
+    "positive_pixels": 303974,
+    "zero_percentage": 15.843533102067825,
+    "data_extent": {
+      "min_row": 87,
+      "max_row": 600,
+      "min_col": 2,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 87,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 2,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "POL",
+    "asset_id": "1753729",
+    "file_path": "input_geotiffs/POL/1753729-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 40024,
+    "positive_pixels": 321177,
+    "zero_percentage": 11.080810961209963,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 554,
+      "min_col": 18,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": false,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": true,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 46,
+      "left_zero_cols": 18,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "POL",
+    "asset_id": "3144059",
+    "file_path": "input_geotiffs/POL/3144059-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 62863,
+    "positive_pixels": 298338,
+    "zero_percentage": 17.403883156469664,
+    "data_extent": {
+      "min_row": 102,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 102,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "PRK",
+    "asset_id": "32440878",
+    "file_path": "input_geotiffs/PRK/32440878-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 14522,
+    "positive_pixels": 346679,
+    "zero_percentage": 4.020476133787005,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 600
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": true
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": false,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 0
+    },
+    "suspicious_patterns": false
+  },
+  {
+    "country": "PRY",
+    "asset_id": "32439045",
+    "file_path": "input_geotiffs/PRY/32439045-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 8459,
+    "positive_pixels": 352742,
+    "zero_percentage": 2.341909352410431,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 589
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 11
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "PRY",
+    "asset_id": "42547336",
+    "file_path": "input_geotiffs/PRY/42547336-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 32027,
+    "positive_pixels": 329174,
+    "zero_percentage": 8.86680823142793,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 589,
+      "min_col": 0,
+      "max_col": 561
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 11,
+      "left_zero_cols": 0,
+      "right_zero_cols": 39
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "RUS",
+    "asset_id": "1753742",
+    "file_path": "input_geotiffs/RUS/1753742-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 53208,
+    "positive_pixels": 307993,
+    "zero_percentage": 14.730856226865374,
+    "data_extent": {
+      "min_row": 20,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 534
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 20,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 66
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "TCD",
+    "asset_id": "40040654",
+    "file_path": "input_geotiffs/TCD/40040654-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 87433,
+    "positive_pixels": 273768,
+    "zero_percentage": 24.20618990534356,
+    "data_extent": {
+      "min_row": 122,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 573
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 122,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 27
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "THA",
+    "asset_id": "1897831",
+    "file_path": "input_geotiffs/THA/1897831-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 45406,
+    "positive_pixels": 315795,
+    "zero_percentage": 12.570840058582341,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 570,
+      "min_col": 0,
+      "max_col": 564
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 30,
+      "left_zero_cols": 0,
+      "right_zero_cols": 36
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "TWN",
+    "asset_id": "1567087",
+    "file_path": "input_geotiffs/TWN/1567087-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 94199,
+    "positive_pixels": 267002,
+    "zero_percentage": 26.07938516227807,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 542,
+      "min_col": 0,
+      "max_col": 497
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 58,
+      "left_zero_cols": 0,
+      "right_zero_cols": 103
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "TWN",
+    "asset_id": "1753802",
+    "file_path": "input_geotiffs/TWN/1753802-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 94585,
+    "positive_pixels": 266616,
+    "zero_percentage": 26.186250868629934,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 538,
+      "min_col": 0,
+      "max_col": 501
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 62,
+      "left_zero_cols": 0,
+      "right_zero_cols": 99
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "TWN",
+    "asset_id": "3144132",
+    "file_path": "input_geotiffs/TWN/3144132-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 51386,
+    "positive_pixels": 309815,
+    "zero_percentage": 14.226427944551649,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 539
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 61
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "TWN",
+    "asset_id": "3144133",
+    "file_path": "input_geotiffs/TWN/3144133-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 67016,
+    "positive_pixels": 294185,
+    "zero_percentage": 18.55365848931758,
+    "data_extent": {
+      "min_row": 6,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 509
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 6,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 91
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "UGA",
+    "asset_id": "32439238",
+    "file_path": "input_geotiffs/UGA/32439238-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 47076,
+    "positive_pixels": 314125,
+    "zero_percentage": 13.033186508343,
+    "data_extent": {
+      "min_row": 0,
+      "max_row": 574,
+      "min_col": 0,
+      "max_col": 554
+    },
+    "reaches_edges": {
+      "reaches_top": true,
+      "reaches_bottom": false,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": true,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 0,
+      "bottom_zero_rows": 26,
+      "left_zero_cols": 0,
+      "right_zero_cols": 46
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "UKR",
+    "asset_id": "3144149",
+    "file_path": "input_geotiffs/UKR/3144149-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 103990,
+    "positive_pixels": 257211,
+    "zero_percentage": 28.79006425785089,
+    "data_extent": {
+      "min_row": 45,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 465
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": true,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 45,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 135
+    },
+    "suspicious_patterns": true
+  },
+  {
+    "country": "VNM",
+    "asset_id": "1567170",
+    "file_path": "input_geotiffs/VNM/1567170-v2.tiff",
+    "shape": [
+      601,
+      601
+    ],
+    "total_pixels": 361201,
+    "zero_pixels": 81986,
+    "positive_pixels": 279215,
+    "zero_percentage": 22.698165287471518,
+    "data_extent": {
+      "min_row": 8,
+      "max_row": 600,
+      "min_col": 0,
+      "max_col": 473
+    },
+    "reaches_edges": {
+      "reaches_top": false,
+      "reaches_bottom": true,
+      "reaches_left": true,
+      "reaches_right": false
+    },
+    "edge_patterns": {
+      "top_zero_stripe": false,
+      "bottom_zero_stripe": false,
+      "left_zero_stripe": false,
+      "right_zero_stripe": true,
+      "top_zero_rows": 8,
+      "bottom_zero_rows": 0,
+      "left_zero_cols": 0,
+      "right_zero_cols": 127
+    },
+    "suspicious_patterns": true
+  }
+]

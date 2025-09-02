@@ -26,16 +26,40 @@ def round_to_significant_digits(num, sig_digits=3):
     rounded = round(num, power)
     return sign * rounded
 
-def process_data_structure(data, sig_digits=3):
+def process_data_structure(data, sig_digits=3, preserve_bounds=True):
     """Recursively process data structure to reduce precision."""
     if isinstance(data, dict):
-        return {key: process_data_structure(value, sig_digits) for key, value in data.items()}
+        # Preserve geographic bounds with higher precision to maintain spatial extent
+        if preserve_bounds and 'bounds' in data:
+            processed_data = {}
+            for key, value in data.items():
+                if key == 'bounds':
+                    # Keep bounds at higher precision (6 decimal places for coordinates)
+                    processed_data[key] = process_bounds(value)
+                else:
+                    processed_data[key] = process_data_structure(value, sig_digits, preserve_bounds)
+            return processed_data
+        else:
+            return {key: process_data_structure(value, sig_digits, preserve_bounds) for key, value in data.items()}
     elif isinstance(data, list):
-        return [process_data_structure(item, sig_digits) for item in data]
+        return [process_data_structure(item, sig_digits, preserve_bounds) for item in data]
     elif isinstance(data, float):
         return round_to_significant_digits(data, sig_digits)
     else:
         return data
+
+def process_bounds(bounds_dict):
+    """Process bounds with higher precision to preserve geographic extent."""
+    if isinstance(bounds_dict, dict):
+        processed = {}
+        for key, value in bounds_dict.items():
+            if isinstance(value, float):
+                # Keep 6 decimal places for coordinate precision (~1 meter accuracy)
+                processed[key] = round(value, 6)
+            else:
+                processed[key] = value
+        return processed
+    return bounds_dict
 
 def reduce_overlay_precision(input_dir="overlays", output_dir="overlays", sig_digits=3):
     """
