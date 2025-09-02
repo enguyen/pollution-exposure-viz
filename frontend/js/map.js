@@ -1948,7 +1948,7 @@ function showCanvasOverlay(asset) {
                     canvasOverlay = new CanvasOverlay(rawData, bounds, {
                         scaleMode: currentScaleMode
                     });
-                    canvasOverlay.addTo(map);
+                    map.addLayer(canvasOverlay);
                     showExposureLegend();
                 }
             });
@@ -1963,12 +1963,25 @@ function showCanvasOverlay(asset) {
         
         // Use new circle-based visualization approach
         console.log(`Adding circle canvas overlay for: ${requestId}`);
-        canvasOverlay = new CircleCanvasOverlay(overlayData, bounds, {
-            scaleMode: currentScaleMode
+        console.log('Overlay data structure:', {
+            asset_id: overlayData.asset_id,
+            dimensions: overlayData.dimensions,
+            bounds: overlayData.bounds,
+            dataArrays: overlayData.data_arrays ? Object.keys(overlayData.data_arrays) : 'missing'
         });
         
-        canvasOverlay.addTo(map);
-        showExposureLegend();
+        try {
+            canvasOverlay = new CircleCanvasOverlay(overlayData, bounds, {
+                scaleMode: currentScaleMode
+            });
+            
+            console.log('CircleCanvasOverlay created successfully');
+            map.addLayer(canvasOverlay);
+            console.log('CircleCanvasOverlay added to map');
+            showExposureLegend();
+        } catch (error) {
+            console.error('Error creating CircleCanvasOverlay:', error);
+        }
     }).catch(error => {
         console.error(`Error loading overlay for ${requestId}:`, error);
         if (activeOverlayRequest === requestId) {
@@ -2353,7 +2366,7 @@ class CircleCanvasOverlay extends L.Layer {
         this.map = null;
     }
     
-    addTo(map) {
+    onAdd(map) {
         this.map = map;
         this.createCanvas();
         this.updateCanvasPosition();
@@ -2370,7 +2383,7 @@ class CircleCanvasOverlay extends L.Layer {
         return this;
     }
     
-    removeFrom(map) {
+    onRemove(map) {
         if (this.canvas && this.canvas.parentNode) {
             this.canvas.parentNode.removeChild(this.canvas);
         }
@@ -2394,8 +2407,10 @@ class CircleCanvasOverlay extends L.Layer {
         this.ctx = this.canvas.getContext('2d');
         
         // Add canvas to Leaflet's overlay pane instead of map container
+        console.log('Creating canvas element');
         const overlayPane = this.map.getPane('overlayPane');
         overlayPane.appendChild(this.canvas);
+        console.log('Canvas appended to overlay pane, canvas size:', this.canvas.width, 'x', this.canvas.height);
         
         
     }
