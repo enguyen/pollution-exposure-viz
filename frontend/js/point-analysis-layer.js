@@ -78,14 +78,13 @@ class PointAnalysisLayer extends L.Layer {
     updateCanvasPosition() {
         if (!this.canvas) return;
         
-        // Copy exact approach from main asset overlay - use layer points directly
         const mapSize = this.map.getSize();
-        
-        // Position canvas at (0,0) in layer point coordinate system  
-        this.canvas.style.left = '0px';
-        this.canvas.style.top = '0px';
         this.canvas.width = mapSize.x;
         this.canvas.height = mapSize.y;
+        
+        // Position canvas to cover the entire map viewport
+        this.canvas.style.left = '0px';
+        this.canvas.style.top = '0px';
     }
     
     updateContributingAssets(contributingAssets) {
@@ -112,8 +111,8 @@ class PointAnalysisLayer extends L.Layer {
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // Copy exact approach from main asset overlay - use layer points directly
-        const pointScreen = this.map.latLngToLayerPoint(this.analysisPoint.latlng);
+        // Use container points for consistent positioning with canvas at (0,0)
+        const pointScreen = this.map.latLngToContainerPoint(this.analysisPoint.latlng);
         
         // Draw animated lines from contributing assets
         this.contributingAssets.forEach((contributingAsset, index) => {
@@ -121,7 +120,7 @@ class PointAnalysisLayer extends L.Layer {
                 lat: contributingAsset.asset.center_lat,
                 lng: contributingAsset.asset.center_lon
             };
-            const assetScreen = this.map.latLngToLayerPoint(assetCenter);
+            const assetScreen = this.map.latLngToContainerPoint(assetCenter);
             const concentration = contributingAsset.contribution.concentration;
             
             // Check if getConcentrationColor function is available

@@ -761,3 +761,49 @@ The `reduce_precision.py` script reduced all floating-point numbers to 2 signifi
 - **Automated testing**: Include overlay rendering tests in the development pipeline
 - **Data integrity checks**: Validate that bounds maintain positive width/height after processing
 - **Documentation**: Clearly document precision requirements for different data types
+
+## Recent Updates (2025-01-13)
+
+### **Point Analysis Canvas Clipping Fix:**
+**Issue**: Point analysis mode crosshair reticle and connection lines were being clipped at map viewport edges.
+
+**Root Cause**: Coordinate system mismatch between point analysis canvas and asset overlay canvases:
+- Asset overlays used layer coordinates with proper viewport offsets
+- Point analysis canvas was positioned at (0,0) but still using layer coordinates for rendering
+
+**Solution**: Updated `frontend/js/point-analysis-layer.js`:
+- Changed canvas positioning to use consistent container coordinate system
+- Modified `updateCanvasPosition()` to position canvas at viewport origin
+- Updated rendering to use `latLngToContainerPoint()` throughout
+- Ensures reticle and lines display properly across full map viewport
+
+### **Mouse Tooltip Error Fix:**
+**Issue**: Mouse hover tooltips throwing `Cannot read properties of undefined` errors when accessing overlay data.
+
+**Root Cause**: Updated input files changed overlay data structure - some overlays now only contain `concentration` and `population` arrays, missing the `person_exposure` array.
+
+**Solution**: Updated `frontend/js/map.js`:
+- Made `person_exposure` array access optional in `getCircleCanvasPixelData()`
+- Added defensive null checks before accessing array elements
+- Modified tooltip display to conditionally show person-exposure data only when available
+- Added array index clamping to prevent out-of-bounds errors
+
+**Code Changes:**
+```javascript
+// Optional person_exposure access
+const personExposureRow = overlayData.data_arrays.person_exposure ? 
+    overlayData.data_arrays.person_exposure[dataY] : null;
+const personExposure = personExposureRow ? personExposureRow[dataX] : null;
+
+// Conditional tooltip display
+${pixelData.personExposure !== null ? 
+    '<br/><strong>Person-Exposure Impact:</strong> ' + 
+    pixelData.personExposure.toFixed(2) + ' person·μg/m³' : ''}
+```
+
+### **Data Structure Adaptations:**
+**Flexibility**: System now handles overlay files with varying data array configurations:
+- **Required arrays**: `concentration`, `population` (always expected)
+- **Optional arrays**: `person_exposure` (gracefully handled when missing)
+- **Backward compatibility**: Existing overlays with all three arrays continue to work unchanged
+- **Forward compatibility**: New overlay files with reduced data arrays work seamlessly

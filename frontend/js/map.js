@@ -672,8 +672,7 @@ function handleMouseMove(e) {
             const tooltipContent = `
                 <strong>Asset:</strong> ${assetId}<br/>
                 <strong>Population Exposed:</strong> ${pixelData.population.toFixed(0)} people<br/>
-                <strong>Additional PM2.5:</strong> ${pixelData.concentration.toFixed(2)} μg/m³<br/>
-                <strong>Person-Exposure Impact:</strong> ${pixelData.personExposure.toFixed(2)} person·μg/m³
+                <strong>Additional PM2.5:</strong> ${pixelData.concentration.toFixed(2)} μg/m³${pixelData.personExposure !== null ? '<br/><strong>Person-Exposure Impact:</strong> ' + pixelData.personExposure.toFixed(2) + ' person·μg/m³' : ''}
             `;
             
             hoverTooltip
@@ -1097,6 +1096,7 @@ function displayPointAnalysisResults(point, contributingAssets, totalNearby) {
 function getCircleCanvasPixelData(latlng, canvasOverlay) {
     if (!canvasOverlay || !canvasOverlay.overlayData) return null;
     
+    
     const bounds = canvasOverlay.bounds;
     const overlayData = canvasOverlay.overlayData;
     
@@ -1107,18 +1107,32 @@ function getCircleCanvasPixelData(latlng, canvasOverlay) {
     // Check bounds
     if (relativeX < 0 || relativeX > 1 || relativeY < 0 || relativeY > 1) return null;
     
-    // Convert to data array indices
-    const dataX = Math.floor(relativeX * overlayData.dimensions.width);
-    const dataY = Math.floor(relativeY * overlayData.dimensions.height);
+    // Convert to data array indices with clamping to prevent out-of-bounds
+    const dataX = Math.max(0, Math.min(Math.floor(relativeX * overlayData.dimensions.width), overlayData.dimensions.width - 1));
+    const dataY = Math.max(0, Math.min(Math.floor(relativeY * overlayData.dimensions.height), overlayData.dimensions.height - 1));
     
     // Bounds check
     if (dataX < 0 || dataX >= overlayData.dimensions.width || 
-        dataY < 0 || dataY >= overlayData.dimensions.height) return null;
+        dataY < 0 || dataY >= overlayData.dimensions.height) {
+        return null;
+    }
     
-    // Get data values
-    const concentration = overlayData.data_arrays.concentration[dataY][dataX];
-    const population = overlayData.data_arrays.population[dataY][dataX];
-    const personExposure = overlayData.data_arrays.person_exposure[dataY][dataX];
+    // Get data values with safety checks for optional person_exposure
+    const concentrationRow = overlayData.data_arrays.concentration[dataY];
+    const populationRow = overlayData.data_arrays.population[dataY];
+    const personExposureRow = overlayData.data_arrays.person_exposure ? overlayData.data_arrays.person_exposure[dataY] : null;
+    
+    if (!concentrationRow || !populationRow) {
+        return null;
+    }
+    
+    const concentration = concentrationRow[dataX];
+    const population = populationRow[dataX];
+    const personExposure = personExposureRow ? personExposureRow[dataX] : null;
+    
+    if (concentration === undefined || population === undefined) {
+        return null;
+    }
     
     // Only return data if there's meaningful values
     if (concentration <= 0 && population <= 0) return null;
