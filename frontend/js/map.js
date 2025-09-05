@@ -1,6 +1,9 @@
 // Global variables
 let map;
 let assetsData = null;
+
+// REMOVED: CoordinateTransform utilities no longer needed with EPSG:4326 CRS
+// All coordinates are now in the same system - no transformation required
 let assetMarkers = [];
 let assetMarkerMap = new Map(); // Map from asset key to marker reference
 let selectedAsset = null;
@@ -191,15 +194,46 @@ function jumpToAsset(assetIdentifier) {
 }
 
 function initializeMap() {
-    // Create map centered on global view
-    map = L.map('map').setView([20, 0], 2);
+    // 🚨 CRITICAL IMPLEMENTATION NOTE: EPSG:4326 CRS THROUGHOUT
+    // 
+    // WHAT THIS CHANGES:
+    // - All coordinates now use Geographic CRS (lat/lng degrees) instead of Web Mercator
+    // - Eliminates coordinate transformation complexity between data and visualization
+    // - Should fix systematic northwest offset in overlay alignment
+    //
+    // ⚠️  FUTURE DEVELOPMENT WARNINGS:
+    // 1. Base map may look distorted (Plate Carrée projection stretches poles)
+    // 2. Most tile servers serve EPSG:3857 tiles - may cause performance/visual issues
+    // 3. Third-party Leaflet plugins may assume Web Mercator and break
+    // 4. External APIs (geocoding, routing) typically return Web Mercator coordinates
+    // 5. Distance calculations behave differently at different latitudes
+    // 6. Zoom level behavior is different from typical web maps
+    //
+    // 🔍 TESTING REQUIRED:
+    // - Verify base map tiles render correctly
+    // - Test overlay alignment across multiple zoom levels
+    // - Validate mouse interactions and point analysis
+    // - Check asset marker positioning accuracy
+    //
+    map = L.map('map', {
+        // 🔄 REVERT: Back to Web Mercator for proper base map tile support
+        crs: L.CRS.EPSG3857
+    }).setView([20, 0], 2);
     
-    // Add minimal CartoDB Positron tiles for clean background
+    // 🗺️ Add proper Web Mercator base map tiles (monochrome style)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© OpenStreetMap contributors © CARTO',
-        maxZoom: 18,
-        subdomains: 'abcd'
+        attribution: '© OpenStreetMap © CARTO',
+        subdomains: 'abcd',
+        maxZoom: 18
     }).addTo(map);
+    
+    console.log('🗺️  Map initialized with Web Mercator (EPSG:3857) for proper tile support');
+    console.log('🗺️  Added CartoDB light base map tiles');
+    
+    // Add basic graticule/grid for geographic reference
+    map.on('zoomend moveend', function() {
+        console.log(`Map center: ${map.getCenter().lat.toFixed(4)}, ${map.getCenter().lng.toFixed(4)} at zoom ${map.getZoom()}`);
+    });
     
     // Create a custom pane for asset markers to ensure they appear above overlays
     map.createPane('assetMarkers');
@@ -222,6 +256,13 @@ function initializeMap() {
     // Add click event for point analysis
     map.on('click', handleMapClick);
     
+    // Add close sidebar button functionality
+    const closeSidebarButton = document.getElementById('close-sidebar');
+    if (closeSidebarButton) {
+        closeSidebarButton.onclick = function() {
+            deselectCurrentAsset();
+        };
+    }
 }
 
 async function loadAssetsData() {
@@ -311,6 +352,95 @@ function calculateAssetSize(totalPersonExposure, allExposures) {
     return 'asset-marker-xl'; // 32px for top 10%
 }
 
+function calculateCorrectAssetCenter(asset) {
+    // Calculate the correct center coordinates from the asset's overlay bounds
+    // This matches the logic used in fix_bounds.py to ensure consistency
+    
+    const assetKey = `${asset.country}_${asset.asset_id}`;
+    
+    // First, try to get overlay data bounds if currently loaded
+    if (canvasOverlay) {
+        let overlayData = null;
+        
+        // Handle both legacy CanvasOverlay and new CircleCanvasOverlay
+        if (canvasOverlay.rawData) {
+            overlayData = canvasOverlay.rawData;
+        } else if (canvasOverlay.overlayData) {
+            overlayData = canvasOverlay.overlayData;
+        }
+        
+        if (overlayData && overlayData.country === asset.country && 
+            overlayData.asset_id === asset.asset_id && overlayData.bounds) {
+            
+            const bounds = overlayData.bounds;
+            return {
+                lat: (bounds.north + bounds.south) / 2,
+                lon: (bounds.east + bounds.west) / 2
+            };
+        }
+    }
+    
+    // For assets without currently loaded overlay data, we can't synchronously fetch the bounds
+    // since that would require an async operation. Instead, we'll use the original coordinates
+    // but mark them for future correction when the overlay is loaded.
+    
+    // TODO: In the future, we could:
+    // 1. Pre-load all overlay bounds into a separate lightweight JSON file
+    // 2. Or update asset markers when overlay data is loaded (reactive approach)
+    // 3. Or implement async marker positioning (more complex)
+    
+    // For now, use original coordinates - these will be corrected when overlays are selected
+    return {
+        lat: asset.center_lat,
+        lon: asset.center_lon
+    };
+}
+
+function updateSelectedAssetMarkerPosition() {
+    // ✅ REMOVED: Marker position correction not needed in Web Mercator
+    // Asset markers are correctly positioned using original EPSG:4326 coordinates
+    // Leaflet automatically handles the coordinate conversion to Web Mercator
+    return;
+    
+    // Get overlay data - handle both legacy CanvasOverlay and new CircleCanvasOverlay
+    let overlayData = null;
+    if (canvasOverlay.rawData) {
+        // Legacy CanvasOverlay
+        overlayData = canvasOverlay.rawData;
+    } else if (canvasOverlay.overlayData) {
+        // New CircleCanvasOverlay
+        overlayData = canvasOverlay.overlayData;
+    }
+    
+    if (!overlayData || !overlayData.bounds) {
+        console.log('No overlay data or bounds available for marker update');
+        return;
+    }
+    
+    // Find the marker for the selected asset
+    const assetKey = `${selectedAsset.country}_${selectedAsset.asset_id}`;
+    const marker = assetMarkerMap.get(assetKey);
+    
+    if (marker) {
+        // Calculate corrected center from overlay bounds
+        const bounds = overlayData.bounds;
+        const correctedLat = (bounds.north + bounds.south) / 2;
+        const correctedLon = (bounds.east + bounds.west) / 2;
+        
+        // Update marker position
+        marker.setLatLng([correctedLat, correctedLon]);
+        
+        console.log(`Updated marker position for ${assetKey}: ${correctedLat.toFixed(6)}, ${correctedLon.toFixed(6)}`);
+        
+        // 🔧 DEBUG: Compare pixel positions
+        const assetPixel = map.latLngToContainerPoint([correctedLat, correctedLon]);
+        console.log(`  Asset marker pixel position: (${assetPixel.x.toFixed(1)}, ${assetPixel.y.toFixed(1)})`);
+        
+    } else {
+        console.log(`No marker found for ${assetKey}`);
+    }
+}
+
 function addAssetMarkersToMap() {
     // Clear existing markers
     assetMarkers.forEach(marker => map.removeLayer(marker));
@@ -325,8 +455,10 @@ function addAssetMarkersToMap() {
     
     // Create markers for each asset
     assetsData.assets.forEach(asset => {
-        const lat = asset.center_lat;
-        const lon = asset.center_lon;
+        // Use corrected center coordinates calculated from the same logic as overlay bounds
+        const correctedCoords = calculateCorrectAssetCenter(asset);
+        const lat = correctedCoords.lat;
+        const lon = correctedCoords.lon;
         const country = asset.country;
         const totalExposure = asset.person_exposure_stats.total_person_exposure;
         
@@ -339,18 +471,7 @@ function addAssetMarkersToMap() {
         const isSelected = selectedAsset && selectedAsset.country === country && selectedAsset.asset_id === asset.asset_id;
         
         // Create custom icon with selection state
-        const markerIcon = L.divIcon({
-            className: 'custom-marker',
-            html: `<div class="asset-marker ${sizeClass}" style="
-                background-color: ${color}; 
-                border: 2px solid ${isSelected ? '#333' : 'white'};
-                border-radius: 50%;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-                cursor: pointer;
-            "></div>`,
-            iconSize: [32, 32],
-            iconAnchor: [16, 16]
-        });
+        const markerIcon = createMarkerIcon(color, sizeClass, isSelected);
         
         // Create marker
         const marker = L.marker([lat, lon], { 
@@ -412,7 +533,23 @@ function updateMarkerStyle(marker, isSelected) {
     const color = countryColors[country] || '#666666';
     
     // Create new icon with updated selection state
-    const markerIcon = L.divIcon({
+    const markerIcon = createMarkerIcon(color, sizeClass, isSelected);
+    
+    marker.setIcon(markerIcon);
+}
+
+function createMarkerIcon(color, sizeClass, isSelected) {
+    // Calculate pixel offset to center marker (half of marker size)
+    const sizeMap = {
+        'asset-marker-xs': 4,   // 8px / 2
+        'asset-marker-sm': 6,   // 12px / 2  
+        'asset-marker-md': 8,   // 16px / 2
+        'asset-marker-lg': 12,  // 24px / 2
+        'asset-marker-xl': 16   // 32px / 2
+    };
+    const offset = sizeMap[sizeClass] || 8;
+    
+    return L.divIcon({
         className: 'custom-marker',
         html: `<div class="asset-marker ${sizeClass}" style="
             background-color: ${color}; 
@@ -420,12 +557,11 @@ function updateMarkerStyle(marker, isSelected) {
             border-radius: 50%;
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
             cursor: pointer;
+            transform: translate(-${offset}px, -${offset}px);
         "></div>`,
         iconSize: [32, 32],
-        iconAnchor: [16, 16]
+        iconAnchor: [0, 0]  // Use top-left anchor with CSS transform for centering
     });
-    
-    marker.setIcon(markerIcon);
 }
 
 function forceRemoveAllOverlays() {
@@ -519,6 +655,10 @@ function clearAssetSelection() {
             </div>
         `;
     }
+}
+
+function deselectCurrentAsset() {
+    clearAssetSelection();
 }
 
 function selectAsset(asset) {
@@ -672,7 +812,7 @@ function handleMouseMove(e) {
             const tooltipContent = `
                 <strong>Asset:</strong> ${assetId}<br/>
                 <strong>Population Exposed:</strong> ${pixelData.population.toFixed(0)} people<br/>
-                <strong>Additional PM2.5:</strong> ${pixelData.concentration.toFixed(2)} μg/m³${pixelData.personExposure !== null ? '<br/><strong>Person-Exposure Impact:</strong> ' + pixelData.personExposure.toFixed(2) + ' person·μg/m³' : ''}
+                <strong>Additional PM2.5:</strong> ${pixelData.concentration.toFixed(2)} μg/m³<br/><strong>Person-Exposure Impact:</strong> ${pixelData.personExposure.toFixed(2)} person·μg/m³
             `;
             
             hoverTooltip
@@ -965,20 +1105,20 @@ async function getAssetContributionAtPoint(asset, point) {
             return calculateContributionFromData(loadedAssetData.get(assetKey), asset, point);
         }
         
-        // Load raw data file
-        const filename = `${asset.country}_${asset.asset_id}_raw.json`;
-        const response = await fetch(`raw_data/${filename}`);
+        // Load unified overlay data file
+        const filename = `${asset.country}_${asset.asset_id}_data.json`;
+        const response = await fetch(`overlays/${filename}`);
         
         if (!response.ok) {
             throw new Error(`Failed to load data for ${assetKey}: ${response.statusText}`);
         }
         
-        const rawData = await response.json();
+        const unifiedData = await response.json();
         
         // Cache the data
-        loadedAssetData.set(assetKey, rawData);
+        loadedAssetData.set(assetKey, unifiedData);
         
-        return calculateContributionFromData(rawData, asset, point);
+        return calculateContributionFromData(unifiedData, asset, point);
         
     } catch (error) {
         console.warn(`Could not load data for ${assetKey}:`, error.message);
@@ -1117,10 +1257,20 @@ function getCircleCanvasPixelData(latlng, canvasOverlay) {
         return null;
     }
     
-    // Get data values with safety checks for optional person_exposure
-    const concentrationRow = overlayData.data_arrays.concentration[dataY];
-    const populationRow = overlayData.data_arrays.population[dataY];
-    const personExposureRow = overlayData.data_arrays.person_exposure ? overlayData.data_arrays.person_exposure[dataY] : null;
+    // Check for unified format vs legacy format compatibility
+    if (!overlayData.data && overlayData.data_arrays) {
+        overlayData.data = overlayData.data_arrays;
+    }
+    
+    if (!overlayData.data || !overlayData.data.concentration || !overlayData.data.population) {
+        console.error('Missing required data arrays for hover tooltip:', overlayData);
+        return null;
+    }
+    
+    // Get data values with client-side person_exposure calculation
+    const concentrationRow = overlayData.data.concentration[dataY];
+    const populationRow = overlayData.data.population[dataY];
+    // person_exposure is now calculated on-demand: concentration * population
     
     if (!concentrationRow || !populationRow) {
         return null;
@@ -1128,7 +1278,7 @@ function getCircleCanvasPixelData(latlng, canvasOverlay) {
     
     const concentration = concentrationRow[dataX];
     const population = populationRow[dataX];
-    const personExposure = personExposureRow ? personExposureRow[dataX] : null;
+    const personExposure = concentration * population; // Calculated on-demand
     
     if (concentration === undefined || population === undefined) {
         return null;
@@ -1668,13 +1818,19 @@ class CanvasOverlay extends L.Layer {
     updateCanvasPosition() {
         if (!this.canvas) return;
         
-        const bounds = this.bounds;
         const zoom = this.map.getZoom();
         
+        // SIMPLIFIED: Direct EPSG:4326 coordinate handling - no transformation needed
+        const containerNW = this.map.latLngToLayerPoint([this.bounds.north, this.bounds.west]);
+        const containerSE = this.map.latLngToLayerPoint([this.bounds.south, this.bounds.east]);
         
-        // Get layer points for proper overlay positioning
-        const containerNW = this.map.latLngToLayerPoint([bounds.north, bounds.west]);
-        const containerSE = this.map.latLngToLayerPoint([bounds.south, bounds.east]);
+        console.log(`CanvasOverlay: Direct EPSG:4326 positioning - NW: (${containerNW.x}, ${containerNW.y}), SE: (${containerSE.x}, ${containerSE.y})`);
+        
+        // Debug canvas positioning
+        console.log(`CircleCanvasOverlay: Canvas positioning at zoom ${zoom}`);
+        console.log(`  Layer points: NW(${containerNW.x}, ${containerNW.y}) SE(${containerSE.x}, ${containerSE.y})`);
+        console.log(`  Canvas will be positioned at: left=${containerNW.x}px, top=${containerNW.y}px`);
+        console.log(`  Bounds: ${JSON.stringify(this.bounds)}`);
         
         
         let width = Math.abs(containerSE.x - containerNW.x);
@@ -1709,9 +1865,12 @@ class CanvasOverlay extends L.Layer {
         
         this.canvas.style.display = 'block';
         
-        // Position canvas using container coordinates - NW point is the actual top-left
+        // SIMPLIFIED: Direct canvas positioning with EPSG:4326
         const canvasLeft = containerNW.x;
         const canvasTop = containerNW.y;
+        
+        console.log(`  Canvas positioned at: (${canvasLeft}, ${canvasTop})`);
+        
         this.canvas.style.left = canvasLeft + 'px';
         this.canvas.style.top = canvasTop + 'px';
         this.canvas.style.transform = 'none';
@@ -1741,9 +1900,9 @@ class CanvasOverlay extends L.Layer {
         // Lightweight position update during animations - no re-rendering
         if (!this.canvas) return;
         
-        const bounds = this.bounds;
-        const containerNW = this.map.latLngToLayerPoint([bounds.north, bounds.west]);
-        const containerSE = this.map.latLngToLayerPoint([bounds.south, bounds.east]);
+        // SIMPLIFIED: Direct EPSG:4326 coordinate handling - no transformation needed
+        const containerNW = this.map.latLngToLayerPoint([this.bounds.north, this.bounds.west]);
+        const containerSE = this.map.latLngToLayerPoint([this.bounds.south, this.bounds.east]);
         
         // Just update position using container coordinates - NW point is the actual top-left  
         const canvasLeft = containerNW.x;
@@ -1788,9 +1947,13 @@ class CanvasOverlay extends L.Layer {
                     // Calculate color based on exposure value
                     const color = this.exposureToColor(exposure, maxExposure);
                     
-                    // Map to canvas coordinates - direct mapping, no offset compensation needed
+                    // Map to canvas coordinates - handle Y-axis flipping from TIFF transform matrix
                     const baseCanvasX = Math.floor(dataX * scaleX);
-                    const baseCanvasY = Math.floor(dataY * scaleY);
+                    // Check if Y-axis is flipped in the transform (negative scaling factor)
+                    const hasFlippedY = this.rawData.transform && this.rawData.transform[4] < 0;
+                    const baseCanvasY = hasFlippedY ? 
+                        Math.floor((height - 1 - dataY) * scaleY) : 
+                        Math.floor(dataY * scaleY);
                     
                     // Fill rectangular area for this pixel
                     for (let dy = 0; dy < Math.ceil(scaleY); dy++) {
@@ -1878,32 +2041,46 @@ class CanvasOverlay extends L.Layer {
     }
 }
 
-// New data loading function for overlay format
+// New data loading function for overlay format with fallback to backup
 async function loadOverlayDataForAsset(asset) {
     try {
+        // Try primary overlay file first
         const response = await fetch(`overlays/${asset.country}_${asset.asset_id}_data.json`);
         if (!response.ok) {
             throw new Error(`Failed to load overlay data: ${response.statusText}`);
         }
         return await response.json();
     } catch (error) {
-        console.error(`Error loading overlay data for ${asset.country}_${asset.asset_id}:`, error);
+        console.warn(`Primary overlay failed for ${asset.country}_${asset.asset_id}:`, error);
+        
+        // Fallback to backup overlay files
+        try {
+            const backupResponse = await fetch(`overlays_backup_multistep_pipeline_20250904_091424/${asset.country}_${asset.asset_id}_data.json`);
+            if (backupResponse.ok) {
+                console.log(`Using backup overlay for ${asset.country}_${asset.asset_id}`);
+                return await backupResponse.json();
+            }
+        } catch (backupError) {
+            console.warn(`Backup overlay also failed for ${asset.country}_${asset.asset_id}:`, backupError);
+        }
+        
+        console.error(`All overlay loading attempts failed for ${asset.country}_${asset.asset_id}`);
         return null;
     }
 }
 
-// Legacy raw data loading function (kept for compatibility)
+// Legacy raw data loading function - NOW REDIRECTS TO UNIFIED FORMAT
 async function loadRawAssetData(asset) {
     try {
-        // Construct the raw data filename from asset info
-        const filename = `${asset.country}_${asset.asset_id}_raw.json`;
-        const response = await fetch(`raw_data/${filename}`);
+        // Use unified overlay format instead of separate raw data files
+        const filename = `${asset.country}_${asset.asset_id}_data.json`;
+        const response = await fetch(`overlays/${filename}`);
         if (!response.ok) {
-            throw new Error(`Failed to load raw data: ${response.statusText}`);
+            throw new Error(`Failed to load unified data: ${response.statusText}`);
         }
         return await response.json();
     } catch (error) {
-        console.error(`Error loading raw data for ${asset.country}_${asset.asset_id}:`, error);
+        console.error(`Error loading unified data for ${asset.country}_${asset.asset_id}:`, error);
         return null;
     }
 }
@@ -1925,6 +2102,19 @@ function showCanvasOverlay(asset) {
     
     // Load new overlay data format
     loadOverlayDataForAsset(asset).then(overlayData => {
+        // Check if loading failed
+        if (!overlayData) {
+            console.error(`Failed to load overlay data for ${requestId}`);
+            return;
+        }
+        
+        // Debug logging for data structure
+        console.log(`Loaded overlay data for ${requestId}:`, {
+            hasData: !!overlayData.data,
+            hasDataArrays: !!overlayData.data_arrays,
+            keys: Object.keys(overlayData)
+        });
+        
         // Check if this is still the active request
         if (activeOverlayRequest !== requestId) {
             console.log(`Aborting overlay load for ${requestId} - newer request active`);
@@ -1963,6 +2153,7 @@ function showCanvasOverlay(asset) {
                     });
                     map.addLayer(canvasOverlay);
                     showExposureLegend();
+                    updateSelectedAssetMarkerPosition();
                 }
             });
         }
@@ -1982,6 +2173,7 @@ function showCanvasOverlay(asset) {
         
         map.addLayer(canvasOverlay);
         showExposureLegend();
+        updateSelectedAssetMarkerPosition();
     }).catch(error => {
         console.error(`Error loading overlay for ${requestId}:`, error);
         if (activeOverlayRequest === requestId) {
@@ -2406,7 +2598,7 @@ class CircleCanvasOverlay extends L.Layer {
         
         this.ctx = this.canvas.getContext('2d');
         
-        // Add canvas to Leaflet's overlay pane instead of map container
+        // Add canvas to Leaflet's overlay pane for proper Web Mercator handling
         const overlayPane = this.map.getPane('overlayPane');
         overlayPane.appendChild(this.canvas);
         
@@ -2418,10 +2610,13 @@ class CircleCanvasOverlay extends L.Layer {
         
         const zoom = this.map.getZoom();
         
-        // Use layerPointToContainerPoint for proper coordinate transformation
-        // First get the layer points (overlay pane coordinates)
+        // Web Mercator coordinate handling with proper layer point positioning
         const layerNW = this.map.latLngToLayerPoint([this.bounds.north, this.bounds.west]);
         const layerSE = this.map.latLngToLayerPoint([this.bounds.south, this.bounds.east]);
+        
+        // Debug canvas positioning for CircleCanvasOverlay
+        console.log(`CircleCanvasOverlay: Web Mercator positioning at zoom ${zoom}`);
+        console.log(`  Layer points: NW(${layerNW.x}, ${layerNW.y}) SE(${layerSE.x}, ${layerSE.y})`);
         
         let width = Math.abs(layerSE.x - layerNW.x);
         let height = Math.abs(layerSE.y - layerNW.y);
@@ -2435,8 +2630,12 @@ class CircleCanvasOverlay extends L.Layer {
         this.canvas.style.display = 'block';
         
         // Position canvas using layer coordinates (relative to overlay pane)
+        // SIMPLIFIED: Direct canvas positioning with EPSG:4326
         const canvasLeft = layerNW.x;
         const canvasTop = layerNW.y;
+        
+        console.log(`  Canvas positioned at: (${canvasLeft}, ${canvasTop})`);
+        
         this.canvas.style.left = canvasLeft + 'px';
         this.canvas.style.top = canvasTop + 'px';
         
@@ -2466,8 +2665,22 @@ class CircleCanvasOverlay extends L.Layer {
         this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         
         const { width: dataWidth, height: dataHeight } = this.overlayData.dimensions;
-        const concentrationData = this.overlayData.data_arrays.concentration;
-        const populationData = this.overlayData.data_arrays.population;
+        
+        // Check for unified format vs legacy format
+        if (!this.overlayData.data && this.overlayData.data_arrays) {
+            // Legacy format - update to new structure
+            console.warn('Using legacy data_arrays format, updating to unified format');
+            this.overlayData.data = this.overlayData.data_arrays;
+            delete this.overlayData.data_arrays;
+        }
+        
+        if (!this.overlayData.data || !this.overlayData.data.concentration || !this.overlayData.data.population) {
+            console.error('Missing required data arrays in overlay data:', this.overlayData);
+            return;
+        }
+        
+        const concentrationData = this.overlayData.data.concentration;
+        const populationData = this.overlayData.data.population;
         
         // Calculate scaling factors
         const scaleX = canvasWidth / dataWidth;
@@ -2491,9 +2704,14 @@ class CircleCanvasOverlay extends L.Layer {
                 const concentrationBin = classifyConcentration(concentration);
                 const populationBin = classifyPopulation(population);
                 
-                // Calculate position
+                // SIMPLIFIED: Direct circle positioning with EPSG:4326
                 const centerX = (dataX + 0.5) * scaleX;
                 const centerY = (dataY + 0.5) * scaleY;
+                
+                // Debug first few circles
+                if (circlesRendered <= 3) {
+                    console.log(`  Circle ${circlesRendered}: data(${dataX},${dataY}) -> canvas(${centerX.toFixed(1)},${centerY.toFixed(1)})`);
+                }
                 
                 // Calculate circle radius based on grid size and population
                 // Grid cell size in pixels
@@ -2527,5 +2745,52 @@ class CircleCanvasOverlay extends L.Layer {
             }
         }
         
+        // ❌ REMOVED: Center marker unreliable due to bounds not matching actual data extent
+        // this.addCenterMarker();
+        
+    }
+    
+    addCenterMarker() {
+        if (!this.ctx) return;
+        
+        // Calculate exact center of overlay bounds
+        console.log("???", this.overlayData.bounds.north, this.overlayData.bounds.south);
+        const centerLat = (this.overlayData.bounds.north + this.overlayData.bounds.south) / 2;
+        const centerLng = (this.overlayData.bounds.east + this.overlayData.bounds.west) / 2;
+        
+        // Convert to canvas coordinates using the same logic as the canvas positioning
+        const centerLatLng = L.latLng(centerLat, centerLng);
+        const centerLayerPoint = this.map.latLngToLayerPoint(centerLatLng);
+        const canvasNW = this.map.latLngToLayerPoint([this.bounds.north, this.bounds.west]);
+        
+        // Canvas-relative coordinates
+        const canvasX = centerLayerPoint.x - canvasNW.x;
+        const canvasY = centerLayerPoint.y - canvasNW.y;
+        
+        console.log(`🎯 Adding center reticle at geographic (${centerLat.toFixed(6)}, ${centerLng.toFixed(6)}) -> canvas (${canvasX.toFixed(1)}, ${canvasY.toFixed(1)})`);
+        
+        // Draw precision reticle (crosshair) for alignment testing
+        this.ctx.save();
+        this.ctx.strokeStyle = '#FF00FF'; // Bright magenta for high visibility
+        this.ctx.lineWidth = 2;
+        this.ctx.setLineDash([]);
+        
+        // Draw crosshair lines
+        this.ctx.beginPath();
+        // Horizontal line
+        this.ctx.moveTo(canvasX - 20, canvasY);
+        this.ctx.lineTo(canvasX + 20, canvasY);
+        // Vertical line  
+        this.ctx.moveTo(canvasX, canvasY - 20);
+        this.ctx.lineTo(canvasX, canvasY + 20);
+        this.ctx.stroke();
+        
+        // Add center dot for precise targeting
+        this.ctx.fillStyle = '#FF00FF';
+        this.ctx.beginPath();
+        this.ctx.arc(canvasX, canvasY, 2, 0, 2 * Math.PI);
+        this.ctx.fill();
+        
+        this.ctx.restore();
     }
 }

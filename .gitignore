@@ -1,8 +1,12 @@
 # Raw source data - exclude actual pollution and population raster files
 assets/
 input_geotiffs/
-raw_data/
 processed/
+
+# Legacy directories - now removed from unified pipeline
+raw_data/
+prototype_overlays/
+*_backup_*
 *.tiff
 *.tif
 !assets/.gitkeep
@@ -91,3 +95,16 @@ Thumbs.db
 # Temporary files
 tmp/
 temp/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyc
+
+# Analysis and testing artifacts  
+*.png
+*_analysis.json
+*_comparison*.json
+*_histogram*.py
+*test*.json
