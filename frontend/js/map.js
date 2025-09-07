@@ -110,10 +110,7 @@ function initializeApp() {
     // Check for URL parameters
     checkUrlParameters();
     
-    // Run population coordinate test after assets load
-    setTimeout(() => {
-        runPopulationCoordinateTest();
-    }, 3000);
+    // Coordinate test disabled in production - available for debugging if needed
 }
 
 function checkUrlParameters() {
@@ -310,28 +307,24 @@ async function runPopulationCoordinateTest() {
 }
 
 function calculateScreenCoordinatesForDataPoint(asset, overlayData, dataX, dataY) {
-    // Simulate the coordinate calculation that CircleCanvasOverlay does
+    // SIMPLIFIED: Direct coordinate calculation - no edge trimming complexity
     
-    // Step 1: Use the corrected bounds from the JSON overlay data
-    // After the pipeline fix, overlayData.bounds are already adjusted for edge trimming
-    const actualBounds = overlayData.bounds;
+    const bounds = overlayData.bounds;
     
-    // Step 2: Convert bounds to screen coordinates (simulate map.latLngToContainerPoint)
-    const layerNW = map.latLngToContainerPoint([actualBounds.north, actualBounds.west]);
-    const layerSE = map.latLngToContainerPoint([actualBounds.south, actualBounds.east]);
+    // Convert bounds to screen coordinates
+    const layerNW = map.latLngToContainerPoint([bounds.north, bounds.west]);
+    const layerSE = map.latLngToContainerPoint([bounds.south, bounds.east]);
     
     const canvasWidth = Math.abs(layerSE.x - layerNW.x);
     const canvasHeight = Math.abs(layerSE.y - layerNW.y);
     
-    // Step 3: Calculate scaling (from CircleCanvasOverlay.renderCircles) 
+    // Simple 1:1 mapping
     const scaleX = canvasWidth / overlayData.dimensions.width;
     const scaleY = canvasHeight / overlayData.dimensions.height;
     
-    // Step 4: Calculate circle center position within canvas
     const centerX = (dataX + 0.5) * scaleX;
     const centerY = (dataY + 0.5) * scaleY;
     
-    // Step 5: Convert to absolute screen coordinates
     const screenX = layerNW.x + centerX;
     const screenY = layerNW.y + centerY;
     
@@ -339,24 +332,16 @@ function calculateScreenCoordinatesForDataPoint(asset, overlayData, dataX, dataY
 }
 
 function calculateGeographicCoordinatesForDataPoint(asset, overlayData, dataX, dataY) {
-    // Calculate the actual geographic coordinates for a data point
+    // SIMPLIFIED: Ultra-simple coordinate calculation - perfect 1:1 TIFF mapping
     
-    // Step 1: Use the corrected bounds from the JSON overlay data
-    // After the pipeline fix, overlayData.bounds are already adjusted for edge trimming
-    const actualBounds = overlayData.bounds;
+    const bounds = overlayData.bounds;
+    const pixelSizeX = (bounds.east - bounds.west) / overlayData.dimensions.width;
+    const pixelSizeY = (bounds.north - bounds.south) / overlayData.dimensions.height;
     
-    // Step 2: Calculate geographic position within the actual bounds
-    const dataWidth = overlayData.dimensions.width;
-    const dataHeight = overlayData.dimensions.height;
-    
-    const geoBoundsWidth = actualBounds.east - actualBounds.west;
-    const geoBoundsHeight = actualBounds.north - actualBounds.south;
-    
-    // Data point (dataX, dataY) represents center of that pixel
-    const geoX = actualBounds.west + (dataX + 0.5) * (geoBoundsWidth / dataWidth);
-    const geoY = actualBounds.north - (dataY + 0.5) * (geoBoundsHeight / dataHeight); // North is positive Y, data[0] is northernmost
-    
-    return { lat: geoY, lon: geoX };
+    return {
+        lat: bounds.north - (dataY + 0.5) * pixelSizeY,
+        lon: bounds.west + (dataX + 0.5) * pixelSizeX
+    };
 }
 
 let testValueMarkers = []; // Keep track of test markers for cleanup
@@ -2793,20 +2778,9 @@ class CircleCanvasOverlay extends L.Layer {
         this.ctx = null;
         this.map = null;
         
-        // 🔧 CALCULATE ACTUAL DATA BOUNDS from edge trimming metadata
-        this.bounds = this.calculateActualDataBounds(overlayData, bounds);
-    }
-    
-    calculateActualDataBounds(overlayData, originalBounds) {
-        // 🔧 COORDINATE BUG FIX: Use corrected bounds from pipeline
-        // After the pipeline fix, overlayData.bounds are already adjusted for edge trimming
-        // No need to recalculate - just use the corrected bounds from the JSON data
-        
-        console.log(`🔧 USING CORRECTED BOUNDS FROM PIPELINE FOR ${overlayData.asset_id}`);
-        console.log(`  Corrected bounds: N=${overlayData.bounds.north.toFixed(6)}, S=${overlayData.bounds.south.toFixed(6)}, E=${overlayData.bounds.east.toFixed(6)}, W=${overlayData.bounds.west.toFixed(6)}`);
-        console.log(`  🎯 RESULT: Canvas positioned at pipeline-corrected bounds`);
-        
-        return overlayData.bounds;
+        // SIMPLIFIED: Use overlay bounds directly - no complex calculations needed
+        this.bounds = overlayData.bounds;
+        console.log(`✨ SIMPLE: Using overlay bounds directly for ${overlayData.asset_id}`);
     }
     
     onAdd(map) {
@@ -2933,25 +2907,14 @@ class CircleCanvasOverlay extends L.Layer {
         const concentrationData = this.overlayData.data.concentration;
         const populationData = this.overlayData.data.population;
         
-        // 🔧 FIXED: Calculate scaling factors using ORIGINAL dimensions since canvas uses original bounds
-        // But apply edge trimming offset to position circles correctly within the larger canvas
-        const originalWidth = this.overlayData.original_dimensions.width;
-        const originalHeight = this.overlayData.original_dimensions.height;
-        const scaleX = canvasWidth / originalWidth;
-        const scaleY = canvasHeight / originalHeight;
+        // SIMPLIFIED: Direct 1:1 scaling - no edge trimming complexity
+        const scaleX = canvasWidth / dataWidth;
+        const scaleY = canvasHeight / dataHeight;
         
-        // Get edge trimming offset - where data[0][0] should be positioned within the original bounds canvas
-        const trimInfo = this.overlayData.processing.edge_trimming || {top: 0, bottom: 0, left: 0, right: 0};
-        const dataOriginOffsetX = trimInfo.left;   // pixels from left edge of original canvas
-        const dataOriginOffsetY = trimInfo.top;    // pixels from top edge of original canvas
-        
-        console.log(`🔧 DATA COORDINATE MAPPING FIX:`);
-        console.log(`  Canvas size: ${canvasWidth}×${canvasHeight}`);
-        console.log(`  Original dimensions: ${originalWidth}×${originalHeight}`);
-        console.log(`  Data dimensions: ${dataWidth}×${dataHeight}`);
-        console.log(`  Edge trimming: top=${trimInfo.top}, left=${trimInfo.left}, bottom=${trimInfo.bottom}, right=${trimInfo.right}`);
-        console.log(`  Data origin offset: (${dataOriginOffsetX}, ${dataOriginOffsetY})`);
-        console.log(`  Scale factors: X=${scaleX.toFixed(6)}, Y=${scaleY.toFixed(6)}`);
+        console.log(`✨ SIMPLE COORDINATE MAPPING:`);
+        console.log(`  Canvas: ${canvasWidth}×${canvasHeight}`);
+        console.log(`  Data: ${dataWidth}×${dataHeight}`);
+        console.log(`  Scale: X=${scaleX.toFixed(6)}, Y=${scaleY.toFixed(6)}`);
         
         const gridCellSize = Math.min(scaleX, scaleY);
         let circlesRendered = 0;
@@ -2971,16 +2934,13 @@ class CircleCanvasOverlay extends L.Layer {
                 const concentrationBin = classifyConcentration(concentration);
                 const populationBin = classifyPopulation(population);
                 
-                // 🔧 FIXED: Position circles with edge trimming offset within original bounds canvas
-                // data[dataY][dataX] represents pixel at (dataOriginOffsetY + dataY, dataOriginOffsetX + dataX) in original coordinates
-                const centerX = (dataOriginOffsetX + dataX + 0.5) * scaleX;
-                const centerY = (dataOriginOffsetY + dataY + 0.5) * scaleY;
+                // SIMPLIFIED: Direct 1:1 positioning - no offset calculations needed
+                const centerX = (dataX + 0.5) * scaleX;
+                const centerY = (dataY + 0.5) * scaleY;
                 
                 // Debug first few circles
                 if (circlesRendered <= 3) {
-                    const originalX = dataOriginOffsetX + dataX;
-                    const originalY = dataOriginOffsetY + dataY;
-                    console.log(`  Circle ${circlesRendered}: data(${dataX},${dataY}) = original(${originalX},${originalY}) -> canvas(${centerX.toFixed(1)},${centerY.toFixed(1)})`);
+                    console.log(`  Circle ${circlesRendered}: data(${dataX},${dataY}) -> canvas(${centerX.toFixed(1)},${centerY.toFixed(1)})`);
                 }
                 
                 // Calculate circle radius based on grid size and population
