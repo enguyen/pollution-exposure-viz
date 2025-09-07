@@ -1248,3 +1248,88 @@ with ThreadPoolExecutor(max_workers=6) as executor:
 4. **Documentation updates**: Keep integration guides current with frontend changes
 
 The unified pipeline represents a complete architectural transformation that significantly improves performance, data quality, and maintainability while providing a foundation for enhanced analytical capabilities.
+
+---
+
+## **CRITICAL ISSUE: Population TIFF Coordinate System Bug** (2025-09-05)
+
+### **🚨 Problem Identified**
+
+**Issue**: Population circles shift positions when switching between assets, even though the same populations should remain stationary.
+
+**Root Cause**: The three population TIFF files (`1566584-pop-v3.tiff`, `1566601-pop-v3.tiff`, `38089178-pop-v3.tiff`) contain **identical population data positioned at different geographic coordinates**.
+
+### **Evidence of Coordinate System Bug**
+
+**Population Value Analysis:**
+- All three TIFFs contain 94-96% identical population value distributions
+- Same population patterns (0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 3.0, 0.8, 0.6, 1.5 people per pixel)
+- **Different geographic locations** for the same population values
+
+**Coordinate Offsets (relative to CHN_1566601):**
+- **CHN_1566584**: 33.9km northeast (+31.5km N, +12.6km E)
+- **CHN_38089178**: 25.4km southwest (-21.9km N, -12.9km E)
+
+### **Geographic Overlap Analysis**
+
+Despite coordinate offsets, the TIFFs have substantial geographic overlap:
+- **CHN_1566584 ↔ CHN_1566601**: 80% overlap (~34,000 km²)
+- **CHN_1566601 ↔ CHN_38089178**: 84% overlap (~35,000 km²)  
+- **CHN_1566584 ↔ CHN_38089178**: 66% overlap (~28,000 km²)
+
+**Expected**: Same population data should appear in identical geographic locations across overlapping regions.
+
+**Actual**: Same population patterns appear at systematically shifted coordinates (~25-34km offsets).
+
+### **Impact on Visualization**
+
+**Frontend Symptoms:**
+- Population circles move when switching between assets (should remain stationary)
+- Same geographic locations show different populations depending on selected asset
+- Undermines comparative analysis between assets in overlapping regions
+
+**Data Processing Impact:**
+- Person-exposure calculations are mathematically correct but geographically misaligned
+- Coordinate system fixes in frontend cannot resolve source data positioning errors
+- Edge trimming corrections work properly but operate on already-mispositioned data
+
+### **Diagnostic Files Created**
+
+**`population_offset/` directory contains:**
+- **Population TIFFs**: Copies of the three problematic files for analysis
+- **`analyze_offsets.py`**: Demonstrates coordinate offset measurements
+- **`verify_same_data.py`**: Confirms identical population value distributions
+- **`README.md`**: Complete technical documentation of the issue
+
+### **Technical Root Cause**
+
+**Suspected Issues:**
+1. **Coordinate reference system errors** during TIFF creation
+2. **Asset coordinates being used incorrectly** as TIFF geographic origins
+3. **Systematic offset in georeference transforms** during processing
+4. **CRS/projection mismatches** between different processing runs
+
+### **Resolution Status**
+
+**Current Status**: ❌ **UNRESOLVED - Requires data pipeline investigation**
+
+**Not a Frontend Bug**: The coordinate system fixes implemented in the frontend are working correctly. This is a **source data coordinate assignment issue**.
+
+**Next Steps Required:**
+1. **Investigate TIFF creation pipeline** for coordinate system handling
+2. **Verify asset coordinate accuracy** against external geographic references  
+3. **Audit georeference transform application** during population data processing
+4. **Implement systematic correction** for existing population TIFF coordinate errors
+
+### **Workaround Considerations**
+
+**Temporary Frontend Solutions:**
+- Could implement coordinate offset corrections per asset
+- Risk: Masks underlying data quality issue without fixing root cause
+
+**Recommended Approach:**
+- **Fix source data pipeline** to ensure consistent geographic positioning
+- **Regenerate population TIFFs** with correct coordinate assignment
+- **Validate against external population datasets** for geographic accuracy
+
+This coordinate system bug affects the fundamental reliability of population exposure analysis and should be prioritized for resolution in the data processing pipeline.

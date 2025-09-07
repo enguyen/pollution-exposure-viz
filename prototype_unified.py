@@ -203,9 +203,24 @@ def process_asset_unified(asset_id: str, country: str,
     
     if preserve_full_resolution:
         # Trim zero edges to remove padding while keeping full data resolution
+        # Use concentration data to determine trimming, then apply same trimming to all datasets
         conc_trimmed, trim_info = trim_zero_edges(conc_clean)
-        pop_trimmed, _ = trim_zero_edges(pop_clean)  # Should have same trim
-        exposure_trimmed, _ = trim_zero_edges(person_exposure)
+        top_trim, bottom_trim, left_trim, right_trim = trim_info
+        
+        # Apply the same trimming to population and exposure data
+        if top_trim > 0 or bottom_trim > 0 or left_trim > 0 or right_trim > 0:
+            end_row = conc_clean.shape[0] - bottom_trim if bottom_trim > 0 else conc_clean.shape[0]
+            end_col = conc_clean.shape[1] - right_trim if right_trim > 0 else conc_clean.shape[1]
+            
+            pop_trimmed = pop_clean[top_trim:end_row, left_trim:end_col]
+            exposure_trimmed = person_exposure[top_trim:end_row, left_trim:end_col]
+        else:
+            pop_trimmed = pop_clean
+            exposure_trimmed = person_exposure
+        
+        print(f"  🔧 DEBUG: conc_trimmed shape: {conc_trimmed.shape}")
+        print(f"  🔧 DEBUG: pop_trimmed shape: {pop_trimmed.shape}")
+        print(f"  🔧 DEBUG: original shapes - conc: {conc_clean.shape}, pop: {pop_clean.shape}")
         
         final_shape = conc_trimmed.shape
         top_trim, bottom_trim, left_trim, right_trim = trim_info
@@ -216,24 +231,64 @@ def process_asset_unified(asset_id: str, country: str,
         final_conc = conc_trimmed
         final_pop = pop_trimmed
         final_exposure = exposure_trimmed
+        print(f"  🔧 DEBUG: final_pop assigned shape: {final_pop.shape}")
         scale_factor = 1  # No downsampling
         
-        # Update transform for trimmed bounds
-        # Adjust the top-left corner based on trimming
-        pixel_size_x = abs(transform[0])
-        pixel_size_y = abs(transform[4])
+        # Calculate accurate bounds based on actual data extent  
+        pixel_size_x = abs(transform[0])  # X pixel size (degrees per pixel)
+        pixel_size_y = abs(transform[4])  # Y pixel size (degrees per pixel, transform[4] is negative)
         
-        # New top-left corner
-        new_top_left_x = transform[2] + left_trim * pixel_size_x
-        new_top_left_y = transform[5] - top_trim * pixel_size_y  # Y decreases going down
+        # Find actual data extent (non-zero pixels) in the trimmed data
+        nonzero_rows, nonzero_cols = np.where(final_conc > 1e-6)
         
-        # Update bounds based on actual trimmed data
-        trimmed_bounds = bounds._replace(
-            left=new_top_left_x,
-            right=new_top_left_x + final_shape[1] * pixel_size_x,
-            top=new_top_left_y,
-            bottom=new_top_left_y - final_shape[0] * pixel_size_y
-        )
+        if len(nonzero_rows) > 0:
+            # Calculate data extent for logging (but don't use for bounds calculation)
+            min_row, max_row = np.min(nonzero_rows), np.max(nonzero_rows)
+            min_col, max_col = np.min(nonzero_cols), np.max(nonzero_cols)
+            
+            # 🔧 FIXED: Calculate bounds adjusted for edge trimming
+            # The trimmed data[0][0] represents pixel (left_trim, top_trim) in original coordinates
+            print(f"  Data extent in trimmed array: rows {min_row}-{max_row}, cols {min_col}-{max_col}")
+            print(f"  Adjusting bounds for edge trimming: top={top_trim}, left={left_trim}, bottom={bottom_trim}, right={right_trim}")
+            
+            # Calculate where the trimmed data actually sits in geographic space
+            # When we trim edges, the remaining data represents a subset of the original geographic area
+            # trimmed_data[0,0] represents the pixel that was at (top_trim, left_trim) in original coordinates
+            
+            # Calculate the geographic bounds of the trimmed data
+            new_west = bounds.left + left_trim * pixel_size_x           # Left edge moves east by left_trim pixels
+            new_north = bounds.top - top_trim * pixel_size_y            # Top edge moves south by top_trim pixels  
+            new_east = new_west + final_shape[1] * pixel_size_x         # Width of trimmed data
+            new_south = new_north - final_shape[0] * pixel_size_y       # Height of trimmed data
+            
+            print(f"  🔧 DEBUG BOUNDS CALCULATION:")
+            print(f"     pixel_size_y = {pixel_size_y}")
+            print(f"     new_north = {bounds.top} - {top_trim} * {pixel_size_y} = {new_north}")
+            print(f"     new_south = {new_north} - {final_shape[0]} * {pixel_size_y} = {new_south}")
+            print(f"     original_south = {bounds.bottom}")
+            print(f"     difference from original south = {abs(new_south - bounds.bottom)}")
+            
+            trimmed_bounds = bounds._replace(
+                left=new_west,
+                right=new_east,
+                top=new_north,
+                bottom=new_south
+            )
+            print(f"  Original bounds: N={bounds.top:.6f}, S={bounds.bottom:.6f}, E={bounds.right:.6f}, W={bounds.left:.6f}")
+            print(f"  Trimmed bounds:  N={trimmed_bounds.top:.6f}, S={trimmed_bounds.bottom:.6f}, E={trimmed_bounds.right:.6f}, W={trimmed_bounds.left:.6f}")
+            print(f"  🔧 COORDINATE BUG FIX: Bounds now correctly represent trimmed data geographic position")
+        else:
+            # Fallback: use full trimmed dimensions if no data found
+            new_top_left_x = transform[2] + left_trim * pixel_size_x
+            new_top_left_y = transform[5] - top_trim * pixel_size_y
+            
+            trimmed_bounds = bounds._replace(
+                left=new_top_left_x,
+                right=new_top_left_x + final_shape[1] * pixel_size_x,
+                top=new_top_left_y,
+                bottom=new_top_left_y - final_shape[0] * pixel_size_y
+            )
+            print(f"  Warning: No data found, using full trimmed dimensions")
         
     else:
         # Fallback: just use the full data (in case someone sets preserve_full_resolution=False)
@@ -250,8 +305,10 @@ def process_asset_unified(asset_id: str, country: str,
         return [[round_to_significant_digits(float(val), precision_digits) 
                 for val in row] for row in arr]
     
+    print(f"  🔧 DEBUG: final_pop shape before conversion: {final_pop.shape}")
     conc_list = round_array(final_conc)
     pop_list = round_array(final_pop)
+    print(f"  🔧 DEBUG: pop_list dimensions after conversion: {len(pop_list)}×{len(pop_list[0])}")
     
     # Calculate exposure buckets (10 μg/m³ intervals)
     exposure_buckets = calculate_exposure_buckets(conc_clean, pop_clean)
@@ -302,7 +359,7 @@ def process_asset_unified(asset_id: str, country: str,
             "precision_digits": precision_digits,
             "preserve_full_resolution": preserve_full_resolution,
             "crs": str(crs),
-            "pipeline_version": "unified_v3.0_risk_buckets",
+            "pipeline_version": "unified_v3.5_edge_trimming_fix",
             "edge_trimming": {
                 "top": int(trim_info[0]),
                 "bottom": int(trim_info[1]), 
@@ -333,24 +390,12 @@ def process_asset_unified(asset_id: str, country: str,
 def test_sample_assets():
     """Test the unified pipeline on a few sample assets."""
     
-    # Sample assets to test (choose ones we know exist)
+    # Test our three CHN assets that have the coordinate bug
     test_assets = [
-        ("1566957", "KOR"),  # The asset we've been analyzing
-        ("1566447", "BRA"),  # Another one from our previous work
+        ("1566584", "CHN"),  # Asset with top edge trimming
+        ("1566601", "CHN"),  # Asset with left edge trimming
+        ("38089178", "CHN"), # Asset with right/bottom edge trimming
     ]
-    
-    # Add a third asset if we can find one
-    assets_file = Path("assets.json")
-    if assets_file.exists():
-        with open(assets_file) as f:
-            assets_data = json.load(f)
-        
-        # Find one more asset from a different country
-        for asset in assets_data['assets']:
-            if (asset['country'] not in ['KOR', 'BRA'] and 
-                len(test_assets) < 3):
-                test_assets.append((asset['asset_id'], asset['country']))
-                break
     
     print(f"Testing unified pipeline on {len(test_assets)} sample assets:")
     print("=" * 60)

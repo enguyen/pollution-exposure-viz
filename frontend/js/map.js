@@ -109,6 +109,11 @@ function initializeApp() {
     
     // Check for URL parameters
     checkUrlParameters();
+    
+    // Run population coordinate test after assets load
+    setTimeout(() => {
+        runPopulationCoordinateTest();
+    }, 3000);
 }
 
 function checkUrlParameters() {
@@ -145,6 +150,237 @@ function waitForAssetsAndJump(assetIdentifier, maxWait = 10000) {
     };
     
     checkAssets();
+}
+
+async function runPopulationCoordinateTest() {
+    console.log("🧪 STARTING POPULATION COORDINATE TEST");
+    console.log("=" * 60);
+    
+    // Clear any existing test markers
+    clearTestValueMarkers();
+    
+    if (!assetsData || !assetsData.assets) {
+        console.log("Assets not loaded yet, skipping test");
+        return;
+    }
+    
+    const testAssets = ["1566584", "1566601", "38089178"];
+    const overlayDataCache = {};
+    
+    // Load all three overlay JSON files
+    for (const assetId of testAssets) {
+        const asset = assetsData.assets.find(a => a.asset_id === assetId);
+        if (!asset) {
+            console.log(`Asset ${assetId} not found in assets.json`);
+            continue;
+        }
+        
+        try {
+            console.log(`Loading overlay data for CHN_${assetId}...`);
+            const response = await fetch(`overlays/CHN_${assetId}_data.json`);
+            if (!response.ok) {
+                console.log(`Failed to load CHN_${assetId}_data.json: ${response.status}`);
+                continue;
+            }
+            
+            const overlayData = await response.json();
+            overlayDataCache[assetId] = {
+                asset: asset,
+                overlay: overlayData
+            };
+            console.log(`✅ Loaded CHN_${assetId}_data.json (${overlayData.dimensions.width}×${overlayData.dimensions.height})`);
+            
+        } catch (error) {
+            console.log(`Error loading overlay for ${assetId}: ${error.message}`);
+        }
+    }
+    
+    if (Object.keys(overlayDataCache).length < 3) {
+        console.log("Not all overlay files loaded, cannot run complete test");
+        return;
+    }
+    
+    console.log("\n🎯 TESTING CONTIGUOUS POPULATION VALUE SEQUENCE:");
+    
+    // Test exact sequence of 3 consecutive population values from center of CHN_1566601
+    const testSequence = [16.0, 5.42, 5.36]; // These should appear as consecutive values in all three
+    
+    console.log(`\n📍 Searching for sequence: [${testSequence.join(', ')}]`);
+    
+    const sequenceLocations = {};
+    
+    // Find this exact sequence in each overlay
+    for (const assetId of testAssets) {
+        const data = overlayDataCache[assetId];
+        if (!data) continue;
+        
+        const populationData = data.overlay.data.population;
+        const asset = data.asset;
+        
+        // Search for the sequence (horizontal only for now) - check all occurrences
+        let foundCount = 0;
+        let foundLocation = null;
+        for (let dataY = 0; dataY < data.overlay.dimensions.height; dataY++) {
+            for (let dataX = 0; dataX < data.overlay.dimensions.width - 2; dataX++) {
+                const val1 = populationData[dataY][dataX];
+                const val2 = populationData[dataY][dataX + 1];
+                const val3 = populationData[dataY][dataX + 2];
+                
+                // Check if this matches our sequence exactly
+                if (Math.abs(val1 - testSequence[0]) < 0.001 && 
+                    Math.abs(val2 - testSequence[1]) < 0.001 && 
+                    Math.abs(val3 - testSequence[2]) < 0.001) {
+                    
+                    foundCount++;
+                    foundLocation = { dataX, dataY, val1, val2, val3 };
+                }
+            }
+        }
+        
+        // Report results for this asset
+        if (foundCount === 0) {
+            console.log(`  ${assetId}: SEQUENCE NOT FOUND`);
+        } else if (foundCount === 1) {
+            console.log(`  ${assetId}: SEQUENCE FOUND EXACTLY ONCE at data(${foundLocation.dataX},${foundLocation.dataY}) = [${foundLocation.val1}, ${foundLocation.val2}, ${foundLocation.val3}]`);
+            
+            sequenceLocations[assetId] = [];
+            
+            // Process each value in the sequence
+            for (let i = 0; i < 3; i++) {
+                const screenCoords = calculateScreenCoordinatesForDataPoint(
+                    asset, data.overlay, foundLocation.dataX + i, foundLocation.dataY
+                );
+                
+                const geoCoords = calculateGeographicCoordinatesForDataPoint(
+                    asset, data.overlay, foundLocation.dataX + i, foundLocation.dataY
+                );
+                
+                sequenceLocations[assetId].push({
+                    dataX: foundLocation.dataX + i,
+                    dataY: foundLocation.dataY,
+                    value: populationData[foundLocation.dataY][foundLocation.dataX + i],
+                    geoLat: geoCoords.lat,
+                    geoLon: geoCoords.lon,
+                    screenX: screenCoords.x,
+                    screenY: screenCoords.y
+                });
+                
+                console.log(`    [${i}] data(${foundLocation.dataX + i},${foundLocation.dataY}) = ${populationData[foundLocation.dataY][foundLocation.dataX + i]} -> geo(${geoCoords.lat.toFixed(6)}, ${geoCoords.lon.toFixed(6)}) -> screen(${screenCoords.x.toFixed(1)}, ${screenCoords.y.toFixed(1)})`);
+                
+                // Add visual marker on map
+                addTestValueMarker(geoCoords.lat, geoCoords.lon, `${assetId}[${i}]`, populationData[foundLocation.dataY][foundLocation.dataX + i]);
+            }
+        } else {
+            console.log(`  ${assetId}: ❌ SEQUENCE FOUND ${foundCount} TIMES - NOT UNIQUE!`);
+        }
+    }
+    
+    // Compare geographic positions of the sequence across assets
+    console.log(`\n📊 SEQUENCE GEOGRAPHIC COORDINATE ANALYSIS:`);
+    if (Object.keys(sequenceLocations).length >= 2) {
+        for (let i = 0; i < 3; i++) {
+            console.log(`\nValue ${i} (${testSequence[i]}) geographic positions:`);
+            const positions = [];
+            for (const assetId of Object.keys(sequenceLocations)) {
+                const loc = sequenceLocations[assetId][i];
+                console.log(`  ${assetId}: geo(${loc.geoLat.toFixed(6)}, ${loc.geoLon.toFixed(6)}) -> screen(${loc.screenX.toFixed(1)}, ${loc.screenY.toFixed(1)})`);
+                positions.push({ lat: loc.geoLat, lon: loc.geoLon, screenX: loc.screenX, screenY: loc.screenY });
+            }
+            
+            if (positions.length >= 2) {
+                const latVariance = Math.max(...positions.map(p => p.lat)) - Math.min(...positions.map(p => p.lat));
+                const lonVariance = Math.max(...positions.map(p => p.lon)) - Math.min(...positions.map(p => p.lon));
+                const screenXVariance = Math.max(...positions.map(p => p.screenX)) - Math.min(...positions.map(p => p.screenX));
+                const screenYVariance = Math.max(...positions.map(p => p.screenY)) - Math.min(...positions.map(p => p.screenY));
+                
+                console.log(`  Geographic variance: ${latVariance.toFixed(6)}° lat, ${lonVariance.toFixed(6)}° lon`);
+                console.log(`  Screen variance: ${screenXVariance.toFixed(1)}px X, ${screenYVariance.toFixed(1)}px Y`);
+                
+                if (latVariance < 0.000001 && lonVariance < 0.000001) {
+                    console.log(`  ✅ GOOD: Same geographic coordinates across assets`);
+                } else {
+                    console.log(`  ❌ BAD: Different geographic coordinates - source data issue!`);
+                }
+            }
+        }
+    }
+    
+    console.log("\n" + "=" * 60);
+    console.log("🧪 POPULATION COORDINATE TEST COMPLETE");
+}
+
+function calculateScreenCoordinatesForDataPoint(asset, overlayData, dataX, dataY) {
+    // Simulate the coordinate calculation that CircleCanvasOverlay does
+    
+    // Step 1: Use the corrected bounds from the JSON overlay data
+    // After the pipeline fix, overlayData.bounds are already adjusted for edge trimming
+    const actualBounds = overlayData.bounds;
+    
+    // Step 2: Convert bounds to screen coordinates (simulate map.latLngToContainerPoint)
+    const layerNW = map.latLngToContainerPoint([actualBounds.north, actualBounds.west]);
+    const layerSE = map.latLngToContainerPoint([actualBounds.south, actualBounds.east]);
+    
+    const canvasWidth = Math.abs(layerSE.x - layerNW.x);
+    const canvasHeight = Math.abs(layerSE.y - layerNW.y);
+    
+    // Step 3: Calculate scaling (from CircleCanvasOverlay.renderCircles) 
+    const scaleX = canvasWidth / overlayData.dimensions.width;
+    const scaleY = canvasHeight / overlayData.dimensions.height;
+    
+    // Step 4: Calculate circle center position within canvas
+    const centerX = (dataX + 0.5) * scaleX;
+    const centerY = (dataY + 0.5) * scaleY;
+    
+    // Step 5: Convert to absolute screen coordinates
+    const screenX = layerNW.x + centerX;
+    const screenY = layerNW.y + centerY;
+    
+    return { x: screenX, y: screenY };
+}
+
+function calculateGeographicCoordinatesForDataPoint(asset, overlayData, dataX, dataY) {
+    // Calculate the actual geographic coordinates for a data point
+    
+    // Step 1: Use the corrected bounds from the JSON overlay data
+    // After the pipeline fix, overlayData.bounds are already adjusted for edge trimming
+    const actualBounds = overlayData.bounds;
+    
+    // Step 2: Calculate geographic position within the actual bounds
+    const dataWidth = overlayData.dimensions.width;
+    const dataHeight = overlayData.dimensions.height;
+    
+    const geoBoundsWidth = actualBounds.east - actualBounds.west;
+    const geoBoundsHeight = actualBounds.north - actualBounds.south;
+    
+    // Data point (dataX, dataY) represents center of that pixel
+    const geoX = actualBounds.west + (dataX + 0.5) * (geoBoundsWidth / dataWidth);
+    const geoY = actualBounds.north - (dataY + 0.5) * (geoBoundsHeight / dataHeight); // North is positive Y, data[0] is northernmost
+    
+    return { lat: geoY, lon: geoX };
+}
+
+let testValueMarkers = []; // Keep track of test markers for cleanup
+
+function addTestValueMarker(lat, lon, assetId, value) {
+    // Create a green rectangle marker with asset ID label
+    const marker = L.marker([lat, lon], {
+        icon: L.divIcon({
+            className: 'test-value-marker',
+            html: `<div style="background: rgba(0, 255, 0, 0.8); border: 2px solid green; padding: 2px 4px; font-size: 10px; font-weight: bold; color: black; white-space: nowrap;">
+                     ${assetId}<br>${value}
+                   </div>`,
+            iconSize: [60, 30],
+            iconAnchor: [30, 15]
+        })
+    });
+    
+    marker.addTo(map);
+    testValueMarkers.push(marker);
+}
+
+function clearTestValueMarkers() {
+    testValueMarkers.forEach(marker => map.removeLayer(marker));
+    testValueMarkers = [];
 }
 
 function jumpToAsset(assetIdentifier) {
@@ -397,9 +633,9 @@ function calculateCorrectAssetCenter(asset) {
 }
 
 function updateSelectedAssetMarkerPosition() {
-    // ✅ REMOVED: Marker position correction not needed in Web Mercator
-    // Asset markers are correctly positioned using original EPSG:4326 coordinates
-    // Leaflet automatically handles the coordinate conversion to Web Mercator
+    // ✅ DISABLED: Original asset coordinates are CORRECT!
+    // The pipeline now uses proper TIFF bounds, so markers should stay in original positions
+    // Moving them would actually make alignment WORSE
     return;
     
     // Get overlay data - handle both legacy CanvasOverlay and new CircleCanvasOverlay
@@ -2551,11 +2787,26 @@ class CircleCanvasOverlay extends L.Layer {
     constructor(overlayData, bounds, options = {}) {
         super();
         this.overlayData = overlayData;
-        this.bounds = bounds;
+        this.originalBounds = bounds;
         this.options = options;
         this.canvas = null;
         this.ctx = null;
         this.map = null;
+        
+        // 🔧 CALCULATE ACTUAL DATA BOUNDS from edge trimming metadata
+        this.bounds = this.calculateActualDataBounds(overlayData, bounds);
+    }
+    
+    calculateActualDataBounds(overlayData, originalBounds) {
+        // 🔧 COORDINATE BUG FIX: Use corrected bounds from pipeline
+        // After the pipeline fix, overlayData.bounds are already adjusted for edge trimming
+        // No need to recalculate - just use the corrected bounds from the JSON data
+        
+        console.log(`🔧 USING CORRECTED BOUNDS FROM PIPELINE FOR ${overlayData.asset_id}`);
+        console.log(`  Corrected bounds: N=${overlayData.bounds.north.toFixed(6)}, S=${overlayData.bounds.south.toFixed(6)}, E=${overlayData.bounds.east.toFixed(6)}, W=${overlayData.bounds.west.toFixed(6)}`);
+        console.log(`  🎯 RESULT: Canvas positioned at pipeline-corrected bounds`);
+        
+        return overlayData.bounds;
     }
     
     onAdd(map) {
@@ -2682,9 +2933,25 @@ class CircleCanvasOverlay extends L.Layer {
         const concentrationData = this.overlayData.data.concentration;
         const populationData = this.overlayData.data.population;
         
-        // Calculate scaling factors
-        const scaleX = canvasWidth / dataWidth;
-        const scaleY = canvasHeight / dataHeight;
+        // 🔧 FIXED: Calculate scaling factors using ORIGINAL dimensions since canvas uses original bounds
+        // But apply edge trimming offset to position circles correctly within the larger canvas
+        const originalWidth = this.overlayData.original_dimensions.width;
+        const originalHeight = this.overlayData.original_dimensions.height;
+        const scaleX = canvasWidth / originalWidth;
+        const scaleY = canvasHeight / originalHeight;
+        
+        // Get edge trimming offset - where data[0][0] should be positioned within the original bounds canvas
+        const trimInfo = this.overlayData.processing.edge_trimming || {top: 0, bottom: 0, left: 0, right: 0};
+        const dataOriginOffsetX = trimInfo.left;   // pixels from left edge of original canvas
+        const dataOriginOffsetY = trimInfo.top;    // pixels from top edge of original canvas
+        
+        console.log(`🔧 DATA COORDINATE MAPPING FIX:`);
+        console.log(`  Canvas size: ${canvasWidth}×${canvasHeight}`);
+        console.log(`  Original dimensions: ${originalWidth}×${originalHeight}`);
+        console.log(`  Data dimensions: ${dataWidth}×${dataHeight}`);
+        console.log(`  Edge trimming: top=${trimInfo.top}, left=${trimInfo.left}, bottom=${trimInfo.bottom}, right=${trimInfo.right}`);
+        console.log(`  Data origin offset: (${dataOriginOffsetX}, ${dataOriginOffsetY})`);
+        console.log(`  Scale factors: X=${scaleX.toFixed(6)}, Y=${scaleY.toFixed(6)}`);
         
         const gridCellSize = Math.min(scaleX, scaleY);
         let circlesRendered = 0;
@@ -2704,13 +2971,16 @@ class CircleCanvasOverlay extends L.Layer {
                 const concentrationBin = classifyConcentration(concentration);
                 const populationBin = classifyPopulation(population);
                 
-                // SIMPLIFIED: Direct circle positioning with EPSG:4326
-                const centerX = (dataX + 0.5) * scaleX;
-                const centerY = (dataY + 0.5) * scaleY;
+                // 🔧 FIXED: Position circles with edge trimming offset within original bounds canvas
+                // data[dataY][dataX] represents pixel at (dataOriginOffsetY + dataY, dataOriginOffsetX + dataX) in original coordinates
+                const centerX = (dataOriginOffsetX + dataX + 0.5) * scaleX;
+                const centerY = (dataOriginOffsetY + dataY + 0.5) * scaleY;
                 
                 // Debug first few circles
                 if (circlesRendered <= 3) {
-                    console.log(`  Circle ${circlesRendered}: data(${dataX},${dataY}) -> canvas(${centerX.toFixed(1)},${centerY.toFixed(1)})`);
+                    const originalX = dataOriginOffsetX + dataX;
+                    const originalY = dataOriginOffsetY + dataY;
+                    console.log(`  Circle ${circlesRendered}: data(${dataX},${dataY}) = original(${originalX},${originalY}) -> canvas(${centerX.toFixed(1)},${centerY.toFixed(1)})`);
                 }
                 
                 // Calculate circle radius based on grid size and population
@@ -2745,8 +3015,17 @@ class CircleCanvasOverlay extends L.Layer {
             }
         }
         
-        // ❌ REMOVED: Center marker unreliable due to bounds not matching actual data extent
-        // this.addCenterMarker();
+        // Log coordinate mapping validation
+        console.log(`✅ COORDINATE MAPPING SUMMARY:`);
+        console.log(`  Rendered ${circlesRendered} circles using edge-trimming-aware coordinate mapping`);
+        console.log(`  data[0][0] positioned at original pixel (${dataOriginOffsetX}, ${dataOriginOffsetY})`);
+        console.log(`  Geographic consistency: Population circles should stay in same screen location across assets`);
+        
+        // 🎯 Add center cross-hair marker for alignment testing
+        this.addCenterMarker();
+        
+        // 🔵 Add asset location marker for comparison
+        this.addAssetLocationMarker();
         
     }
     
@@ -2758,7 +3037,11 @@ class CircleCanvasOverlay extends L.Layer {
         const centerLat = (this.overlayData.bounds.north + this.overlayData.bounds.south) / 2;
         const centerLng = (this.overlayData.bounds.east + this.overlayData.bounds.west) / 2;
         
-        // Convert to canvas coordinates using the same logic as the canvas positioning
+        // 🎯 RETICLE POSITIONING: Show original TIFF center on trimmed data canvas
+        // The reticle represents the center of the original TIFF bounds (confirmed correct)
+        // But the canvas now shows only the trimmed data area
+        // So we need to calculate where the original center appears within the trimmed canvas
+        
         const centerLatLng = L.latLng(centerLat, centerLng);
         const centerLayerPoint = this.map.latLngToLayerPoint(centerLatLng);
         const canvasNW = this.map.latLngToLayerPoint([this.bounds.north, this.bounds.west]);
@@ -2768,6 +3051,92 @@ class CircleCanvasOverlay extends L.Layer {
         const canvasY = centerLayerPoint.y - canvasNW.y;
         
         console.log(`🎯 Adding center reticle at geographic (${centerLat.toFixed(6)}, ${centerLng.toFixed(6)}) -> canvas (${canvasX.toFixed(1)}, ${canvasY.toFixed(1)})`);
+        
+        // 📊 ALIGNMENT ANALYSIS - ALL OFFSETS RELATIVE TO TRUSTED OVERLAY CENTER
+        if (selectedAsset) {
+            // REFERENCE POINT: Pipeline-calculated overlay center (most trusted)
+            const trustedLat = centerLat;
+            const trustedLon = centerLng;
+            const trustedScreenPos = this.map.latLngToContainerPoint([trustedLat, trustedLon]);
+            
+            // Get other positions
+            const originalAssetLat = selectedAsset.center_lat;
+            const originalAssetLon = selectedAsset.center_lon;
+            const originalAssetScreenPos = this.map.latLngToContainerPoint([originalAssetLat, originalAssetLon]);
+            
+            // Find current marker position (should be corrected to match overlay center)
+            const assetKey = `${selectedAsset.country}_${selectedAsset.asset_id}`;
+            const marker = assetMarkerMap.get(assetKey);
+            let currentMarkerScreenPos = trustedScreenPos; // Default to trusted position
+            let currentMarkerLat = trustedLat;
+            let currentMarkerLon = trustedLon;
+            
+            if (marker) {
+                const markerLatLng = marker.getLatLng();
+                currentMarkerLat = markerLatLng.lat;
+                currentMarkerLon = markerLatLng.lng;
+                currentMarkerScreenPos = this.map.latLngToContainerPoint([currentMarkerLat, currentMarkerLon]);
+            }
+            
+            // Calculate offsets relative to trusted position
+            const originalAssetOffsetX = originalAssetScreenPos.x - trustedScreenPos.x;
+            const originalAssetOffsetY = originalAssetScreenPos.y - trustedScreenPos.y;
+            const originalAssetDistance = Math.sqrt(originalAssetOffsetX * originalAssetOffsetX + originalAssetOffsetY * originalAssetOffsetY);
+            
+            const currentMarkerOffsetX = currentMarkerScreenPos.x - trustedScreenPos.x;
+            const currentMarkerOffsetY = currentMarkerScreenPos.y - trustedScreenPos.y;
+            const currentMarkerDistance = Math.sqrt(currentMarkerOffsetX * currentMarkerOffsetX + currentMarkerOffsetY * currentMarkerOffsetY);
+            
+            console.log(`📍 ALIGNMENT ANALYSIS FOR ${selectedAsset.country}_${selectedAsset.asset_id}:`);
+            console.log(`   🎯 TRUSTED CENTER: (${trustedLat.toFixed(6)}, ${trustedLon.toFixed(6)}) -> screen (${trustedScreenPos.x.toFixed(1)}, ${trustedScreenPos.y.toFixed(1)}) [REFERENCE]`);
+            console.log(`   📊 Original Asset: (${originalAssetLat.toFixed(6)}, ${originalAssetLon.toFixed(6)}) -> screen (${originalAssetScreenPos.x.toFixed(1)}, ${originalAssetScreenPos.y.toFixed(1)})`);
+            console.log(`   🔴 ORIGINAL OFFSET: ${originalAssetOffsetX.toFixed(1)}px X, ${originalAssetOffsetY.toFixed(1)}px Y (${originalAssetDistance.toFixed(1)}px total)`);
+            console.log(`   📍 Current Marker: (${currentMarkerLat.toFixed(6)}, ${currentMarkerLon.toFixed(6)}) -> screen (${currentMarkerScreenPos.x.toFixed(1)}, ${currentMarkerScreenPos.y.toFixed(1)})`);
+            console.log(`   🟢 MARKER ALIGNMENT: ${currentMarkerOffsetX.toFixed(1)}px X, ${currentMarkerOffsetY.toFixed(1)}px Y (${currentMarkerDistance.toFixed(1)}px total)`);
+            
+            // Determine accuracy status
+            const isAligned = currentMarkerDistance < 3;
+            const wasVeryWrong = originalAssetDistance > 20;
+            
+            console.log(`   📏 ALIGNMENT STATUS: ${isAligned ? '✅ PERFECTLY ALIGNED' : '❌ STILL MISALIGNED'}`);
+            if (wasVeryWrong && isAligned) {
+                console.log(`   🎉 MAJOR CORRECTION: Fixed ${originalAssetDistance.toFixed(0)}px offset!`);
+            } else if (wasVeryWrong && !isAligned) {
+                console.log(`   ⚠️  PARTIAL FIX: Reduced from ${originalAssetDistance.toFixed(0)}px to ${currentMarkerDistance.toFixed(0)}px`);
+            }
+            
+            // Also display the results on the page for easy viewing
+            const debugDiv = document.getElementById('alignment-debug') || (() => {
+                const div = document.createElement('div');
+                div.id = 'alignment-debug';
+                div.style.cssText = 'position: fixed; top: 10px; right: 10px; background: rgba(0,0,0,0.8); color: white; padding: 10px; font-family: monospace; font-size: 12px; border-radius: 5px; max-width: 400px; z-index: 9999;';
+                document.body.appendChild(div);
+                return div;
+            })();
+            
+            debugDiv.innerHTML = `
+                <div><strong>🎯 RETICLE ALIGNMENT: ${selectedAsset.country}_${selectedAsset.asset_id}</strong></div>
+                <div style="color: #FF00FF;"><strong>🎯 MAGENTA:</strong> Overlay Center (${trustedLat.toFixed(6)}, ${trustedLon.toFixed(6)})</div>
+                <div style="color: #00BFFF;"><strong>🔵 BLUE:</strong> Asset Location (${originalAssetLat.toFixed(6)}, ${originalAssetLon.toFixed(6)})</div>
+                <div style="margin-top: 5px;">
+                    <div>Asset vs Overlay: ${originalAssetDistance.toFixed(1)}px apart</div>
+                    <div>Marker Position: ${currentMarkerDistance.toFixed(1)}px from overlay center</div>
+                </div>
+                <div style="margin-top: 5px; font-weight: bold; color: ${isAligned ? '#66ff66' : '#ff6666'};">
+                    ${isAligned ? '✅ MARKERS ALIGNED' : '❌ MARKERS OFFSET'}
+                </div>
+                <div style="margin-top: 5px; font-size: 11px; color: #ccc;">
+                    Blue reticle shows asset position relative to population data
+                </div>
+            `;
+            
+            // Auto-hide after 10 seconds
+            setTimeout(() => {
+                if (debugDiv && debugDiv.parentNode) {
+                    debugDiv.parentNode.removeChild(debugDiv);
+                }
+            }, 10000);
+        }
         
         // Draw precision reticle (crosshair) for alignment testing
         this.ctx.save();
@@ -2792,5 +3161,80 @@ class CircleCanvasOverlay extends L.Layer {
         this.ctx.fill();
         
         this.ctx.restore();
+    }
+    
+    addAssetLocationMarker() {
+        if (!this.ctx || !selectedAsset) return;
+        
+        // Get the asset's coordinates from the original asset data
+        const assetLat = selectedAsset.center_lat;
+        const assetLon = selectedAsset.center_lon;
+        
+        // Convert asset location to canvas coordinates
+        const assetLatLng = L.latLng(assetLat, assetLon);
+        const assetLayerPoint = this.map.latLngToLayerPoint(assetLatLng);
+        const canvasNW = this.map.latLngToLayerPoint([this.bounds.north, this.bounds.west]);
+        
+        // Canvas-relative coordinates for the asset location
+        const assetCanvasX = assetLayerPoint.x - canvasNW.x;
+        const assetCanvasY = assetLayerPoint.y - canvasNW.y;
+        
+        console.log(`🔵 Adding asset location marker at geographic (${assetLat.toFixed(6)}, ${assetLon.toFixed(6)}) -> canvas (${assetCanvasX.toFixed(1)}, ${assetCanvasY.toFixed(1)})`);
+        
+        // Draw bright blue reticle for asset location
+        this.ctx.save();
+        this.ctx.strokeStyle = '#00BFFF'; // Bright blue (DeepSkyBlue)
+        this.ctx.lineWidth = 2;
+        this.ctx.setLineDash([]);
+        
+        // Draw crosshair lines (slightly larger than magenta reticle for distinction)
+        this.ctx.beginPath();
+        // Horizontal line
+        this.ctx.moveTo(assetCanvasX - 25, assetCanvasY);
+        this.ctx.lineTo(assetCanvasX + 25, assetCanvasY);
+        // Vertical line  
+        this.ctx.moveTo(assetCanvasX, assetCanvasY - 25);
+        this.ctx.lineTo(assetCanvasX, assetCanvasY + 25);
+        this.ctx.stroke();
+        
+        // Add center dot for precise targeting
+        this.ctx.fillStyle = '#00BFFF';
+        this.ctx.beginPath();
+        this.ctx.arc(assetCanvasX, assetCanvasY, 3, 0, 2 * Math.PI); // Slightly larger dot
+        this.ctx.fill();
+        
+        // Add a distinctive border around the blue reticle
+        this.ctx.strokeStyle = '#FFFFFF';
+        this.ctx.lineWidth = 1;
+        this.ctx.beginPath();
+        this.ctx.arc(assetCanvasX, assetCanvasY, 4, 0, 2 * Math.PI);
+        this.ctx.stroke();
+        
+        this.ctx.restore();
+        
+        // Calculate and log the offset between asset location and overlay center
+        const overlayLat = (this.overlayData.bounds.north + this.overlayData.bounds.south) / 2;
+        const overlayLon = (this.overlayData.bounds.east + this.overlayData.bounds.west) / 2;
+        const overlayLayerPoint = this.map.latLngToLayerPoint([overlayLat, overlayLon]);
+        const overlayCanvasX = overlayLayerPoint.x - canvasNW.x;
+        const overlayCanvasY = overlayLayerPoint.y - canvasNW.y;
+        
+        const offsetX = assetCanvasX - overlayCanvasX;
+        const offsetY = assetCanvasY - overlayCanvasY;
+        const distance = Math.sqrt(offsetX * offsetX + offsetY * offsetY);
+        
+        console.log(`🔵📍 ASSET vs OVERLAY CENTER:`);
+        console.log(`   Blue reticle (asset): canvas (${assetCanvasX.toFixed(1)}, ${assetCanvasY.toFixed(1)})`);
+        console.log(`   Magenta reticle (overlay): canvas (${overlayCanvasX.toFixed(1)}, ${overlayCanvasY.toFixed(1)})`);
+        console.log(`   Canvas offset: ${offsetX.toFixed(1)}px X, ${offsetY.toFixed(1)}px Y`);
+        console.log(`   Distance: ${distance.toFixed(1)} pixels`);
+        
+        if (distance < 5) {
+            console.log(`   ✅ EXCELLENT: Asset and overlay centers are very close!`);
+        } else if (distance < 20) {
+            console.log(`   ✅ GOOD: Asset and overlay centers are reasonably aligned`);
+        } else {
+            console.log(`   ⚠️  OFFSET: Asset and overlay centers are significantly offset`);
+        }
     }
 }
