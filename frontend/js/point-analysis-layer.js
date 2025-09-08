@@ -111,8 +111,8 @@ class PointAnalysisLayer extends L.Layer {
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // Use container points for consistent positioning with canvas at (0,0)
-        const pointScreen = this.map.latLngToContainerPoint(this.analysisPoint.latlng);
+        // Use layer points for consistent positioning with other overlays
+        const pointScreen = this.map.latLngToLayerPoint(this.analysisPoint.latlng);
         
         // Draw animated lines from contributing assets
         this.contributingAssets.forEach((contributingAsset, index) => {

@@ -49,9 +49,8 @@ def find_sequence_in_overlay_json(json_path, target_sequence):
     population_data = data['data']['population']
     bounds = data['bounds']
     dimensions = data['dimensions']
-    processing = data.get('processing', {})
-    edge_trimming = processing.get('edge_trimming', {'top': 0, 'bottom': 0, 'left': 0, 'right': 0})
-    original_dims = data['original_dimensions']
+    # Simplified pipeline uses direct 1:1 mapping, no edge trimming
+    dimensions = data['dimensions']
     
     height = dimensions['height']
     width = dimensions['width']
@@ -87,7 +86,7 @@ def find_sequence_in_overlay_json(json_path, target_sequence):
                     'geo_coords': geo_coords,
                     'values': [population_data[row][col + i] for i in range(len(target_sequence))],
                     'bounds': bounds,
-                    'edge_trimming': edge_trimming
+                    'pipeline_info': data.get('processing', {})
                 }
     return None
 
@@ -101,18 +100,18 @@ def test_coordinate_accuracy():
     test_assets = [
         {
             'asset_id': '1566584', 
-            'tiff_path': 'population_offset/1566584-pop-v3.tiff',
-            'json_path': 'prototype_overlays/CHN_1566584_data.json'
+            'tiff_path': 'input_geotiffs/CHN/1566584-pop-v3.tiff',
+            'json_path': 'overlays/CHN_1566584_data.json'
         },
         {
             'asset_id': '1566601',
-            'tiff_path': 'population_offset/1566601-pop-v3.tiff', 
-            'json_path': 'prototype_overlays/CHN_1566601_data.json'
+            'tiff_path': 'input_geotiffs/CHN/1566601-pop-v3.tiff', 
+            'json_path': 'overlays/CHN_1566601_data.json'
         },
         {
             'asset_id': '38089178',
-            'tiff_path': 'population_offset/38089178-pop-v3.tiff',
-            'json_path': 'prototype_overlays/CHN_38089178_data.json'
+            'tiff_path': 'input_geotiffs/CHN/38089178-pop-v3.tiff',
+            'json_path': 'overlays/CHN_38089178_data.json'
         }
     ]
     

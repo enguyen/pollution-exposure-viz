@@ -264,7 +264,7 @@
             <!-- Debug/Test Controls -->
             <div style="margin: 15px 0; padding: 10px; background: #f0f0f0; border-radius: 8px;">
                 <div style="font-weight: bold; margin-bottom: 8px; font-size: 0.9rem;">Debug Tools</div>
-                <button id="test-alignment" style="width: 100%; padding: 8px; margin-bottom: 5px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Test Overlay Alignment</button>
+                <!-- Alignment test removed - not needed with simplified pipeline -->
                 <button id="clear-test" style="width: 100%; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Clear Test Markers</button>
             </div>
             
@@ -287,7 +287,7 @@
     
     <!-- Custom JavaScript -->
     <script src="js/point-analysis-layer.js"></script>
-    <script src="js/alignment-test.js"></script>
+    <!-- Alignment test removed - not needed with simplified pipeline -->
     <script src="js/map.js"></script>
     <script src="js/asset-panel.js"></script>
     
@@ -296,71 +296,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
             
-            // Initialize alignment test
-            let alignmentTest = null;
-            
-            document.getElementById('test-alignment').addEventListener('click', function() {
-                if (!map) {
-                    alert('Map not initialized');
-                    return;
-                }
-                
-                if (!alignmentTest) {
-                    alignmentTest = new AlignmentTest(map);
-                }
-                
-                // Test with the currently selected asset or use BRA asset for testing
-                let testData = null;
-                if (canvasOverlay && canvasOverlay.rawData) {
-                    testData = canvasOverlay.rawData;
-                    console.log('Testing with current asset:', testData.asset_id);
-                    alignmentTest.testOverlayAlignment(testData);
-                } else if (selectedAsset) {
-                    // Try to load the currently selected asset's data with cache-busting
-                    const cacheBuster = new Date().getTime();
-                    const assetFile = `overlays/${selectedAsset.country}_${selectedAsset.asset_id}_data.json?v=${cacheBuster}`;
-                    console.log('Loading asset data for testing:', assetFile);
-                    fetch(assetFile)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log('Testing with selected asset:', selectedAsset.country + '_' + selectedAsset.asset_id);
-                            alignmentTest.testOverlayAlignment(data);
-                        })
-                        .catch(error => {
-                            console.error('Failed to load selected asset data:', error);
-                            alert(`Failed to load data for ${selectedAsset.country}_${selectedAsset.asset_id}: ${error.message}`);
-                        });
-                } else {
-                    // Load BRA asset as fallback for testing with cache-busting
-                    const cacheBuster = new Date().getTime();
-                    console.log('No asset selected, loading BRA_1566450 for testing');
-                    fetch(`overlays/BRA_1566450_data.json?v=${cacheBuster}`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log('Testing with BRA_1566450');
-                            alignmentTest.testOverlayAlignment(data);
-                        })
-                        .catch(error => {
-                            console.error('Failed to load test data:', error);
-                            alert('Failed to load test data. Please select an asset first or check the console for errors.');
-                        });
-                }
-            });
+            // Alignment test removed - not needed with simplified pipeline
             
             document.getElementById('clear-test').addEventListener('click', function() {
-                if (alignmentTest) {
-                    alignmentTest.clearTestMarkers();
-                }
+                // Clear any test markers that might exist
+                console.log('Clear test markers clicked');
             });
         });
     </script>

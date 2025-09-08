@@ -2977,8 +2977,7 @@ class CircleCanvasOverlay extends L.Layer {
         
         // Log coordinate mapping validation
         console.log(`✅ COORDINATE MAPPING SUMMARY:`);
-        console.log(`  Rendered ${circlesRendered} circles using edge-trimming-aware coordinate mapping`);
-        console.log(`  data[0][0] positioned at original pixel (${dataOriginOffsetX}, ${dataOriginOffsetY})`);
+        console.log(`  Rendered ${circlesRendered} circles using simplified 1:1 coordinate mapping`);
         console.log(`  Geographic consistency: Population circles should stay in same screen location across assets`);
         
         // 🎯 Add center cross-hair marker for alignment testing

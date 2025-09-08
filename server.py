@@ -48,6 +48,16 @@ class PM25Handler(http.server.SimpleHTTPRequestHandler):
             # Serve frontend files
             self.serve_file(path)
         
+        elif path.startswith('js/'):
+            # Serve JavaScript files from frontend directory
+            frontend_path = f'frontend/{path}'
+            self.serve_file(frontend_path, 'application/javascript')
+        
+        elif path.startswith('css/'):
+            # Serve CSS files from frontend directory  
+            frontend_path = f'frontend/{path}'
+            self.serve_file(frontend_path, 'text/css')
+        
         elif path.startswith('processed/'):
             # Serve processed exposure rasters
             self.serve_file(path, 'image/tiff')
