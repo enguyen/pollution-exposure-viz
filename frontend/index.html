@@ -261,12 +261,6 @@
             <!-- Loading error messages -->
             <div id="loading-error" style="display: none;"></div>
             
-            <!-- Debug/Test Controls -->
-            <div style="margin: 15px 0; padding: 10px; background: #f0f0f0; border-radius: 8px;">
-                <div style="font-weight: bold; margin-bottom: 8px; font-size: 0.9rem;">Debug Tools</div>
-                <!-- Alignment test removed - not needed with simplified pipeline -->
-                <button id="clear-test" style="width: 100%; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Clear Test Markers</button>
-            </div>
             
             <div id="asset-details">
                 <div class="no-selection">
@@ -296,12 +290,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
             
-            // Alignment test removed - not needed with simplified pipeline
-            
-            document.getElementById('clear-test').addEventListener('click', function() {
-                // Clear any test markers that might exist
-                console.log('Clear test markers clicked');
-            });
         });
     </script>
 </body>

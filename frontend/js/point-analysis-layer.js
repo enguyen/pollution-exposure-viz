@@ -26,7 +26,6 @@ class PointAnalysisLayer extends L.Layer {
         map.on('move', this._onMove);
         map.on('zoom', this._onZoom);
         
-        console.log('PointAnalysisLayer added to map, canvas size:', this.canvas.width, 'x', this.canvas.height);
         
         return this;
     }
@@ -70,9 +69,10 @@ class PointAnalysisLayer extends L.Layer {
         
         this.ctx = this.canvas.getContext('2d');
         
-        // Add canvas to Leaflet's overlay pane for proper coordinate system
-        const overlayPane = this.map.getPane('overlayPane');
-        overlayPane.appendChild(this.canvas);
+        // Add canvas to map container to match latLngToContainerPoint coordinates
+        const mapContainer = this.map.getContainer();
+        mapContainer.appendChild(this.canvas);
+        
     }
     
     updateCanvasPosition() {
@@ -111,8 +111,9 @@ class PointAnalysisLayer extends L.Layer {
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // Use layer points for consistent positioning with other overlays
-        const pointScreen = this.map.latLngToLayerPoint(this.analysisPoint.latlng);
+        // Convert analysis point to container coordinates (simpler approach)
+        const pointScreen = this.map.latLngToContainerPoint(this.analysisPoint.latlng);
+        
         
         // Draw animated lines from contributing assets
         this.contributingAssets.forEach((contributingAsset, index) => {
@@ -120,6 +121,7 @@ class PointAnalysisLayer extends L.Layer {
                 lat: contributingAsset.asset.center_lat,
                 lng: contributingAsset.asset.center_lon
             };
+            // Convert to container point (consistent with analysis point)
             const assetScreen = this.map.latLngToContainerPoint(assetCenter);
             const concentration = contributingAsset.contribution.concentration;
             

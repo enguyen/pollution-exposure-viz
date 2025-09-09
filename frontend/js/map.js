@@ -453,7 +453,6 @@ function initializeMap() {
     
     // Add basic graticule/grid for geographic reference
     map.on('zoomend moveend', function() {
-        console.log(`Map center: ${map.getCenter().lat.toFixed(4)}, ${map.getCenter().lng.toFixed(4)} at zoom ${map.getZoom()}`);
     });
     
     // Create a custom pane for asset markers to ensure they appear above overlays
@@ -2090,7 +2089,6 @@ class CanvasOverlay extends L.Layer {
         const canvasLeft = containerNW.x;
         const canvasTop = containerNW.y;
         
-        console.log(`  Canvas positioned at: (${canvasLeft}, ${canvasTop})`);
         
         this.canvas.style.left = canvasLeft + 'px';
         this.canvas.style.top = canvasTop + 'px';
@@ -2840,8 +2838,6 @@ class CircleCanvasOverlay extends L.Layer {
         const layerSE = this.map.latLngToLayerPoint([this.bounds.south, this.bounds.east]);
         
         // Debug canvas positioning for CircleCanvasOverlay
-        console.log(`CircleCanvasOverlay: Web Mercator positioning at zoom ${zoom}`);
-        console.log(`  Layer points: NW(${layerNW.x}, ${layerNW.y}) SE(${layerSE.x}, ${layerSE.y})`);
         
         let width = Math.abs(layerSE.x - layerNW.x);
         let height = Math.abs(layerSE.y - layerNW.y);
@@ -2859,7 +2855,6 @@ class CircleCanvasOverlay extends L.Layer {
         const canvasLeft = layerNW.x;
         const canvasTop = layerNW.y;
         
-        console.log(`  Canvas positioned at: (${canvasLeft}, ${canvasTop})`);
         
         this.canvas.style.left = canvasLeft + 'px';
         this.canvas.style.top = canvasTop + 'px';
@@ -2911,10 +2906,6 @@ class CircleCanvasOverlay extends L.Layer {
         const scaleX = canvasWidth / dataWidth;
         const scaleY = canvasHeight / dataHeight;
         
-        console.log(`✨ SIMPLE COORDINATE MAPPING:`);
-        console.log(`  Canvas: ${canvasWidth}×${canvasHeight}`);
-        console.log(`  Data: ${dataWidth}×${dataHeight}`);
-        console.log(`  Scale: X=${scaleX.toFixed(6)}, Y=${scaleY.toFixed(6)}`);
         
         const gridCellSize = Math.min(scaleX, scaleY);
         let circlesRendered = 0;
@@ -2939,9 +2930,6 @@ class CircleCanvasOverlay extends L.Layer {
                 const centerY = (dataY + 0.5) * scaleY;
                 
                 // Debug first few circles
-                if (circlesRendered <= 3) {
-                    console.log(`  Circle ${circlesRendered}: data(${dataX},${dataY}) -> canvas(${centerX.toFixed(1)},${centerY.toFixed(1)})`);
-                }
                 
                 // Calculate circle radius based on grid size and population
                 // Grid cell size in pixels
@@ -2975,10 +2963,6 @@ class CircleCanvasOverlay extends L.Layer {
             }
         }
         
-        // Log coordinate mapping validation
-        console.log(`✅ COORDINATE MAPPING SUMMARY:`);
-        console.log(`  Rendered ${circlesRendered} circles using simplified 1:1 coordinate mapping`);
-        console.log(`  Geographic consistency: Population circles should stay in same screen location across assets`);
         
         // 🎯 Add center cross-hair marker for alignment testing
         this.addCenterMarker();
@@ -2992,7 +2976,6 @@ class CircleCanvasOverlay extends L.Layer {
         if (!this.ctx) return;
         
         // Calculate exact center of overlay bounds
-        console.log("???", this.overlayData.bounds.north, this.overlayData.bounds.south);
         const centerLat = (this.overlayData.bounds.north + this.overlayData.bounds.south) / 2;
         const centerLng = (this.overlayData.bounds.east + this.overlayData.bounds.west) / 2;
         
@@ -3009,7 +2992,6 @@ class CircleCanvasOverlay extends L.Layer {
         const canvasX = centerLayerPoint.x - canvasNW.x;
         const canvasY = centerLayerPoint.y - canvasNW.y;
         
-        console.log(`🎯 Adding center reticle at geographic (${centerLat.toFixed(6)}, ${centerLng.toFixed(6)}) -> canvas (${canvasX.toFixed(1)}, ${canvasY.toFixed(1)})`);
         
         // 📊 ALIGNMENT ANALYSIS - ALL OFFSETS RELATIVE TO TRUSTED OVERLAY CENTER
         if (selectedAsset) {
@@ -3046,55 +3028,10 @@ class CircleCanvasOverlay extends L.Layer {
             const currentMarkerOffsetY = currentMarkerScreenPos.y - trustedScreenPos.y;
             const currentMarkerDistance = Math.sqrt(currentMarkerOffsetX * currentMarkerOffsetX + currentMarkerOffsetY * currentMarkerOffsetY);
             
-            console.log(`📍 ALIGNMENT ANALYSIS FOR ${selectedAsset.country}_${selectedAsset.asset_id}:`);
-            console.log(`   🎯 TRUSTED CENTER: (${trustedLat.toFixed(6)}, ${trustedLon.toFixed(6)}) -> screen (${trustedScreenPos.x.toFixed(1)}, ${trustedScreenPos.y.toFixed(1)}) [REFERENCE]`);
-            console.log(`   📊 Original Asset: (${originalAssetLat.toFixed(6)}, ${originalAssetLon.toFixed(6)}) -> screen (${originalAssetScreenPos.x.toFixed(1)}, ${originalAssetScreenPos.y.toFixed(1)})`);
-            console.log(`   🔴 ORIGINAL OFFSET: ${originalAssetOffsetX.toFixed(1)}px X, ${originalAssetOffsetY.toFixed(1)}px Y (${originalAssetDistance.toFixed(1)}px total)`);
-            console.log(`   📍 Current Marker: (${currentMarkerLat.toFixed(6)}, ${currentMarkerLon.toFixed(6)}) -> screen (${currentMarkerScreenPos.x.toFixed(1)}, ${currentMarkerScreenPos.y.toFixed(1)})`);
-            console.log(`   🟢 MARKER ALIGNMENT: ${currentMarkerOffsetX.toFixed(1)}px X, ${currentMarkerOffsetY.toFixed(1)}px Y (${currentMarkerDistance.toFixed(1)}px total)`);
-            
             // Determine accuracy status
             const isAligned = currentMarkerDistance < 3;
             const wasVeryWrong = originalAssetDistance > 20;
             
-            console.log(`   📏 ALIGNMENT STATUS: ${isAligned ? '✅ PERFECTLY ALIGNED' : '❌ STILL MISALIGNED'}`);
-            if (wasVeryWrong && isAligned) {
-                console.log(`   🎉 MAJOR CORRECTION: Fixed ${originalAssetDistance.toFixed(0)}px offset!`);
-            } else if (wasVeryWrong && !isAligned) {
-                console.log(`   ⚠️  PARTIAL FIX: Reduced from ${originalAssetDistance.toFixed(0)}px to ${currentMarkerDistance.toFixed(0)}px`);
-            }
-            
-            // Also display the results on the page for easy viewing
-            const debugDiv = document.getElementById('alignment-debug') || (() => {
-                const div = document.createElement('div');
-                div.id = 'alignment-debug';
-                div.style.cssText = 'position: fixed; top: 10px; right: 10px; background: rgba(0,0,0,0.8); color: white; padding: 10px; font-family: monospace; font-size: 12px; border-radius: 5px; max-width: 400px; z-index: 9999;';
-                document.body.appendChild(div);
-                return div;
-            })();
-            
-            debugDiv.innerHTML = `
-                <div><strong>🎯 RETICLE ALIGNMENT: ${selectedAsset.country}_${selectedAsset.asset_id}</strong></div>
-                <div style="color: #FF00FF;"><strong>🎯 MAGENTA:</strong> Overlay Center (${trustedLat.toFixed(6)}, ${trustedLon.toFixed(6)})</div>
-                <div style="color: #00BFFF;"><strong>🔵 BLUE:</strong> Asset Location (${originalAssetLat.toFixed(6)}, ${originalAssetLon.toFixed(6)})</div>
-                <div style="margin-top: 5px;">
-                    <div>Asset vs Overlay: ${originalAssetDistance.toFixed(1)}px apart</div>
-                    <div>Marker Position: ${currentMarkerDistance.toFixed(1)}px from overlay center</div>
-                </div>
-                <div style="margin-top: 5px; font-weight: bold; color: ${isAligned ? '#66ff66' : '#ff6666'};">
-                    ${isAligned ? '✅ MARKERS ALIGNED' : '❌ MARKERS OFFSET'}
-                </div>
-                <div style="margin-top: 5px; font-size: 11px; color: #ccc;">
-                    Blue reticle shows asset position relative to population data
-                </div>
-            `;
-            
-            // Auto-hide after 10 seconds
-            setTimeout(() => {
-                if (debugDiv && debugDiv.parentNode) {
-                    debugDiv.parentNode.removeChild(debugDiv);
-                }
-            }, 10000);
         }
         
         // Draw precision reticle (crosshair) for alignment testing
@@ -3138,7 +3075,6 @@ class CircleCanvasOverlay extends L.Layer {
         const assetCanvasX = assetLayerPoint.x - canvasNW.x;
         const assetCanvasY = assetLayerPoint.y - canvasNW.y;
         
-        console.log(`🔵 Adding asset location marker at geographic (${assetLat.toFixed(6)}, ${assetLon.toFixed(6)}) -> canvas (${assetCanvasX.toFixed(1)}, ${assetCanvasY.toFixed(1)})`);
         
         // Draw bright blue reticle for asset location
         this.ctx.save();
@@ -3182,18 +3118,5 @@ class CircleCanvasOverlay extends L.Layer {
         const offsetY = assetCanvasY - overlayCanvasY;
         const distance = Math.sqrt(offsetX * offsetX + offsetY * offsetY);
         
-        console.log(`🔵📍 ASSET vs OVERLAY CENTER:`);
-        console.log(`   Blue reticle (asset): canvas (${assetCanvasX.toFixed(1)}, ${assetCanvasY.toFixed(1)})`);
-        console.log(`   Magenta reticle (overlay): canvas (${overlayCanvasX.toFixed(1)}, ${overlayCanvasY.toFixed(1)})`);
-        console.log(`   Canvas offset: ${offsetX.toFixed(1)}px X, ${offsetY.toFixed(1)}px Y`);
-        console.log(`   Distance: ${distance.toFixed(1)} pixels`);
-        
-        if (distance < 5) {
-            console.log(`   ✅ EXCELLENT: Asset and overlay centers are very close!`);
-        } else if (distance < 20) {
-            console.log(`   ✅ GOOD: Asset and overlay centers are reasonably aligned`);
-        } else {
-            console.log(`   ⚠️  OFFSET: Asset and overlay centers are significantly offset`);
-        }
     }
 }
