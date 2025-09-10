@@ -438,7 +438,8 @@ function initializeMap() {
     //
     map = L.map('map', {
         // 🔄 REVERT: Back to Web Mercator for proper base map tile support
-        crs: L.CRS.EPSG3857
+        crs: L.CRS.EPSG3857,
+        maxZoom: 13
     }).setView([20, 0], 2);
     
     // 🗺️ Add proper Web Mercator base map tiles (monochrome style)
@@ -949,7 +950,11 @@ function handleZoomChange() {
     // Show/hide overlay based on zoom level
     if (selectedAsset) {
         if (zoom >= 9) {
-            showCanvasOverlay(selectedAsset);
+            // Only recreate overlay if we don't already have one for the current asset
+            const currentAssetId = `${selectedAsset.country}_${selectedAsset.asset_id}`;
+            if (!canvasOverlay || canvasOverlay.assetId !== currentAssetId) {
+                showCanvasOverlay(selectedAsset);
+            }
         } else {
             // Remove any existing overlays
             if (currentOverlay) {
@@ -2026,7 +2031,7 @@ class CanvasOverlay extends L.Layer {
         this.canvas.style.position = 'absolute';
         this.canvas.style.pointerEvents = 'none';
         this.canvas.style.zIndex = '1000';
-        this.canvas.style.border = '2px dotted black';
+        this.canvas.style.border = '2px solid #808080';
         
         this.ctx = this.canvas.getContext('2d');
         
@@ -2107,12 +2112,15 @@ class CanvasOverlay extends L.Layer {
         const currentWidth = this.canvas.width;
         const currentHeight = this.canvas.height;
         
-        if (Math.abs(width - currentWidth) > 5 || Math.abs(height - currentHeight) > 5) {
+        const dimensionsChanged = Math.abs(width - currentWidth) > 5 || Math.abs(height - currentHeight) > 5;
+        
+        if (dimensionsChanged) {
             this.canvas.width = width;
             this.canvas.height = height;
-            // Re-render only when dimensions actually change
-            this.renderCanvas();
         }
+        
+        // Always render canvas on position updates to handle zoom level changes
+        this.renderCanvas();
     }
     
     updatePositionOnly() {
@@ -2140,9 +2148,16 @@ class CanvasOverlay extends L.Layer {
         // Skip rendering if canvas is too small or invalid
         if (canvasWidth <= 0 || canvasHeight <= 0) return;
         
+        // Clear canvas first
+        this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        
+        // Only render data at zoom level 10 and above
+        const zoom = this.map.getZoom();
+        if (zoom < 10) {
+            return; // Canvas is cleared but no data is drawn
+        }
+        
         try {
-            // Clear canvas
-            this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
             
             // Create image data with error handling
             const imageData = this.ctx.createImageData(canvasWidth, canvasHeight);
@@ -2366,7 +2381,16 @@ function showCanvasOverlay(asset) {
                         west: asset.bounds.left
                     };
                     
-                    console.log(`Adding legacy canvas overlay for: ${requestId}`);
+                    // Remove any existing overlays before creating new one
+                    if (canvasOverlay) {
+                        map.removeLayer(canvasOverlay);
+                        canvasOverlay = null;
+                    }
+                    if (currentOverlay) {
+                        map.removeLayer(currentOverlay);
+                        currentOverlay = null;
+                    }
+                    
                     canvasOverlay = new CanvasOverlay(rawData, bounds, {
                         scaleMode: currentScaleMode
                     });
@@ -2384,8 +2408,17 @@ function showCanvasOverlay(asset) {
             west: overlayData.bounds.west
         };
         
+        // Remove any existing overlays before creating new one
+        if (canvasOverlay) {
+            map.removeLayer(canvasOverlay);
+            canvasOverlay = null;
+        }
+        if (currentOverlay) {
+            map.removeLayer(currentOverlay);
+            currentOverlay = null;
+        }
+        
         // Use new circle-based visualization approach
-        console.log(`Adding circle canvas overlay for: ${requestId}`);
         canvasOverlay = new CircleCanvasOverlay(overlayData, bounds, {
             scaleMode: currentScaleMode
         });
@@ -2778,7 +2811,6 @@ class CircleCanvasOverlay extends L.Layer {
         
         // SIMPLIFIED: Use overlay bounds directly - no complex calculations needed
         this.bounds = overlayData.bounds;
-        console.log(`✨ SIMPLE: Using overlay bounds directly for ${overlayData.asset_id}`);
     }
     
     onAdd(map) {
@@ -2818,6 +2850,8 @@ class CircleCanvasOverlay extends L.Layer {
         this.canvas.style.pointerEvents = 'none';
         // Canvas will inherit z-index from overlay pane (400), no need to set explicitly
         
+        // Add gray border to show overlay bounds
+        this.canvas.style.border = '2px solid #808080';
         
         this.ctx = this.canvas.getContext('2d');
         
@@ -2860,12 +2894,18 @@ class CircleCanvasOverlay extends L.Layer {
         this.canvas.style.top = canvasTop + 'px';
         
         // Update canvas dimensions if changed
-        if (Math.abs(width - this.canvas.width) > 5 || Math.abs(height - this.canvas.height) > 5) {
+        const dimensionsChanged = Math.abs(width - this.canvas.width) > 5 || Math.abs(height - this.canvas.height) > 5;
+        
+        if (dimensionsChanged) {
             this.canvas.width = width;
             this.canvas.height = height;
-            this.renderCircles();
-            
-            // Update legend after rendering to reflect new circle sizes
+        }
+        
+        // Always render circles on position updates to handle zoom level changes
+        this.renderCircles();
+        
+        // Update legend after rendering to reflect new circle sizes
+        if (dimensionsChanged) {
             const legend = document.getElementById('exposure-legend');
             if (legend && legend.classList.contains('visible')) {
                 populateLegendContent();
@@ -2881,8 +2921,14 @@ class CircleCanvasOverlay extends L.Layer {
         
         if (canvasWidth <= 0 || canvasHeight <= 0) return;
         
-        // Clear canvas
+        // Always clear canvas first to prevent drawing on top of previous content
         this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        
+        // Only render circles at zoom level 10 and above
+        const zoom = this.map.getZoom();
+        if (zoom < 10) {
+            return; // Canvas is cleared but no circles are drawn
+        }
         
         const { width: dataWidth, height: dataHeight } = this.overlayData.dimensions;
         
@@ -3034,29 +3080,6 @@ class CircleCanvasOverlay extends L.Layer {
             
         }
         
-        // Draw precision reticle (crosshair) for alignment testing
-        this.ctx.save();
-        this.ctx.strokeStyle = '#FF00FF'; // Bright magenta for high visibility
-        this.ctx.lineWidth = 2;
-        this.ctx.setLineDash([]);
-        
-        // Draw crosshair lines
-        this.ctx.beginPath();
-        // Horizontal line
-        this.ctx.moveTo(canvasX - 20, canvasY);
-        this.ctx.lineTo(canvasX + 20, canvasY);
-        // Vertical line  
-        this.ctx.moveTo(canvasX, canvasY - 20);
-        this.ctx.lineTo(canvasX, canvasY + 20);
-        this.ctx.stroke();
-        
-        // Add center dot for precise targeting
-        this.ctx.fillStyle = '#FF00FF';
-        this.ctx.beginPath();
-        this.ctx.arc(canvasX, canvasY, 2, 0, 2 * Math.PI);
-        this.ctx.fill();
-        
-        this.ctx.restore();
     }
     
     addAssetLocationMarker() {
@@ -3075,37 +3098,6 @@ class CircleCanvasOverlay extends L.Layer {
         const assetCanvasX = assetLayerPoint.x - canvasNW.x;
         const assetCanvasY = assetLayerPoint.y - canvasNW.y;
         
-        
-        // Draw bright blue reticle for asset location
-        this.ctx.save();
-        this.ctx.strokeStyle = '#00BFFF'; // Bright blue (DeepSkyBlue)
-        this.ctx.lineWidth = 2;
-        this.ctx.setLineDash([]);
-        
-        // Draw crosshair lines (slightly larger than magenta reticle for distinction)
-        this.ctx.beginPath();
-        // Horizontal line
-        this.ctx.moveTo(assetCanvasX - 25, assetCanvasY);
-        this.ctx.lineTo(assetCanvasX + 25, assetCanvasY);
-        // Vertical line  
-        this.ctx.moveTo(assetCanvasX, assetCanvasY - 25);
-        this.ctx.lineTo(assetCanvasX, assetCanvasY + 25);
-        this.ctx.stroke();
-        
-        // Add center dot for precise targeting
-        this.ctx.fillStyle = '#00BFFF';
-        this.ctx.beginPath();
-        this.ctx.arc(assetCanvasX, assetCanvasY, 3, 0, 2 * Math.PI); // Slightly larger dot
-        this.ctx.fill();
-        
-        // Add a distinctive border around the blue reticle
-        this.ctx.strokeStyle = '#FFFFFF';
-        this.ctx.lineWidth = 1;
-        this.ctx.beginPath();
-        this.ctx.arc(assetCanvasX, assetCanvasY, 4, 0, 2 * Math.PI);
-        this.ctx.stroke();
-        
-        this.ctx.restore();
         
         // Calculate and log the offset between asset location and overlay center
         const overlayLat = (this.overlayData.bounds.north + this.overlayData.bounds.south) / 2;
