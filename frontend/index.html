@@ -105,6 +105,55 @@
         .population-bar { background: linear-gradient(90deg, #4834d4, #686de0); }
         .exposure-bar { background: linear-gradient(90deg, #26de81, #20bf6b); }
         
+        /* Health Risk Bar Chart Styles */
+        .exposure-panel {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #fff;
+        }
+        
+        .total-population {
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #007bff;
+            font-size: 0.95rem;
+        }
+        
+        .risk-category {
+            margin-bottom: 0.75rem;
+        }
+        
+        .risk-label {
+            color: #495057;
+            font-weight: 500;
+        }
+        
+        .risk-count {
+            color: #6c757d;
+        }
+        
+        .risk-bar-container {
+            background-color: #f8f9fa;
+            height: 20px;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+        }
+        
+        .risk-bar {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+            opacity: 0.9;
+        }
+        
+        .risk-bar:hover {
+            opacity: 1;
+        }
+        
         .legend {
             margin: 15px 0;
             padding: 10px;

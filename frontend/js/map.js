@@ -1570,105 +1570,7 @@ function formatNumber(num) {
     return (num / 1000000000).toFixed(1) + 'B';
 }
 
-function updateAssetDetailsPanel(asset) {
-    const exposureStats = asset.person_exposure_stats;
-    const bounds = asset.bounds;
-    
-    const detailsHtml = `
-        <div class="asset-details">
-            <h5 class="mb-3">
-                Asset ${asset.asset_id} 
-                <span class="badge" style="background-color: ${countryColors[asset.country] || '#666'}">${asset.country}</span>
-            </h5>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">${formatNumber(exposureStats.total_person_exposure)}</div>
-                    <div class="stat-label">Total Additional Person-Exposure</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">${exposureStats.non_zero_pixels.toLocaleString()}</div>
-                    <div class="stat-label">Affected Area (pixels)</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">${formatNumber(exposureStats.max_person_exposure)}</div>
-                    <div class="stat-label">Peak Additional Exposure</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">${exposureStats.non_zero_mean.toFixed(1)}</div>
-                    <div class="stat-label">Mean Additional Exposure</div>
-                </div>
-            </div>
-            
-            <div class="mt-3">
-                <strong>Location:</strong> ${asset.center_lat.toFixed(4)}°, ${asset.center_lon.toFixed(4)}°<br>
-                <strong>Coverage:</strong> ${((bounds.right - bounds.left) * 111).toFixed(1)} × ${((bounds.top - bounds.bottom) * 111).toFixed(1)} km<br>
-                <strong>Total Pixels:</strong> ${asset.total_pixels.toLocaleString()}<br>
-                <strong>Processed:</strong> ${new Date(asset.processed_date).toLocaleDateString()}
-            </div>
-            
-            <div class="pixel-counts">
-                <h6>Additional PM2.5 Distribution (μg/m³)</h6>
-                ${generatePixelBars(asset.concentration_pixel_counts, 'concentration')}
-                
-                <h6 class="mt-3">Population Exposed Distribution</h6>
-                ${generatePixelBars(asset.population_pixel_counts, 'population')}
-                
-                <h6 class="mt-3">Additional Person-Exposure Distribution</h6>
-                ${generatePixelBars(asset.person_exposure_pixel_counts, 'exposure')}
-            </div>
-            
-            <div class="legend">
-                <div class="legend-title">Map Legend</div>
-                <div class="legend-item">
-                    <div class="legend-color asset-marker-xs" style="background-color: #ccc;"></div>
-                    Low exposure (≤25th percentile)
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color asset-marker-sm" style="background-color: #999;"></div>
-                    Medium-low (25-50th percentile)
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color asset-marker-md" style="background-color: #666;"></div>
-                    Medium (50-75th percentile)
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color asset-marker-lg" style="background-color: #333;"></div>
-                    High (75-90th percentile)
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color asset-marker-xl" style="background-color: #000;"></div>
-                    Very high (≥90th percentile)
-                </div>
-            </div>
-        </div>
-    `;
-    
-    document.getElementById('asset-details').innerHTML = detailsHtml;
-}
 
-function generatePixelBars(pixelCounts, type) {
-    const totalPixels = Object.values(pixelCounts).reduce((sum, count) => sum + count, 0);
-    const colorClass = `${type}-bar`;
-    
-    let barsHtml = '';
-    for (const [range, count] of Object.entries(pixelCounts)) {
-        if (count === 0) continue;
-        
-        const percentage = (count / totalPixels) * 100;
-        const width = Math.max(percentage, 3); // Minimum 3% width for visibility
-        
-        barsHtml += `
-            <div class="pixel-bar">
-                <div class="pixel-bar-fill ${colorClass}" style="width: ${width}%">
-                    ${range}: ${count.toLocaleString()} (${percentage.toFixed(1)}%)
-                </div>
-            </div>
-        `;
-    }
-    
-    return barsHtml;
-}
 
 function showExposureLegend() {
     const legend = document.getElementById('exposure-legend');
@@ -2426,6 +2328,9 @@ function showCanvasOverlay(asset) {
         map.addLayer(canvasOverlay);
         showExposureLegend();
         updateSelectedAssetMarkerPosition();
+        
+        // Update sidebar with overlay data
+        updateAssetDetailsPanel(asset, overlayData);
     }).catch(error => {
         console.error(`Error loading overlay for ${requestId}:`, error);
         if (activeOverlayRequest === requestId) {
