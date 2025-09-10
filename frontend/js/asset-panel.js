@@ -113,10 +113,12 @@ function recalculateExposureBuckets(overlayData, useNewDefinitions = false) {
     const newBucketMetadata = {};
     let totalExposed = 0;
     let pixelsProcessed = 0;
+    let debugStats = { totalPixels: 0, zeroConc: 0, zeroPop: 0, processed: 0, bucketMatches: {} };
     
-    // Initialize buckets
+    // Initialize buckets and debug tracking
     riskDefinitions.forEach(def => {
         newBuckets[def.key] = 0;
+        debugStats.bucketMatches[def.key] = 0;
         newBucketMetadata[def.key] = {
             label: def.label,
             color: def.color,
@@ -128,19 +130,40 @@ function recalculateExposureBuckets(overlayData, useNewDefinitions = false) {
     for (let row = 0; row < concentrationData.length; row++) {
         for (let col = 0; col < concentrationData[row].length; col++) {
             pixelsProcessed++;
+            debugStats.totalPixels++;
             
             const concentration = concentrationData[row][col];
             const population = populationData[row][col];
             
-            // Only process pixels with positive concentration and population
-            if (concentration > 0 && population > 0) {
+            // Track zero values for debugging
+            if (concentration === 0) debugStats.zeroConc++;
+            if (population === 0) debugStats.zeroPop++;
+            
+            // Process pixels with positive concentration and population
+            // Note: Include concentration >= 0 to capture 0-2.5 range
+            if (concentration >= 0 && population > 0) {
+                debugStats.processed++;
+                
                 // Find appropriate bucket
+                let matched = false;
                 for (const def of riskDefinitions) {
-                    if (concentration >= def.min && concentration < def.max) {
+                    // Handle inclusive ranges correctly
+                    const inRange = (def.max === Infinity) ? 
+                        (concentration >= def.min) : 
+                        (concentration >= def.min && concentration < def.max);
+                        
+                    if (inRange) {
                         newBuckets[def.key] += population;
+                        debugStats.bucketMatches[def.key]++;
                         totalExposed += population;
+                        matched = true;
                         break;
                     }
+                }
+                
+                // Log if no bucket matched (for debugging)
+                if (!matched && concentration > 0) {
+                    console.warn(`No bucket matched for concentration ${concentration}`);
                 }
             }
         }
@@ -169,6 +192,11 @@ function recalculateExposureBuckets(overlayData, useNewDefinitions = false) {
     console.log(`📊 Processed ${pixelsProcessed.toLocaleString()} pixels`);
     console.log(`🏃‍♂️ Processing rate: ${(pixelsProcessed / processingTime * 1000).toLocaleString()} pixels/second`);
     console.log(`📈 Total exposed population: ${formatNumberWithUnit(totalExposed)}`);
+    
+    // Debug information
+    console.log(`🔍 Debug stats:`, debugStats);
+    console.log(`🪣 Final buckets:`, Object.entries(filteredBuckets).map(([k,v]) => `${k}: ${formatNumberWithUnit(v)}`));
+    console.log(`🎯 Non-zero buckets: ${Object.keys(filteredBuckets).length}`);
     
     // Log cumulative statistics
     const avgTime = performanceMetrics.reAggregationTimes.reduce((a, b) => a + b, 0) / performanceMetrics.reAggregationTimes.length;
