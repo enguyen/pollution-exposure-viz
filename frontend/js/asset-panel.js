@@ -255,8 +255,20 @@ function generateHealthRiskBars(exposureAnalysis) {
     
     let barsHtml = '';
     
-    // Process buckets in risk order
-    const bucketOrder = ['0-12', '12-35', '35-55', '55-150', '150-250', '250+'];
+    // Process buckets in risk order (dynamically from bucket_metadata)
+    // Use bucket_metadata order if available, otherwise fall back to hardcoded order
+    let bucketOrder;
+    if (bucket_metadata && Object.keys(bucket_metadata).length > 0) {
+        // Sort by the minimum value in range_ugm3 to ensure proper risk order
+        bucketOrder = Object.keys(bucket_metadata).sort((a, b) => {
+            const aMin = bucket_metadata[a].range_ugm3[0];
+            const bMin = bucket_metadata[b].range_ugm3[0];
+            return aMin - bMin;
+        });
+    } else {
+        // Fallback for legacy data
+        bucketOrder = ['0-2.5', '2.5-5.0', '5.0-10.0', '10.0-25.0', '25.0-50.0', '50.0+'];
+    }
     
     for (const bucketKey of bucketOrder) {
         if (!(bucketKey in buckets) || buckets[bucketKey] === 0) continue;
