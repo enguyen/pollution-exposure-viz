@@ -220,11 +220,7 @@ function generateHealthRiskSection(exposureAnalysis, overlayData = null) {
                 ${finalAnalysis.processing_time_ms ? `<br><small class="text-muted">Re-aggregated in ${finalAnalysis.processing_time_ms.toFixed(1)}ms</small>` : ''}
             </div>
             
-            ${generateHealthRiskBars(finalAnalysis)}
-            
-            ${finalAnalysis.bucket_averages ? generateVariableHeightBars(finalAnalysis) : ''}
-            
-            ${useReAggregation ? '<div class="alert alert-info mt-2"><small>⚡ Using 2024 science-based risk categories (frontend re-aggregated)</small></div>' : ''}
+            ${finalAnalysis.bucket_averages ? generateVariableHeightBars(finalAnalysis) : generateHealthRiskBars(finalAnalysis)}
         </div>
     `;
 }
@@ -322,29 +318,32 @@ function generateVariableHeightBars(exposureAnalysis) {
         const barWidth = (population / maxPopulation * 100).toFixed(1);
         const barHeight = (averageConc / maxAverageConcentration * maxHeight).toFixed(1);
         
+        // Extract concentration range for display
+        const rangeDisplay = bucketKey.includes('+') ? 
+            `${bucketKey.split('+')[0]}+μg/m³` : 
+            `${bucketKey}μg/m³`;
+            
         barsHtml += `
             <div class="variable-height-category mb-2">
                 <div class="d-flex justify-content-between mb-1">
-                    <span class="risk-label" style="font-size: 0.85rem;">${metadata.label}</span>
+                    <span class="risk-label" style="font-size: 0.85rem;">${rangeDisplay}</span>
                     <span class="risk-stats" style="font-size: 0.85rem;">
-                        ${formatNumberWithUnit(population)} (${percentage}%) • Avg: ${averageConc.toFixed(1)} μg/m³
+                        ${formatNumberWithUnit(population)} exposed (${percentage}%)
                     </span>
                 </div>
-                <div class="variable-height-container" style="height: ${maxHeight}px;">
-                    <div class="variable-height-bar" 
-                         style="width: ${barWidth}%; 
-                                height: ${barHeight}px; 
-                                background-color: ${metadata.color};
-                                margin-bottom: auto;">
-                    </div>
+                <div class="variable-height-bar" 
+                     style="width: ${barWidth}%; 
+                            height: ${barHeight}px; 
+                            background-color: ${metadata.color};"
+                     title="${metadata.label}: ${formatNumberWithUnit(population)} people exposed, average ${averageConc.toFixed(1)} μg/m³">
                 </div>
             </div>
         `;
     }
     
     return `
-        <div class="mt-4">
-            <h6 class="mb-2">Population vs Average Concentration</h6>
+        <div>
+            <h6 class="mb-2">Population Exposure by Risk Category</h6>
             <div class="text-muted mb-3" style="font-size: 0.8rem;">
                 Bar width = population count • Bar height = average PM2.5 concentration
             </div>

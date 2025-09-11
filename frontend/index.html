@@ -159,27 +159,20 @@
             margin-bottom: 0.75rem;
         }
         
-        .variable-height-container {
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 4px;
-            display: flex;
-            align-items: flex-end;
-            padding: 2px;
-            position: relative;
-        }
-        
         .variable-height-bar {
             border-radius: 3px;
             transition: all 0.3s ease;
             opacity: 0.9;
             min-width: 10px; /* Ensure small bars are still visible */
+            min-height: 8px; /* Ensure bars with very low concentration are still visible */
             border: 1px solid rgba(255,255,255,0.3);
+            margin-bottom: 2px;
         }
         
         .variable-height-bar:hover {
             opacity: 1;
             transform: scaleX(1.02);
+            cursor: pointer;
         }
         
         .risk-stats {
