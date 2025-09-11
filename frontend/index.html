@@ -154,6 +154,39 @@
             opacity: 1;
         }
         
+        /* Variable Height Bar Chart Styles */
+        .variable-height-category {
+            margin-bottom: 0.75rem;
+        }
+        
+        .variable-height-container {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            display: flex;
+            align-items: flex-end;
+            padding: 2px;
+            position: relative;
+        }
+        
+        .variable-height-bar {
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            opacity: 0.9;
+            min-width: 10px; /* Ensure small bars are still visible */
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .variable-height-bar:hover {
+            opacity: 1;
+            transform: scaleX(1.02);
+        }
+        
+        .risk-stats {
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
         .legend {
             margin: 15px 0;
             padding: 10px;

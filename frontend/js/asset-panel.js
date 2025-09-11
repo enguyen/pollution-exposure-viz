@@ -111,12 +111,14 @@ function recalculateExposureBuckets(overlayData, useNewDefinitions = false) {
     
     const newBuckets = {};
     const newBucketMetadata = {};
+    const bucketConcentrationSums = {}; // Track total concentration per bucket for weighted averages
     let totalExposed = 0;
     let pixelsProcessed = 0;
     
     // Initialize buckets
     riskDefinitions.forEach(def => {
         newBuckets[def.key] = 0;
+        bucketConcentrationSums[def.key] = 0;
         newBucketMetadata[def.key] = {
             label: def.label,
             color: def.color,
@@ -143,6 +145,7 @@ function recalculateExposureBuckets(overlayData, useNewDefinitions = false) {
                         
                     if (inRange) {
                         newBuckets[def.key] += population;
+                        bucketConcentrationSums[def.key] += concentration * population; // Weighted sum
                         totalExposed += population;
                         break;
                     }
@@ -151,13 +154,17 @@ function recalculateExposureBuckets(overlayData, useNewDefinitions = false) {
         }
     }
     
-    // Remove empty buckets
+    // Remove empty buckets and calculate weighted averages
     const filteredBuckets = {};
     const filteredMetadata = {};
+    const bucketAverages = {};
+    
     Object.keys(newBuckets).forEach(key => {
         if (newBuckets[key] > 0) {
             filteredBuckets[key] = newBuckets[key];
             filteredMetadata[key] = newBucketMetadata[key];
+            // Calculate weighted average concentration for this bucket
+            bucketAverages[key] = bucketConcentrationSums[key] / newBuckets[key];
         }
     });
     
@@ -185,6 +192,7 @@ function recalculateExposureBuckets(overlayData, useNewDefinitions = false) {
     return {
         buckets: filteredBuckets,
         bucket_metadata: filteredMetadata,
+        bucket_averages: bucketAverages, // New: weighted average concentrations
         total_exposed_population: totalExposed,
         bucket_ranges_ugm3: riskDefinitions.map(def => [def.min, def.max === Infinity ? "inf" : def.max]),
         description: `Population count by PM2.5 concentration risk categories (${useNewDefinitions ? 'NEW' : 'ORIGINAL'} definitions, frontend re-aggregated)`,
@@ -213,6 +221,8 @@ function generateHealthRiskSection(exposureAnalysis, overlayData = null) {
             </div>
             
             ${generateHealthRiskBars(finalAnalysis)}
+            
+            ${finalAnalysis.bucket_averages ? generateVariableHeightBars(finalAnalysis) : ''}
             
             ${useReAggregation ? '<div class="alert alert-info mt-2"><small>⚡ Using 2024 science-based risk categories (frontend re-aggregated)</small></div>' : ''}
         </div>
@@ -271,6 +281,76 @@ function generateHealthRiskBars(exposureAnalysis) {
     }
     
     return barsHtml || '<div class="text-muted">No population exposed to PM2.5</div>';
+}
+
+// Generate variable-height bar chart (width = population, height = average concentration)
+function generateVariableHeightBars(exposureAnalysis) {
+    const { buckets, bucket_metadata, bucket_averages, total_exposed_population } = exposureAnalysis;
+    
+    if (!buckets || !bucket_averages || Object.keys(buckets).length === 0) {
+        return '';
+    }
+    
+    // Find maximum values for scaling
+    const maxPopulation = Math.max(...Object.values(buckets));
+    const maxAverageConcentration = Math.max(...Object.values(bucket_averages));
+    const maxHeight = 100; // Max height in pixels as requested
+    
+    // Dynamic bucket ordering 
+    let bucketOrder;
+    if (bucket_metadata && Object.keys(bucket_metadata).length > 0) {
+        bucketOrder = Object.keys(bucket_metadata).sort((a, b) => {
+            const aMin = bucket_metadata[a].range_ugm3[0];
+            const bMin = bucket_metadata[b].range_ugm3[0];
+            return aMin - bMin;
+        });
+    } else {
+        bucketOrder = ['0-2.5', '2.5-5.0', '5.0-10.0', '10.0-25.0', '25.0-50.0', '50.0+'];
+    }
+    
+    let barsHtml = '';
+    
+    for (const bucketKey of bucketOrder) {
+        if (!(bucketKey in buckets) || buckets[bucketKey] === 0) continue;
+        
+        const population = buckets[bucketKey];
+        const averageConc = bucket_averages[bucketKey];
+        const metadata = bucket_metadata[bucketKey];
+        const percentage = (population / total_exposed_population * 100).toFixed(1);
+        
+        // Calculate dimensions
+        const barWidth = (population / maxPopulation * 100).toFixed(1);
+        const barHeight = (averageConc / maxAverageConcentration * maxHeight).toFixed(1);
+        
+        barsHtml += `
+            <div class="variable-height-category mb-2">
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="risk-label" style="font-size: 0.85rem;">${metadata.label}</span>
+                    <span class="risk-stats" style="font-size: 0.85rem;">
+                        ${formatNumberWithUnit(population)} (${percentage}%) • Avg: ${averageConc.toFixed(1)} μg/m³
+                    </span>
+                </div>
+                <div class="variable-height-container" style="height: ${maxHeight}px;">
+                    <div class="variable-height-bar" 
+                         style="width: ${barWidth}%; 
+                                height: ${barHeight}px; 
+                                background-color: ${metadata.color};
+                                margin-bottom: auto;">
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    return `
+        <div class="mt-4">
+            <h6 class="mb-2">Population vs Average Concentration</h6>
+            <div class="text-muted mb-3" style="font-size: 0.8rem;">
+                Bar width = population count • Bar height = average PM2.5 concentration
+            </div>
+            ${barsHtml}
+        </div>
+    `;
 }
 
 
