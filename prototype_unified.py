@@ -41,14 +41,14 @@ def calculate_exposure_buckets(conc_data: np.ndarray, pop_data: np.ndarray) -> D
             "description": "No population exposed to PM2.5"
         }
     
-    # Define predefined risk buckets from UI legend
+    # Define predefined risk buckets from map viz document
     risk_buckets = [
-        (0, 12, "Low Additional Risk (0-12)", "#FFF45C"),
-        (12, 35, "Elevated Additional Risk (12-35)", "#FFA500"),
-        (35, 55, "Significant Additional Risk (35-55)", "#FF6347"),
-        (55, 150, "High Additional Risk (55-150)", "#FF0000"),
-        (150, 250, "Very High Additional Risk (150-250)", "#8B0000"),
-        (250, float('inf'), "Extreme Additional Risk (250+)", "#800080")
+        (0, 2.5, "Measurable Additional Risk (0-2.5)", "#9ACD32"),        # Yellow-Green
+        (2.5, 5.0, "Low Additional Risk (2.5-5.0)", "#FFFF00"),          # Yellow
+        (5.0, 10.0, "Moderate Additional Risk (5.0-10.0)", "#FFA500"),   # Orange-Yellow
+        (10.0, 25.0, "High Additional Risk (10.0-25.0)", "#FF6347"),     # Orange
+        (25.0, 50.0, "Very High Additional Risk (25.0-50.0)", "#FF0000"), # Red
+        (50.0, float('inf'), "Extreme Additional Risk (50.0+)", "#8B0000") # Purple/Maroon
     ]
     
     bucket_populations = {}

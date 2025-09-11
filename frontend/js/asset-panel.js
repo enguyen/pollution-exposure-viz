@@ -77,13 +77,14 @@ const performanceMetrics = {
 };
 
 // Updated science-based risk bucket definitions (2024 Best Practices)
+// Colors updated to match Pollution Map Viz Best Practices document
 const NEW_RISK_DEFINITIONS = [
-    { min: 0, max: 2.5, key: "0-2.5", label: "Measurable Additional Risk (0-2.5)", color: "#90EE90" },
-    { min: 2.5, max: 5.0, key: "2.5-5.0", label: "Low Additional Risk (2.5-5.0)", color: "#ADFF2F" },
-    { min: 5.0, max: 10.0, key: "5.0-10.0", label: "Moderate Additional Risk (5.0-10.0)", color: "#FFFF00" },
-    { min: 10.0, max: 25.0, key: "10.0-25.0", label: "High Additional Risk (10.0-25.0)", color: "#FFA500" },
-    { min: 25.0, max: 50.0, key: "25.0-50.0", label: "Very High Additional Risk (25.0-50.0)", color: "#FF0000" },
-    { min: 50.0, max: Infinity, key: "50.0+", label: "Extreme Additional Risk (50.0+)", color: "#800080" }
+    { min: 0, max: 2.5, key: "0-2.5", label: "Measurable Additional Risk (0-2.5)", color: "#9ACD32" },    // Yellow-Green
+    { min: 2.5, max: 5.0, key: "2.5-5.0", label: "Low Additional Risk (2.5-5.0)", color: "#FFFF00" },     // Yellow
+    { min: 5.0, max: 10.0, key: "5.0-10.0", label: "Moderate Additional Risk (5.0-10.0)", color: "#FFD700" }, // Orange-Yellow
+    { min: 10.0, max: 25.0, key: "10.0-25.0", label: "High Additional Risk (10.0-25.0)", color: "#FFA500" },   // Orange
+    { min: 25.0, max: 50.0, key: "25.0-50.0", label: "Very High Additional Risk (25.0-50.0)", color: "#FF0000" }, // Red
+    { min: 50.0, max: Infinity, key: "50.0+", label: "Extreme Additional Risk (50.0+)", color: "#800080" }  // Purple/Maroon
 ];
 
 // Frontend re-aggregation with performance instrumentation
@@ -212,12 +213,36 @@ function generateHealthRiskSection(exposureAnalysis, overlayData = null) {
     const finalAnalysis = (useReAggregation && overlayData) ? 
         recalculateExposureBuckets(overlayData, true) : exposureAnalysis;
     
+    // Calculate overall average concentration
+    let overallAverageConc = '';
+    if (overlayData && overlayData.data && overlayData.data.concentration && overlayData.data.population) {
+        const { concentration: concData, population: popData } = overlayData.data;
+        let totalWeightedConc = 0;
+        let totalPopulation = 0;
+        
+        for (let row = 0; row < concData.length; row++) {
+            for (let col = 0; col < concData[row].length; col++) {
+                const conc = concData[row][col];
+                const pop = popData[row][col];
+                if (conc >= 0 && pop > 0) {
+                    totalWeightedConc += conc * pop;
+                    totalPopulation += pop;
+                }
+            }
+        }
+        
+        if (totalPopulation > 0) {
+            const avgConc = totalWeightedConc / totalPopulation;
+            overallAverageConc = `<br><small class="text-muted">Average additional PM2.5: ${avgConc.toFixed(2)} μg/m³</small>`;
+        }
+    }
+
     return `
         <div class="exposure-panel mb-3">
             <h6 class="mb-2">Population Exposure Analysis</h6>
             <div class="total-population mb-3">
                 <strong>Total Exposed: ${formatNumberWithUnit(finalAnalysis.total_exposed_population)} people</strong>
-                ${finalAnalysis.processing_time_ms ? `<br><small class="text-muted">Re-aggregated in ${finalAnalysis.processing_time_ms.toFixed(1)}ms</small>` : ''}
+                ${overallAverageConc}
             </div>
             
             ${finalAnalysis.bucket_averages ? generateVariableHeightBars(finalAnalysis) : generateHealthRiskBars(finalAnalysis)}
@@ -290,7 +315,7 @@ function generateVariableHeightBars(exposureAnalysis) {
     // Find maximum values for scaling
     const maxPopulation = Math.max(...Object.values(buckets));
     const maxAverageConcentration = Math.max(...Object.values(bucket_averages));
-    const maxHeight = 100; // Max height in pixels as requested
+    const maxHeight = 200; // Max height in pixels as requested
     
     // Dynamic bucket ordering 
     let bucketOrder;

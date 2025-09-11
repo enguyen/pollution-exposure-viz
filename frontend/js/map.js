@@ -35,15 +35,19 @@ const countryColors = {
     'TWN': '#ff4081', 'UGA': '#8c4a00', 'UKR': '#ffeb3b', 'VNM': '#4db6ac'
 };
 
-// Additional PM2.5 exposure classification (µg/m³) - asset-specific contribution
-const CONCENTRATION_BINS = [
-    { min: 0,     max: 12,    color: '#FFF45C', label: 'Low Additional Risk (0-12)' },        // Yellow
-    { min: 12,    max: 35.4,  color: '#FFA500', label: 'Elevated Additional Risk (12-35)' },   // Orange  
-    { min: 35.4,  max: 55.4,  color: '#FF6347', label: 'Significant Additional Risk (35-55)' }, // Tomato red
-    { min: 55.4,  max: 150.4, color: '#FF0000', label: 'High Additional Risk (55-150)' },  // Red
-    { min: 150.4, max: 250.4, color: '#8B0000', label: 'Very High Additional Risk(150-250)' }, // Dark red
-    { min: 250.4, max: Infinity, color: '#800080', label: 'Extreme Additional Risk(250+)' }   // Purple
-];
+// Centralized PM2.5 Risk Categories - Pollution Map Viz Best Practices
+// Based on supralinear exposure-response relationship research
+const PM25_RISK_CATEGORIES = {
+    MEASURABLE: { min: 0,    max: 2.5,  color: '#9ACD32', label: 'Measurable Additional Risk (0-2.5)' },     // Yellow-Green
+    LOW:        { min: 2.5,  max: 5.0,  color: '#FFFF00', label: 'Low Additional Risk (2.5-5.0)' },         // Yellow  
+    MODERATE:   { min: 5.0,  max: 10.0, color: '#FFD700', label: 'Moderate Additional Risk (5.0-10.0)' },   // Orange-Yellow
+    HIGH:       { min: 10.0, max: 25.0, color: '#FFA500', label: 'High Additional Risk (10.0-25.0)' },      // Orange
+    VERY_HIGH:  { min: 25.0, max: 50.0, color: '#FF0000', label: 'Very High Additional Risk (25.0-50.0)' }, // Red
+    EXTREME:    { min: 50.0, max: Infinity, color: '#800080', label: 'Extreme Additional Risk (50.0+)' }     // Purple/Maroon
+};
+
+// Convert to array format for backwards compatibility
+const CONCENTRATION_BINS = Object.values(PM25_RISK_CATEGORIES);
 
 // Function to get color based on concentration value
 function getConcentrationColor(concentration) {
@@ -1037,7 +1041,7 @@ function handleMouseMove(e) {
             const tooltipContent = `
                 <strong>Asset:</strong> ${assetId}<br/>
                 <strong>Population Exposed:</strong> ${pixelData.population.toFixed(0)} people<br/>
-                <strong>Additional PM2.5:</strong> ${pixelData.concentration.toFixed(2)} μg/m³<br/><strong>Person-Exposure Impact:</strong> ${pixelData.personExposure.toFixed(2)} person·μg/m³
+                <strong>Additional PM2.5:</strong> ${pixelData.concentration.toFixed(2)} μg/m³
             `;
             
             hoverTooltip
@@ -2296,6 +2300,10 @@ function showCanvasOverlay(asset) {
                     canvasOverlay = new CanvasOverlay(rawData, bounds, {
                         scaleMode: currentScaleMode
                     });
+                    
+                    // Set assetId to prevent unnecessary recreation
+                    canvasOverlay.assetId = requestId;
+                    
                     map.addLayer(canvasOverlay);
                     showExposureLegend();
                     updateSelectedAssetMarkerPosition();
@@ -2324,6 +2332,9 @@ function showCanvasOverlay(asset) {
         canvasOverlay = new CircleCanvasOverlay(overlayData, bounds, {
             scaleMode: currentScaleMode
         });
+        
+        // Set assetId to prevent unnecessary recreation
+        canvasOverlay.assetId = requestId;
         
         map.addLayer(canvasOverlay);
         showExposureLegend();
@@ -2726,11 +2737,11 @@ class CircleCanvasOverlay extends L.Layer {
         // Add event listeners for map updates
         this._onViewReset = this.updateCanvasPosition.bind(this);
         this._onZoom = this.updateCanvasPosition.bind(this);
-        this._onMove = this.updateCanvasPosition.bind(this);
+        this._onMoveEnd = this.updateCanvasPosition.bind(this);
         
         map.on('viewreset', this._onViewReset);
         map.on('zoom', this._onZoom);
-        map.on('move', this._onMove);
+        map.on('moveend', this._onMoveEnd); // Changed from 'move' to 'moveend' to prevent lag
         
         return this;
     }
@@ -2743,7 +2754,7 @@ class CircleCanvasOverlay extends L.Layer {
         if (map && this._onViewReset) {
             map.off('viewreset', this._onViewReset);
             map.off('zoom', this._onZoom);
-            map.off('move', this._onMove);
+            map.off('moveend', this._onMoveEnd);
         }
         
         return this;

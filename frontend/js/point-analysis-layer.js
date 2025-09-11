@@ -19,12 +19,11 @@ class PointAnalysisLayer extends L.Layer {
         
         // Add event listeners for map updates
         this._onViewReset = this.updateCanvasPosition.bind(this);
-        this._onMove = this.updateCanvasPosition.bind(this);
         this._onZoom = this.updateCanvasPosition.bind(this);
         
         map.on('viewreset', this._onViewReset);
-        map.on('move', this._onMove);
         map.on('zoom', this._onZoom);
+        // Note: Removed 'move' event to prevent canvas resize during dragging
         
         
         return this;
@@ -49,13 +48,11 @@ class PointAnalysisLayer extends L.Layer {
         // Remove event listeners
         if (map && this._onViewReset) {
             map.off('viewreset', this._onViewReset);
-            map.off('move', this._onMove);
             map.off('zoom', this._onZoom);
         }
         
         // Clear references
         this._onViewReset = null;
-        this._onMove = null;
         this._onZoom = null;
         
         return this;
@@ -141,8 +138,8 @@ class PointAnalysisLayer extends L.Layer {
     }
     
     drawReticle(x, y) {
-        const size = 30;
-        const innerSize = 10;
+        const size = 15;  // Half the original size (was 30)
+        const innerSize = 5;  // Half the original size (was 10)
         
         // Save current context state
         this.ctx.save();
@@ -211,9 +208,20 @@ class PointAnalysisLayer extends L.Layer {
         this.ctx.setLineDash([dashLength, gapLength]);
         this.ctx.lineDashOffset = -dashOffset; // Negative for asset→point direction
         
+        // Calculate parabolic arc (like particles launching upwards and landing)
         this.ctx.beginPath();
         this.ctx.moveTo(fromX, fromY);
-        this.ctx.lineTo(toX, toY);
+        
+        // Calculate arc height based on distance (farther = higher arc)
+        const distance = Math.sqrt((toX - fromX) ** 2 + (toY - fromY) ** 2);
+        const arcHeight = Math.min(distance * 0.3, 150); // Max 150px arc height
+        
+        // Calculate control point for parabolic curve (midpoint pushed upward)
+        const midX = (fromX + toX) / 2;
+        const midY = (fromY + toY) / 2 - arcHeight; // Push upward for parabolic effect
+        
+        // Draw quadratic curve (parabolic arc)
+        this.ctx.quadraticCurveTo(midX, midY, toX, toY);
         this.ctx.stroke();
         
         // Reset line dash for other drawing
