@@ -1435,3 +1435,91 @@ This coordinate system bug affects the fundamental reliability of population exp
 - **Backward compatibility**: Maintained support for existing data formats while adding new capabilities
 
 These enhancements represent a significant improvement in both scientific accuracy and user experience, implementing WHO-based health risk categories, realistic particle physics visualization, and performance optimizations that ensure smooth interaction at scale.
+
+## **DEEP-LINKING FUNCTIONALITY** (2025-09-12)
+
+### **🔗 Shareable URL State Management**
+
+The application now supports comprehensive deep-linking functionality, allowing users to share specific application states through URLs. This enables direct navigation to specific assets and point analysis locations.
+
+**Core URL Parameters:**
+- `?asset=<COUNTRY_ASSET_ID>` - Selects and displays a specific asset with overlay
+- `?poilat=<LATITUDE>&poilng=<LONGITUDE>` - Point of Interest coordinates for analysis
+- Combined: `?asset=CHN_32440512&poilat=32.037184&poilng=120.857849`
+
+### **📍 Point Analysis Deep-Linking**
+
+**Features Implemented:**
+- **Real-time URL Updates**: URL changes instantly when users click for point analysis
+- **State Restoration**: Deep-links fully restore application state (asset selection + point analysis)
+- **Parameter Preservation**: URLs maintain POI coordinates throughout the session
+- **Legacy Support**: Backwards compatibility with old `pointlat`/`pointlng` parameters
+
+**Technical Implementation:**
+```javascript
+// URL Parameter Parsing (supports both old and new formats)
+let pointLatParam = urlParams.get('poilat') || urlParams.get('pointlat');
+let pointLngParam = urlParams.get('poilng') || urlParams.get('pointlng');
+
+// Real-time URL Updates
+function updateUrlWithPointAnalysis(lat, lng) {
+    url.searchParams.set('poilat', lat.toFixed(6)); // 6 decimal precision (~10cm)
+    url.searchParams.set('poilng', lng.toFixed(6));
+    if (selectedAsset) {
+        url.searchParams.set('asset', `${selectedAsset.country}_${selectedAsset.asset_id}`);
+    }
+}
+```
+
+### **🎯 User Experience Benefits**
+
+**Shareability:**
+- **Bookmarking**: Users can bookmark specific analysis locations
+- **Collaboration**: Share exact analysis points with colleagues via URL
+- **Documentation**: URLs serve as permanent references for reports
+
+**State Management:**
+- **Session Persistence**: Analysis state survives browser refresh
+- **Cross-platform Sharing**: URLs work across different devices/browsers
+- **Progressive Loading**: Asset loads first, then point analysis is triggered
+
+### **⚙️ Technical Architecture**
+
+**URL State Flow:**
+1. **URL Parsing** → Extract asset and POI parameters on page load
+2. **Asset Loading** → `waitForAssetsAndJump()` selects the specified asset
+3. **Overlay Loading** → Wait for canvas overlay to load for the asset
+4. **Point Analysis** → `waitForAssetAndStartPointAnalysis()` triggers analysis
+5. **State Preservation** → URL parameters remain throughout session
+
+**Key Functions:**
+- `checkUrlParameters()` - Initial URL parameter parsing and handling
+- `updateUrlWithPointAnalysis()` - Real-time URL updates during interaction
+- `waitForAssetAndStartPointAnalysis()` - Coordinates asset loading with point analysis
+- `clearPointAnalysisState()` - Clears analysis without affecting URL (for deep-link restoration)
+- `clearPointAnalysis()` - Full cleanup including URL parameters (for manual clearing)
+
+**Error Handling:**
+- **Timeout Protection**: 15-second timeout with fallback point analysis
+- **Asset Validation**: Verifies asset exists before attempting to load
+- **Coordinate Validation**: Validates lat/lng parameters are numeric
+- **Debug Logging**: Comprehensive console logging for troubleshooting
+
+### **🔧 Implementation Details**
+
+**Parameter Format:**
+- **Coordinates**: 6 decimal places (≈10cm precision) - `poilat=32.037184&poilng=120.857849`
+- **Asset IDs**: Country_AssetID format - `asset=CHN_32440512`
+- **URL Updates**: Uses `window.history.replaceState()` for seamless navigation
+
+**Legacy Compatibility:**
+- Supports both `pointlat`/`pointlng` (deprecated) and `poilat`/`poilng` (current)
+- Automatically cleans up old parameters when updating URLs
+- Graceful fallback for mixed parameter scenarios
+
+**Browser Integration:**
+- **History API**: URLs update without page reloads
+- **Cross-browser Support**: Standard URLSearchParams API
+- **Mobile Compatibility**: Touch interaction triggers URL updates
+
+This deep-linking implementation transforms the application from a single-session tool to a fully shareable, bookmarkable platform for pollution exposure analysis, significantly enhancing collaborative workflows and documentation capabilities.

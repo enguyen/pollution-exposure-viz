@@ -121,10 +121,36 @@ function checkUrlParameters() {
     const urlParams = new URLSearchParams(window.location.search);
     const assetParam = urlParams.get('asset');
     
+    // Check for both old and new parameter names (poilat/poilng takes precedence)
+    let pointLatParam = urlParams.get('poilat') || urlParams.get('pointlat');
+    let pointLngParam = urlParams.get('poilng') || urlParams.get('pointlng');
+    
     if (assetParam) {
         console.log(`URL parameter found: asset=${assetParam}`);
         // Wait for assets to load before jumping to specific asset
         waitForAssetsAndJump(assetParam);
+        
+        // If point analysis parameters are also present, start point analysis after asset loads
+        if (pointLatParam && pointLngParam) {
+            const lat = parseFloat(pointLatParam);
+            const lng = parseFloat(pointLngParam);
+            
+            if (!isNaN(lat) && !isNaN(lng)) {
+                console.log(`URL parameters found for point analysis: lat=${lat}, lng=${lng}`);
+                // Wait a bit longer for asset overlay to load before starting point analysis
+                waitForAssetAndStartPointAnalysis(assetParam, lat, lng);
+            }
+        }
+    } else if (pointLatParam && pointLngParam) {
+        // Point analysis without specific asset
+        const lat = parseFloat(pointLatParam);
+        const lng = parseFloat(pointLngParam);
+        
+        if (!isNaN(lat) && !isNaN(lng)) {
+            console.log(`URL parameters found for point analysis: lat=${lat}, lng=${lng}`);
+            // Wait for assets to load, then start point analysis
+            waitForAssetsAndStartPointAnalysis(lat, lng);
+        }
     }
 }
 
@@ -151,6 +177,93 @@ function waitForAssetsAndJump(assetIdentifier, maxWait = 10000) {
     };
     
     checkAssets();
+}
+
+function waitForAssetAndStartPointAnalysis(assetIdentifier, lat, lng, maxWait = 15000) {
+    const startTime = Date.now();
+    const checkInterval = 200; // Check every 200ms for asset + overlay
+    
+    const checkAssetAndOverlay = () => {
+        console.log(`Checking asset and overlay: assetsData=${!!assetsData}, isLoadingAssets=${isLoadingAssets}, selectedAsset=${!!selectedAsset}, canvasOverlay=${!!canvasOverlay}`);
+        
+        // First check if assets are loaded and asset is selected
+        if (assetsData && !isLoadingAssets && selectedAsset && `${selectedAsset.country}_${selectedAsset.asset_id}` === assetIdentifier) {
+            console.log(`Asset is selected: ${selectedAsset.country}_${selectedAsset.asset_id}, waiting for overlay...`);
+            
+            // Check if overlay is loaded for the selected asset (modern system uses canvasOverlay)
+            if (canvasOverlay && canvasOverlay.assetId === assetIdentifier) {
+                // Asset and overlay are ready, start point analysis
+                console.log(`Starting point analysis for asset ${assetIdentifier} at ${lat}, ${lng}`);
+                startPointAnalysisFromUrl(lat, lng);
+                return;
+            }
+            
+            // Also try starting point analysis after reasonable wait even without overlay detection
+            if (Date.now() - startTime > 3000) { // 3 seconds is reasonable for overlay load
+                console.log(`Starting point analysis without overlay confirmation for ${assetIdentifier} at ${lat}, ${lng}`);
+                startPointAnalysisFromUrl(lat, lng);
+                return;
+            }
+        }
+        
+        if (Date.now() - startTime > maxWait) {
+            console.warn(`Timeout waiting for asset overlay to load for: ${assetIdentifier}`);
+            // Still try to start point analysis even if overlay isn't ready
+            startPointAnalysisFromUrl(lat, lng);
+            return;
+        }
+        
+        // Continue checking
+        setTimeout(checkAssetAndOverlay, checkInterval);
+    };
+    
+    checkAssetAndOverlay();
+}
+
+function waitForAssetsAndStartPointAnalysis(lat, lng, maxWait = 10000) {
+    const startTime = Date.now();
+    const checkInterval = 100; // Check every 100ms
+    
+    const checkAssets = () => {
+        if (assetsData && !isLoadingAssets) {
+            // Assets loaded, start point analysis
+            console.log(`Starting point analysis at ${lat}, ${lng}`);
+            startPointAnalysisFromUrl(lat, lng);
+            return;
+        }
+        
+        if (Date.now() - startTime > maxWait) {
+            console.warn(`Timeout waiting for assets to load for point analysis`);
+            return;
+        }
+        
+        // Continue checking
+        setTimeout(checkAssets, checkInterval);
+    };
+    
+    checkAssets();
+}
+
+function startPointAnalysisFromUrl(lat, lng) {
+    // Clear any existing analysis state but keep URL parameters
+    clearPointAnalysisState();
+    
+    // Set up analysis point
+    analysisPoint = {
+        lat: lat,
+        lng: lng,
+        latlng: L.latLng(lat, lng)
+    };
+    pointAnalysisMode = true;
+    
+    // Center map on the analysis point
+    map.setView([lat, lng], Math.max(map.getZoom(), 10));
+    
+    // Show loading state with visual layer
+    showPointAnalysisLoading();
+    
+    // Start the analysis process
+    performPointAnalysis(analysisPoint);
 }
 
 async function runPopulationCoordinateTest() {
@@ -869,9 +982,8 @@ function clearAssetSelection() {
         // Clear selected asset
         selectedAsset = null;
         
-        // Clear URL parameter
-        const newUrl = `${window.location.origin}${window.location.pathname}`;
-        window.history.replaceState({}, '', newUrl);
+        // Clear asset from URL (but preserve point analysis params)
+        updateUrlWithAsset(null);
         
         // Reset asset details panel
         document.getElementById('asset-details').innerHTML = `
@@ -906,9 +1018,8 @@ function selectAsset(asset) {
     // Update visual selection state
     updateAssetMarkerStyles(previousAsset, asset);
     
-    // Update URL with asset parameter
-    const newUrl = `${window.location.origin}${window.location.pathname}?asset=${assetId}`;
-    window.history.replaceState({}, '', newUrl);
+    // Update URL with asset parameter (preserving any point analysis params)
+    updateUrlWithAsset(assetId);
     
     // Update asset details panel
     updateAssetDetailsPanel(asset);
@@ -1076,6 +1187,9 @@ function handleMapClick(e) {
     };
     pointAnalysisMode = true;
     
+    // Update URL with point analysis parameters
+    updateUrlWithPointAnalysis(e.latlng.lat, e.latlng.lng);
+    
     // Show loading state with visual layer
     showPointAnalysisLoading();
     
@@ -1083,7 +1197,8 @@ function handleMapClick(e) {
     performPointAnalysis(analysisPoint);
 }
 
-function clearPointAnalysis() {
+function clearPointAnalysisState() {
+    // Clear the analysis state but NOT the URL (used when starting from URL)
     pointAnalysisMode = false;
     analysisPoint = null;
     nearbyAssets = [];
@@ -1110,6 +1225,64 @@ function clearPointAnalysis() {
     }
     
     // Don't clear loadedAssetData cache - keep for performance
+}
+
+function clearPointAnalysis() {
+    // Clear the analysis state AND the URL (used for manual clearing)
+    clearPointAnalysisState();
+    
+    // Clear point analysis parameters from URL when analysis is cleared
+    clearUrlPointAnalysis();
+}
+
+// URL State Management Functions
+function updateUrlWithPointAnalysis(lat, lng) {
+    const url = new URL(window.location);
+    
+    // Clean up any legacy parameters
+    url.searchParams.delete('pointlat');
+    url.searchParams.delete('pointlng');
+    
+    // Round coordinates to reasonable precision for URLs (6 decimal places = ~10cm precision)
+    url.searchParams.set('poilat', lat.toFixed(6));
+    url.searchParams.set('poilng', lng.toFixed(6));
+    
+    // Add current asset if one is selected
+    if (selectedAsset) {
+        const assetKey = `${selectedAsset.country}_${selectedAsset.asset_id}`;
+        url.searchParams.set('asset', assetKey);
+    }
+    
+    // Update URL without reloading the page
+    window.history.replaceState(null, '', url.toString());
+    
+    console.log(`Updated URL for point analysis: ${url.toString()}`);
+}
+
+function clearUrlPointAnalysis() {
+    const url = new URL(window.location);
+    
+    // Remove point analysis parameters (both old and new)
+    url.searchParams.delete('poilat');
+    url.searchParams.delete('poilng');
+    url.searchParams.delete('pointlat');
+    url.searchParams.delete('pointlng');
+    
+    // Update URL without reloading the page
+    window.history.replaceState(null, '', url.toString());
+}
+
+function updateUrlWithAsset(assetKey) {
+    const url = new URL(window.location);
+    
+    if (assetKey) {
+        url.searchParams.set('asset', assetKey);
+    } else {
+        url.searchParams.delete('asset');
+    }
+    
+    // Update URL without reloading the page
+    window.history.replaceState(null, '', url.toString());
 }
 
 function exitPointAnalysisMode() {
