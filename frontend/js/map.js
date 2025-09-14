@@ -1568,8 +1568,43 @@ function displayPointAnalysisResults(point, contributingAssets, totalNearby) {
         pointAnalysisLayer.updateContributingAssets(contributingAssets);
     }
     
-    // Calculate total additional PM2.5
+    // Calculate totals
     const totalAdditionalPM25 = contributingAssets.reduce((sum, ca) => sum + ca.contribution.concentration, 0);
+    
+    // Calculate total population and grid area from first contributing asset (they should all be the same)
+    let totalPopulation = 0;
+    let gridAreaSqM = 0;
+    let gridDescription = '';
+    
+    if (contributingAssets.length > 0) {
+        // Get the first asset's data to determine population and grid area
+        const firstAsset = contributingAssets[0];
+        totalPopulation = firstAsset.contribution.population;
+        
+        // Calculate grid cell area using pixel size from the data
+        // Note: We need to get this from the loaded data cache
+        const assetKey = `${firstAsset.asset.country}_${firstAsset.asset.asset_id}`;
+        const cachedData = loadedAssetData.get(assetKey);
+        
+        if (cachedData && cachedData.pixel_size) {
+            // Convert degrees to meters at this latitude
+            const pixelSizeXDegrees = cachedData.pixel_size.x;
+            const pixelSizeYDegrees = cachedData.pixel_size.y;
+            
+            // Convert degrees to meters (approximate at given latitude)
+            const lat = point.lat;
+            const metersPerDegreeLat = 111320; // meters per degree latitude (constant)
+            const metersPerDegreeLng = 111320 * Math.cos(lat * Math.PI / 180); // varies by latitude
+            
+            const pixelWidthM = pixelSizeXDegrees * metersPerDegreeLng;
+            const pixelHeightM = pixelSizeYDegrees * metersPerDegreeLat;
+            gridAreaSqM = pixelWidthM * pixelHeightM;
+            
+            gridDescription = `${Math.round(pixelWidthM)}m × ${Math.round(pixelHeightM)}m grid cell (${Math.round(gridAreaSqM).toLocaleString()} m²)`;
+        } else {
+            gridDescription = 'grid cell area';
+        }
+    }
     
     // Generate the results HTML
     const assetDetails = document.getElementById('asset-details');
@@ -1581,6 +1616,8 @@ function displayPointAnalysisResults(point, contributingAssets, totalNearby) {
                 
                 <div class="alert alert-success mb-3">
                     <strong>🔢 Total Additional PM2.5:</strong> ${totalAdditionalPM25.toFixed(2)} μg/m³<br>
+                    <strong>👥 Population in area:</strong> ${totalPopulation.toFixed(1)} people<br>
+                    <strong>📐 Analysis area:</strong> ${gridDescription}<br>
                     <strong>🏭 Contributing Assets:</strong> ${contributingAssets.length} of ${totalNearby} nearby
                 </div>
                 
@@ -1601,7 +1638,12 @@ function displayPointAnalysisResults(point, contributingAssets, totalNearby) {
             const color = getConcentrationColor(contribution.concentration);
             
             html += `
-                <div class="mb-3">
+                <div class="mb-3 point-analysis-asset-item" 
+                     data-asset-key="${asset.country}_${asset.asset_id}"
+                     style="cursor: pointer; padding: 8px; border-radius: 6px; transition: background-color 0.2s;"
+                     onmouseover="highlightAssetMarker('${asset.country}_${asset.asset_id}', true)"
+                     onmouseout="highlightAssetMarker('${asset.country}_${asset.asset_id}', false)"
+                     onclick="selectAssetFromPointAnalysis('${asset.country}_${asset.asset_id}')">
                     <div style="display: flex; align-items: center; margin-bottom: 5px;">
                         <div style="
                             width: ${barWidth}px; 
@@ -1614,8 +1656,7 @@ function displayPointAnalysisResults(point, contributingAssets, totalNearby) {
                     </div>
                     <div style="font-size: 12px; color: #666; margin-left: 10px;">
                         <strong>Additional PM2.5:</strong> ${contribution.concentration.toFixed(2)} μg/m³<br>
-                        <strong>Distance:</strong> ${distance.toFixed(1)} km ${direction}<br>
-                        <strong>Population at point:</strong> ${contribution.population.toFixed(1)} people
+                        <strong>Distance:</strong> ${distance.toFixed(1)} km ${direction}
                     </div>
                 </div>
             `;
@@ -1633,6 +1674,82 @@ function displayPointAnalysisResults(point, contributingAssets, totalNearby) {
         assetDetails.innerHTML = html;
     }
 }
+
+// Point Analysis Marker Interaction Functions
+function highlightAssetMarker(assetKey, highlight) {
+    const marker = assetMarkerMap.get(assetKey);
+    if (!marker) return;
+    
+    try {
+        if (highlight) {
+            // Bring marker to front and add highlighting
+            marker.setZIndexOffset(100);
+            
+            // Get the marker DOM element - try different approaches for robustness
+            let markerElement = null;
+            if (marker.getElement) {
+                markerElement = marker.getElement();
+            } else if (marker._icon) {
+                markerElement = marker._icon;
+            }
+            
+            if (markerElement) {
+                markerElement.classList.add('marker-highlighted');
+            }
+        } else {
+            // Reset z-index and remove highlighting
+            marker.setZIndexOffset(0);
+            
+            // Get the marker DOM element
+            let markerElement = null;
+            if (marker.getElement) {
+                markerElement = marker.getElement();
+            } else if (marker._icon) {
+                markerElement = marker._icon;
+            }
+            
+            if (markerElement) {
+                markerElement.classList.remove('marker-highlighted');
+            }
+        }
+    } catch (error) {
+        console.warn('Error highlighting marker:', error);
+    }
+}
+
+function selectAssetFromPointAnalysis(assetKey) {
+    // Find the asset data
+    const asset = assetsData.assets.find(a => `${a.country}_${a.asset_id}` === assetKey);
+    if (!asset) {
+        console.error(`Asset not found: ${assetKey}`);
+        return;
+    }
+    
+    // Clear the point analysis first (but keep the point analysis layer for now)
+    const currentPoint = analysisPoint;
+    clearPointAnalysisState(); // Don't clear URL since we're changing selection
+    
+    // Select the new asset (this will update the overlay)
+    selectAsset(asset);
+    
+    // Re-enable point analysis at the same point after a short delay to allow overlay to load
+    setTimeout(() => {
+        if (currentPoint) {
+            analysisPoint = currentPoint;
+            pointAnalysisMode = true;
+            
+            // Show loading state
+            showPointAnalysisLoading();
+            
+            // Restart analysis with the new asset selected
+            performPointAnalysis(currentPoint);
+        }
+    }, 500);
+}
+
+// Make functions globally available for onclick handlers
+window.highlightAssetMarker = highlightAssetMarker;
+window.selectAssetFromPointAnalysis = selectAssetFromPointAnalysis;
 
 // New function for CircleCanvasOverlay pixel data lookup
 function getCircleCanvasPixelData(latlng, canvasOverlay) {
