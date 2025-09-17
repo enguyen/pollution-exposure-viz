@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Globe</title>
+    
+    <!-- Mapbox GL JS -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        /* Custom transition for smooth state changes */
+        .transition-all-long {
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #error-message {
+            display: none;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            background-color: rgba(185, 28, 28, 0.8);
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gray-900">
+
+    <!-- The map container will be filled by Mapbox -->
+    <div id="map"></div>
+
+    <!-- Overlay for Landing, Tour, and Search states -->
+    <div id="overlay" class="fixed inset-0 bg-black/30 z-10 flex items-center justify-center transition-opacity duration-1000 p-4">
+        <div id="search-container" class="relative w-full max-w-lg transition-all-long transform">
+            <div class="flex items-center bg-white/10 backdrop-blur-md rounded-full shadow-2xl p-2">
+                <input 
+                    type="text" 
+                    id="city-search"
+                    placeholder=" "
+                    class="w-full bg-transparent text-white placeholder-gray-300 text-lg px-6 py-2 focus:outline-none"
+                    autocomplete="off"
+                >
+                <button id="explore-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full whitespace-nowrap transition-all duration-300">
+                    Explore Map
+                </button>
+            </div>
+            <!-- Container for autocomplete results -->
+            <div id="autocomplete-results" class="absolute mt-2 w-full bg-white/10 backdrop-blur-md rounded-xl shadow-lg overflow-hidden z-20"></div>
+        </div>
+        <!-- Error message container -->
+        <div id="error-message">
+            <h2 class="text-xl font-bold mb-2">Map Initialization Failed</h2>
+            <p>There was a problem loading the globe. This is often due to an invalid Mapbox Access Token or network issues.</p>
+            <p class="mt-4 text-sm bg-black/20 p-2 rounded"><strong>Error Details:</strong> <span id="error-details"></span></p>
+        </div>
+    </div>
+
+    <script>
+    // Wait for the DOM to be fully loaded before running the script
+    window.addEventListener('DOMContentLoaded', () => {
+        // --- CONFIGURATION ---
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpY25ndXllbnNmIiwiYSI6ImNtZm9peGs0ZDA2N2YydHBzcTloc3J4MXAifQ.kxFrnjklfwfgT6R9hgggrw'; // IMPORTANT: Replace with your token
+
+        const cities = [
+            { name: "São Paulo, Brazil", coordinates: [-46.6333, -23.5505], zoom: 11 },
+            { name: "New York, NY, USA", coordinates: [-74.0060, 40.7128], zoom: 11.5 },
+            { name: "Porto, Portugal", coordinates: [-8.6291, 41.1579], zoom: 12 },
+            { name: "Shanghai, China", coordinates: [121.4737, 31.2304], zoom: 10.5 }
+        ];
+
+        // --- DOM ELEMENTS ---
+        const overlay = document.getElementById('overlay');
+        const searchContainer = document.getElementById('search-container');
+        const searchInput = document.getElementById('city-search');
+        const exploreButton = document.getElementById('explore-button');
+        const autocompleteResults = document.getElementById('autocomplete-results');
+        const errorMessageContainer = document.getElementById('error-message');
+        const errorDetailsSpan = document.getElementById('error-details');
+
+        // --- STATE MANAGEMENT ---
+        let currentState = 'landing';
+        let tourTimeout;
+        let rotationAnimationId;
+        let currentCityIndex = 0;
+        let userInteracted = false;
+        let map;
+
+        function showInitializationError(error) {
+            console.error("Mapbox Initialization Error:", error);
+            searchContainer.style.display = 'none';
+            errorMessageContainer.style.display = 'block';
+            errorDetailsSpan.textContent = error.message;
+        }
+
+        try {
+            // --- MAP INITIALIZATION ---
+            map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/dark-v11',
+                projection: { name: 'globe' },
+                zoom: 1.5,
+                center: [-40, 30]
+            });
+
+            // --- CORE LOGIC ---
+            map.on('load', () => {
+                // Set globe atmosphere
+                map.setFog({
+                    color: 'rgb(2, 8, 20)',
+                    'high-color': 'rgb(29, 78, 216)',
+                    'horizon-blend': 0.02,
+                    'space-color': 'rgb(17, 24, 39)',
+                    'star-intensity': 0.6 
+                });
+
+                // Start in the landing state
+                startLandingState();
+            });
+
+            map.on('error', (e) => {
+                // Catch runtime errors from Mapbox after initialization
+                showInitializationError(e.error);
+            });
+
+        } catch (error) {
+            showInitializationError(error);
+            return; // Stop script execution if map fails
+        }
+
+        // --- STATE FUNCTIONS ---
+
+        function startLandingState() {
+            console.log('State: Landing');
+            currentState = 'landing';
+            startSpinning();
+            tourTimeout = setTimeout(() => {
+                if (userInteracted) return;
+                startTourState();
+            }, 3000);
+        }
+
+        function startTourState() {
+            console.log('State: Tour');
+            currentState = 'tour';
+            stopSpinning();
+            animateTourStep(0);
+        }
+        
+        function enterSearchState() {
+            if (currentState === 'search') return;
+            console.log('State: Search');
+            userInteracted = true;
+            currentState = 'search';
+            stopAllAnimations();
+        }
+
+        function enterInteractiveState() {
+            if (currentState === 'interactive') return;
+            console.log('State: Interactive');
+            currentState = 'interactive';
+            userInteracted = true;
+            stopAllAnimations();
+
+            // Make the overlay transparent and stop it from centering content, but keep it in the DOM
+            overlay.classList.remove('bg-black/30', 'flex', 'items-center', 'justify-center');
+            
+            // Move search bar to top right
+            searchContainer.className = 'absolute top-4 right-4 w-full max-w-sm transition-all-long';
+            exploreButton.classList.add('hidden');
+            autocompleteResults.classList.add('max-h-80', 'overflow-y-auto');
+
+            // Make map fully interactive (it is by default, this ensures it)
+            map.boxZoom.enable();
+            map.dragPan.enable();
+            map.dragRotate.enable();
+            map.keyboard.enable();
+            map.scrollZoom.enable();
+            map.touchZoomRotate.enable();
+        }
+
+
+        // --- ANIMATION & TOUR LOGIC ---
+
+        function animateTourStep(index) {
+            if (currentState !== 'tour') return;
+            
+            const city = cities[index];
+            currentCityIndex = index;
+            
+            searchInput.placeholder = 'Traveling...';
+            
+            // Animate In - updated to be faster and match search animation style
+            map.flyTo({
+                center: city.coordinates,
+                zoom: city.zoom,
+                speed: 1.2, // Increased speed
+                essential: true // Ensures animation is not interrupted by user interaction
+            });
+
+            map.once('moveend', () => {
+                if (currentState !== 'tour') return;
+                
+                // Dwell
+                searchInput.placeholder = city.name;
+                tourTimeout = setTimeout(() => {
+                    if (currentState !== 'tour') return;
+
+                    // Animate Out
+                    map.flyTo({
+                        zoom: 1.5,
+                        speed: 0.5,
+                        curve: 1.4
+                    });
+                    
+                    map.once('moveend', () => {
+                        // Go to next city
+                        const nextIndex = (index + 1) % cities.length;
+                        animateTourStep(nextIndex);
+                    });
+                }, 3000); // 3-second dwell
+            });
+        }
+        
+        const spinGlobe = (timestamp) => {
+            const speed = -0.1; // degrees per frame
+            const center = map.getCenter();
+            center.lng += speed;
+            map.easeTo({ center, duration: 0, animate: false });
+            rotationAnimationId = requestAnimationFrame(spinGlobe);
+        };
+
+        function startSpinning() {
+            if (rotationAnimationId) return;
+            rotationAnimationId = requestAnimationFrame(spinGlobe);
+        }
+
+        function stopSpinning() {
+            if (rotationAnimationId) {
+                cancelAnimationFrame(rotationAnimationId);
+                rotationAnimationId = null;
+            }
+        }
+        
+        function stopAllAnimations() {
+            clearTimeout(tourTimeout);
+            stopSpinning();
+            if (map) map.stop(); // Stop any ongoing map flyTo animations
+        }
+
+        // --- EVENT LISTENERS ---
+        searchInput.addEventListener('focus', enterSearchState);
+        exploreButton.addEventListener('click', enterInteractiveState);
+
+        // Geocoding / Autocomplete
+        searchInput.addEventListener('input', async (e) => {
+            const query = e.target.value;
+            autocompleteResults.innerHTML = '';
+
+            if (query.length < 2) return;
+
+            const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}&types=place,locality&autocomplete=true`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.features) {
+                    data.features.forEach(feature => {
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'px-6 py-3 text-white cursor-pointer hover:bg-black/20';
+                        resultItem.textContent = feature.place_name;
+                        resultItem.addEventListener('click', () => {
+                            const animationSpeed = currentState === 'interactive' ? 2.4 : 1.2;
+                            map.flyTo({
+                                center: feature.center,
+                                zoom: 11,
+                                speed: animationSpeed
+                            });
+                            searchInput.value = feature.place_name;
+                            autocompleteResults.innerHTML = '';
+                        });
+                        autocompleteResults.appendChild(resultItem);
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching geocoding data:', error);
+            }
+        });
+        
+        // Hide autocomplete when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!searchContainer.contains(e.target)) {
+                autocompleteResults.innerHTML = '';
+            }
+        });
+    });
+    </script>
+
+</body>
+</html>
+
