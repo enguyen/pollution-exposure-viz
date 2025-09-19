@@ -111,6 +111,9 @@ function initializeApp() {
     // Load assets data
     loadAssetsData();
     
+    // Initialize city search functionality
+    initializeCitySearch();
+    
     // Check for URL parameters
     checkUrlParameters();
     
@@ -1174,6 +1177,11 @@ function handleMapClick(e) {
     const targetElement = e.originalEvent.target;
     if (targetElement && targetElement.classList && targetElement.classList.contains('custom-marker')) {
         return; // Let existing asset selection handle this
+    }
+    
+    // Check if click originated from the city search container - if so, ignore it
+    if (targetElement && targetElement.closest('.city-search-container')) {
+        return; // Don't trigger point analysis for city search interactions
     }
     
     // Always clear any existing point analysis first
@@ -3316,5 +3324,449 @@ class CircleCanvasOverlay extends L.Layer {
         const offsetY = assetCanvasY - overlayCanvasY;
         const distance = Math.sqrt(offsetX * offsetX + offsetY * offsetY);
         
+    }
+}
+
+// ===== CITY SEARCH FUNCTIONALITY =====
+
+// Database of major world cities with coordinates
+const CITY_DATABASE = [
+    // Major global cities
+    { name: "New York", country: "United States", lat: 40.7128, lng: -74.0060 },
+    { name: "London", country: "United Kingdom", lat: 51.5074, lng: -0.1278 },
+    { name: "Paris", country: "France", lat: 48.8566, lng: 2.3522 },
+    { name: "Tokyo", country: "Japan", lat: 35.6762, lng: 139.6503 },
+    { name: "Berlin", country: "Germany", lat: 52.5200, lng: 13.4050 },
+    { name: "Beijing", country: "China", lat: 39.9042, lng: 116.4074 },
+    { name: "Shanghai", country: "China", lat: 31.2304, lng: 121.4737 },
+    { name: "Mumbai", country: "India", lat: 19.0760, lng: 72.8777 },
+    { name: "Delhi", country: "India", lat: 28.7041, lng: 77.1025 },
+    { name: "São Paulo", country: "Brazil", lat: -23.5505, lng: -46.6333 },
+    { name: "Mexico City", country: "Mexico", lat: 19.4326, lng: -99.1332 },
+    { name: "Los Angeles", country: "United States", lat: 34.0522, lng: -118.2437 },
+    { name: "Chicago", country: "United States", lat: 41.8781, lng: -87.6298 },
+    { name: "Houston", country: "United States", lat: 29.7604, lng: -95.3698 },
+    { name: "Phoenix", country: "United States", lat: 33.4484, lng: -112.0740 },
+    { name: "Philadelphia", country: "United States", lat: 39.9526, lng: -75.1652 },
+    { name: "San Antonio", country: "United States", lat: 29.4241, lng: -98.4936 },
+    { name: "San Diego", country: "United States", lat: 32.7157, lng: -117.1611 },
+    { name: "Dallas", country: "United States", lat: 32.7767, lng: -96.7970 },
+    { name: "San Jose", country: "United States", lat: 37.3382, lng: -121.8863 },
+    { name: "Austin", country: "United States", lat: 30.2672, lng: -97.7431 },
+    { name: "Jacksonville", country: "United States", lat: 30.3322, lng: -81.6557 },
+    { name: "Fort Worth", country: "United States", lat: 32.7555, lng: -97.3308 },
+    { name: "Columbus", country: "United States", lat: 39.9612, lng: -82.9988 },
+    { name: "San Francisco", country: "United States", lat: 37.7749, lng: -122.4194 },
+    { name: "Charlotte", country: "United States", lat: 35.2271, lng: -80.8431 },
+    { name: "Indianapolis", country: "United States", lat: 39.7684, lng: -86.1581 },
+    { name: "Seattle", country: "United States", lat: 47.6062, lng: -122.3321 },
+    { name: "Denver", country: "United States", lat: 39.7392, lng: -104.9903 },
+    { name: "Boston", country: "United States", lat: 42.3601, lng: -71.0589 },
+    { name: "Washington D.C.", country: "United States", lat: 38.9072, lng: -77.0369 },
+    
+    // European cities
+    { name: "Rome", country: "Italy", lat: 41.9028, lng: 12.4964 },
+    { name: "Madrid", country: "Spain", lat: 40.4168, lng: -3.7038 },
+    { name: "Amsterdam", country: "Netherlands", lat: 52.3676, lng: 4.9041 },
+    { name: "Barcelona", country: "Spain", lat: 41.3851, lng: 2.1734 },
+    { name: "Vienna", country: "Austria", lat: 48.2082, lng: 16.3738 },
+    { name: "Prague", country: "Czech Republic", lat: 50.0755, lng: 14.4378 },
+    { name: "Budapest", country: "Hungary", lat: 47.4979, lng: 19.0402 },
+    { name: "Warsaw", country: "Poland", lat: 52.2297, lng: 21.0122 },
+    { name: "Stockholm", country: "Sweden", lat: 59.3293, lng: 18.0686 },
+    { name: "Copenhagen", country: "Denmark", lat: 55.6761, lng: 12.5683 },
+    { name: "Oslo", country: "Norway", lat: 59.9139, lng: 10.7522 },
+    { name: "Helsinki", country: "Finland", lat: 60.1699, lng: 24.9384 },
+    { name: "Brussels", country: "Belgium", lat: 50.8503, lng: 4.3517 },
+    { name: "Zurich", country: "Switzerland", lat: 47.3769, lng: 8.5417 },
+    { name: "Geneva", country: "Switzerland", lat: 46.2044, lng: 6.1432 },
+    { name: "Munich", country: "Germany", lat: 48.1351, lng: 11.5820 },
+    { name: "Hamburg", country: "Germany", lat: 53.5511, lng: 9.9937 },
+    { name: "Frankfurt", country: "Germany", lat: 50.1109, lng: 8.6821 },
+    { name: "Cologne", country: "Germany", lat: 50.9375, lng: 6.9603 },
+    { name: "Milan", country: "Italy", lat: 45.4642, lng: 9.1900 },
+    { name: "Naples", country: "Italy", lat: 40.8518, lng: 14.2681 },
+    { name: "Florence", country: "Italy", lat: 43.7696, lng: 11.2558 },
+    { name: "Venice", country: "Italy", lat: 45.4408, lng: 12.3155 },
+    { name: "Lisbon", country: "Portugal", lat: 38.7223, lng: -9.1393 },
+    { name: "Porto", country: "Portugal", lat: 41.1579, lng: -8.6291 },
+    { name: "Dublin", country: "Ireland", lat: 53.3498, lng: -6.2603 },
+    { name: "Edinburgh", country: "United Kingdom", lat: 55.9533, lng: -3.1883 },
+    { name: "Manchester", country: "United Kingdom", lat: 53.4808, lng: -2.2426 },
+    { name: "Birmingham", country: "United Kingdom", lat: 52.4862, lng: -1.8904 },
+    { name: "Liverpool", country: "United Kingdom", lat: 53.4084, lng: -2.9916 },
+    { name: "Glasgow", country: "United Kingdom", lat: 55.8642, lng: -4.2518 },
+    { name: "Athens", country: "Greece", lat: 37.9755, lng: 23.7348 },
+    { name: "Istanbul", country: "Turkey", lat: 41.0082, lng: 28.9784 },
+    { name: "Ankara", country: "Turkey", lat: 39.9334, lng: 32.8597 },
+    { name: "Moscow", country: "Russia", lat: 55.7558, lng: 37.6176 },
+    { name: "Saint Petersburg", country: "Russia", lat: 59.9311, lng: 30.3609 },
+    { name: "Kiev", country: "Ukraine", lat: 50.4501, lng: 30.5234 },
+    
+    // Asian cities
+    { name: "Seoul", country: "South Korea", lat: 37.5665, lng: 126.9780 },
+    { name: "Osaka", country: "Japan", lat: 34.6937, lng: 135.5023 },
+    { name: "Kyoto", country: "Japan", lat: 35.0116, lng: 135.7681 },
+    { name: "Hong Kong", country: "Hong Kong", lat: 22.3193, lng: 114.1694 },
+    { name: "Singapore", country: "Singapore", lat: 1.3521, lng: 103.8198 },
+    { name: "Bangkok", country: "Thailand", lat: 13.7563, lng: 100.5018 },
+    { name: "Kuala Lumpur", country: "Malaysia", lat: 3.1390, lng: 101.6869 },
+    { name: "Jakarta", country: "Indonesia", lat: -6.2088, lng: 106.8456 },
+    { name: "Manila", country: "Philippines", lat: 14.5995, lng: 120.9842 },
+    { name: "Ho Chi Minh City", country: "Vietnam", lat: 10.8231, lng: 106.6297 },
+    { name: "Hanoi", country: "Vietnam", lat: 21.0285, lng: 105.8542 },
+    { name: "Taipei", country: "Taiwan", lat: 25.0330, lng: 121.5654 },
+    { name: "Bangalore", country: "India", lat: 12.9716, lng: 77.5946 },
+    { name: "Chennai", country: "India", lat: 13.0827, lng: 80.2707 },
+    { name: "Kolkata", country: "India", lat: 22.5726, lng: 88.3639 },
+    { name: "Hyderabad", country: "India", lat: 17.3850, lng: 78.4867 },
+    { name: "Pune", country: "India", lat: 18.5204, lng: 73.8567 },
+    { name: "Ahmedabad", country: "India", lat: 23.0225, lng: 72.5714 },
+    { name: "Karachi", country: "Pakistan", lat: 24.8607, lng: 67.0011 },
+    { name: "Lahore", country: "Pakistan", lat: 31.5804, lng: 74.3587 },
+    { name: "Islamabad", country: "Pakistan", lat: 33.6844, lng: 73.0479 },
+    { name: "Dhaka", country: "Bangladesh", lat: 23.8103, lng: 90.4125 },
+    { name: "Colombo", country: "Sri Lanka", lat: 6.9271, lng: 79.8612 },
+    { name: "Yangon", country: "Myanmar", lat: 16.8661, lng: 96.1951 },
+    { name: "Phnom Penh", country: "Cambodia", lat: 11.5564, lng: 104.9282 },
+    { name: "Vientiane", country: "Laos", lat: 17.9757, lng: 102.6331 },
+    
+    // Middle Eastern cities
+    { name: "Dubai", country: "United Arab Emirates", lat: 25.2048, lng: 55.2708 },
+    { name: "Abu Dhabi", country: "United Arab Emirates", lat: 24.2532, lng: 54.3773 },
+    { name: "Doha", country: "Qatar", lat: 25.2854, lng: 51.5310 },
+    { name: "Kuwait City", country: "Kuwait", lat: 29.3759, lng: 47.9774 },
+    { name: "Riyadh", country: "Saudi Arabia", lat: 24.7136, lng: 46.6753 },
+    { name: "Jeddah", country: "Saudi Arabia", lat: 21.4858, lng: 39.1925 },
+    { name: "Tehran", country: "Iran", lat: 35.6892, lng: 51.3890 },
+    { name: "Baghdad", country: "Iraq", lat: 33.3152, lng: 44.3661 },
+    { name: "Amman", country: "Jordan", lat: 31.9454, lng: 35.9284 },
+    { name: "Beirut", country: "Lebanon", lat: 33.8938, lng: 35.5018 },
+    { name: "Damascus", country: "Syria", lat: 33.5138, lng: 36.2765 },
+    { name: "Tel Aviv", country: "Israel", lat: 32.0853, lng: 34.7818 },
+    { name: "Jerusalem", country: "Israel", lat: 31.7683, lng: 35.2137 },
+    
+    // African cities
+    { name: "Cairo", country: "Egypt", lat: 30.0444, lng: 31.2357 },
+    { name: "Lagos", country: "Nigeria", lat: 6.5244, lng: 3.3792 },
+    { name: "Kinshasa", country: "Democratic Republic of Congo", lat: -4.4419, lng: 15.2663 },
+    { name: "Johannesburg", country: "South Africa", lat: -26.2041, lng: 28.0473 },
+    { name: "Cape Town", country: "South Africa", lat: -33.9249, lng: 18.4241 },
+    { name: "Durban", country: "South Africa", lat: -29.8587, lng: 31.0218 },
+    { name: "Casablanca", country: "Morocco", lat: 33.5731, lng: -7.5898 },
+    { name: "Rabat", country: "Morocco", lat: 34.0209, lng: -6.8416 },
+    { name: "Algiers", country: "Algeria", lat: 36.7538, lng: 3.0588 },
+    { name: "Tunis", country: "Tunisia", lat: 36.8065, lng: 10.1815 },
+    { name: "Tripoli", country: "Libya", lat: 32.8872, lng: 13.1913 },
+    { name: "Khartoum", country: "Sudan", lat: 15.5007, lng: 32.5599 },
+    { name: "Addis Ababa", country: "Ethiopia", lat: 9.1450, lng: 38.7451 },
+    { name: "Nairobi", country: "Kenya", lat: -1.2921, lng: 36.8219 },
+    { name: "Kampala", country: "Uganda", lat: 0.3476, lng: 32.5825 },
+    { name: "Dar es Salaam", country: "Tanzania", lat: -6.7924, lng: 39.2083 },
+    { name: "Lusaka", country: "Zambia", lat: -15.3875, lng: 28.3228 },
+    { name: "Harare", country: "Zimbabwe", lat: -17.8252, lng: 31.0335 },
+    { name: "Gaborone", country: "Botswana", lat: -24.6282, lng: 25.9231 },
+    { name: "Windhoek", country: "Namibia", lat: -22.9576, lng: 17.0832 },
+    { name: "Maputo", country: "Mozambique", lat: -25.9692, lng: 32.5732 },
+    { name: "Antananarivo", country: "Madagascar", lat: -18.8792, lng: 47.5079 },
+    { name: "Port Louis", country: "Mauritius", lat: -20.1654, lng: 57.5016 },
+    { name: "Accra", country: "Ghana", lat: 5.6037, lng: -0.1870 },
+    { name: "Abuja", country: "Nigeria", lat: 9.0579, lng: 7.4951 },
+    { name: "Dakar", country: "Senegal", lat: 14.7167, lng: -17.4677 },
+    { name: "Bamako", country: "Mali", lat: 12.6392, lng: -8.0029 },
+    { name: "Ouagadougou", country: "Burkina Faso", lat: 12.3714, lng: -1.5197 },
+    { name: "Abidjan", country: "Ivory Coast", lat: 5.3600, lng: -4.0083 },
+    { name: "Monrovia", country: "Liberia", lat: 6.2907, lng: -10.7605 },
+    { name: "Freetown", country: "Sierra Leone", lat: 8.4840, lng: -13.2299 },
+    { name: "Conakry", country: "Guinea", lat: 9.6412, lng: -13.5784 },
+    { name: "Bissau", country: "Guinea-Bissau", lat: 11.8817, lng: -15.6178 },
+    { name: "Praia", country: "Cape Verde", lat: 14.9177, lng: -23.5092 },
+    
+    // South American cities
+    { name: "Rio de Janeiro", country: "Brazil", lat: -22.9068, lng: -43.1729 },
+    { name: "Buenos Aires", country: "Argentina", lat: -34.6037, lng: -58.3816 },
+    { name: "Lima", country: "Peru", lat: -12.0464, lng: -77.0428 },
+    { name: "Bogotá", country: "Colombia", lat: 4.7110, lng: -74.0721 },
+    { name: "Santiago", country: "Chile", lat: -33.4489, lng: -70.6693 },
+    { name: "Caracas", country: "Venezuela", lat: 10.4806, lng: -66.9036 },
+    { name: "Quito", country: "Ecuador", lat: -0.1807, lng: -78.4678 },
+    { name: "La Paz", country: "Bolivia", lat: -16.5000, lng: -68.1193 },
+    { name: "Asunción", country: "Paraguay", lat: -25.2637, lng: -57.5759 },
+    { name: "Montevideo", country: "Uruguay", lat: -34.9011, lng: -56.1645 },
+    { name: "Georgetown", country: "Guyana", lat: 6.8013, lng: -58.1551 },
+    { name: "Paramaribo", country: "Suriname", lat: 5.8520, lng: -55.2038 },
+    { name: "Cayenne", country: "French Guiana", lat: 4.9333, lng: -52.3333 },
+    { name: "Brasília", country: "Brazil", lat: -15.8267, lng: -47.9218 },
+    { name: "Belo Horizonte", country: "Brazil", lat: -19.9167, lng: -43.9345 },
+    { name: "Salvador", country: "Brazil", lat: -12.9714, lng: -38.5014 },
+    { name: "Fortaleza", country: "Brazil", lat: -3.7319, lng: -38.5267 },
+    { name: "Recife", country: "Brazil", lat: -8.0476, lng: -34.8770 },
+    { name: "Porto Alegre", country: "Brazil", lat: -30.0346, lng: -51.2177 },
+    { name: "Curitiba", country: "Brazil", lat: -25.4284, lng: -49.2733 },
+    { name: "Manaus", country: "Brazil", lat: -3.1190, lng: -60.0217 },
+    { name: "Belém", country: "Brazil", lat: -1.4558, lng: -48.5044 },
+    
+    // Oceanian cities
+    { name: "Sydney", country: "Australia", lat: -33.8688, lng: 151.2093 },
+    { name: "Melbourne", country: "Australia", lat: -37.8136, lng: 144.9631 },
+    { name: "Brisbane", country: "Australia", lat: -27.4698, lng: 153.0251 },
+    { name: "Perth", country: "Australia", lat: -31.9505, lng: 115.8605 },
+    { name: "Adelaide", country: "Australia", lat: -34.9285, lng: 138.6007 },
+    { name: "Canberra", country: "Australia", lat: -35.2809, lng: 149.1300 },
+    { name: "Darwin", country: "Australia", lat: -12.4634, lng: 130.8456 },
+    { name: "Hobart", country: "Australia", lat: -42.8821, lng: 147.3272 },
+    { name: "Auckland", country: "New Zealand", lat: -36.8485, lng: 174.7633 },
+    { name: "Wellington", country: "New Zealand", lat: -41.2865, lng: 174.7762 },
+    { name: "Christchurch", country: "New Zealand", lat: -43.5321, lng: 172.6362 },
+    { name: "Hamilton", country: "New Zealand", lat: -37.7870, lng: 175.2793 },
+    { name: "Suva", country: "Fiji", lat: -18.1416, lng: 178.4419 },
+    { name: "Port Moresby", country: "Papua New Guinea", lat: -9.4438, lng: 147.1803 },
+    { name: "Nuku'alofa", country: "Tonga", lat: -21.1393, lng: -175.2046 },
+    { name: "Apia", country: "Samoa", lat: -13.8333, lng: -171.7667 },
+    { name: "Port Vila", country: "Vanuatu", lat: -17.7333, lng: 168.3167 },
+    { name: "Honiara", country: "Solomon Islands", lat: -9.4280, lng: 159.9490 },
+    { name: "Tarawa", country: "Kiribati", lat: 1.3382, lng: 173.0176 },
+    { name: "Majuro", country: "Marshall Islands", lat: 7.1315, lng: 171.1845 },
+    { name: "Palikir", country: "Federated States of Micronesia", lat: 6.9248, lng: 158.1610 },
+    { name: "Ngerulmud", country: "Palau", lat: 7.5006, lng: 134.6242 },
+    { name: "Funafuti", country: "Tuvalu", lat: -8.5243, lng: 179.1942 },
+    { name: "Yaren", country: "Nauru", lat: -0.5477, lng: 166.9209 }
+];
+
+// City search state
+let citySearchInput = null;
+let citySearchResults = null;
+let citySearchClearBtn = null;
+let currentSearchResults = [];
+let selectedCityIndex = -1;
+let isNavigatingToCity = false; // Flag to prevent clearing search when we're navigating
+
+// Initialize city search functionality
+function initializeCitySearch() {
+    citySearchInput = document.getElementById('city-search-input');
+    citySearchResults = document.getElementById('city-search-results');
+    citySearchClearBtn = document.getElementById('search-clear-btn');
+    
+    if (!citySearchInput || !citySearchResults || !citySearchClearBtn) {
+        console.warn('City search elements not found');
+        return;
+    }
+    
+    // Input event handlers
+    citySearchInput.addEventListener('input', handleCitySearchInput);
+    citySearchInput.addEventListener('keydown', handleCitySearchKeydown);
+    citySearchInput.addEventListener('focus', handleCitySearchFocus);
+    citySearchInput.addEventListener('blur', handleCitySearchBlur);
+    
+    // Clear button handler
+    citySearchClearBtn.addEventListener('click', clearCitySearch);
+    
+    // Map movement handlers to clear search when user pans/zooms away
+    map.on('movestart', handleMapMoveStart);
+    map.on('zoomstart', handleMapZoomStart);
+    
+    console.log('City search initialized');
+}
+
+// Handle input changes for city search
+function handleCitySearchInput(event) {
+    const searchTerm = event.target.value.trim();
+    
+    // Show/hide clear button
+    if (searchTerm.length > 0) {
+        citySearchClearBtn.style.display = 'block';
+    } else {
+        citySearchClearBtn.style.display = 'none';
+    }
+    
+    // Search for cities
+    if (searchTerm.length >= 2) {
+        searchCities(searchTerm);
+    } else {
+        hideCitySearchResults();
+    }
+}
+
+// Handle keyboard navigation in city search
+function handleCitySearchKeydown(event) {
+    if (!citySearchResults || citySearchResults.style.display === 'none') {
+        return;
+    }
+    
+    const resultItems = citySearchResults.querySelectorAll('.city-search-result');
+    
+    switch (event.key) {
+        case 'ArrowDown':
+            event.preventDefault();
+            selectedCityIndex = Math.min(selectedCityIndex + 1, resultItems.length - 1);
+            updateCitySearchSelection(resultItems);
+            break;
+            
+        case 'ArrowUp':
+            event.preventDefault();
+            selectedCityIndex = Math.max(selectedCityIndex - 1, -1);
+            updateCitySearchSelection(resultItems);
+            break;
+            
+        case 'Enter':
+            event.preventDefault();
+            if (selectedCityIndex >= 0 && selectedCityIndex < currentSearchResults.length) {
+                selectCity(currentSearchResults[selectedCityIndex]);
+            }
+            break;
+            
+        case 'Escape':
+            hideCitySearchResults();
+            citySearchInput.blur();
+            break;
+    }
+}
+
+// Handle focus events
+function handleCitySearchFocus() {
+    if (currentSearchResults.length > 0) {
+        showCitySearchResults();
+    }
+}
+
+// Handle blur events (with delay to allow for clicks)
+function handleCitySearchBlur() {
+    setTimeout(() => {
+        hideCitySearchResults();
+    }, 200);
+}
+
+// Search for cities matching the search term
+function searchCities(searchTerm) {
+    const normalizedTerm = searchTerm.toLowerCase();
+    
+    // Filter cities that match the search term
+    currentSearchResults = CITY_DATABASE.filter(city => {
+        return city.name.toLowerCase().includes(normalizedTerm) ||
+               city.country.toLowerCase().includes(normalizedTerm);
+    }).slice(0, 8); // Limit to 8 results
+    
+    selectedCityIndex = -1;
+    displayCitySearchResults();
+}
+
+// Display city search results
+function displayCitySearchResults() {
+    if (currentSearchResults.length === 0) {
+        hideCitySearchResults();
+        return;
+    }
+    
+    citySearchResults.innerHTML = '';
+    
+    currentSearchResults.forEach((city, index) => {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'city-search-result';
+        resultItem.innerHTML = `
+            <div class="city-name">${city.name}</div>
+            <div class="city-details">${city.country}</div>
+        `;
+        
+        resultItem.addEventListener('click', () => selectCity(city));
+        resultItem.addEventListener('mouseenter', () => {
+            selectedCityIndex = index;
+            updateCitySearchSelection(citySearchResults.querySelectorAll('.city-search-result'));
+        });
+        
+        citySearchResults.appendChild(resultItem);
+    });
+    
+    showCitySearchResults();
+}
+
+// Update visual selection in city search results
+function updateCitySearchSelection(resultItems) {
+    resultItems.forEach((item, index) => {
+        if (index === selectedCityIndex) {
+            item.style.backgroundColor = '#f8f9fa';
+        } else {
+            item.style.backgroundColor = '';
+        }
+    });
+}
+
+// Show city search results dropdown
+function showCitySearchResults() {
+    if (citySearchResults && currentSearchResults.length > 0) {
+        citySearchResults.style.display = 'block';
+    }
+}
+
+// Hide city search results dropdown
+function hideCitySearchResults() {
+    if (citySearchResults) {
+        citySearchResults.style.display = 'none';
+    }
+    selectedCityIndex = -1;
+}
+
+// Select a city and navigate to it
+function selectCity(city) {
+    console.log(`Navigating to city: ${city.name}, ${city.country}`);
+    
+    // Set flag to prevent clearing search during navigation
+    isNavigatingToCity = true;
+    
+    // Update search input to show selected city
+    citySearchInput.value = `${city.name}, ${city.country}`;
+    citySearchClearBtn.style.display = 'block';
+    
+    // Hide search results
+    hideCitySearchResults();
+    
+    // Navigate to city on map with appropriate zoom level
+    const targetZoom = 10; // Good zoom level for city view
+    map.setView([city.lat, city.lng], targetZoom);
+    
+    // Reset navigation flag after a delay
+    setTimeout(() => {
+        isNavigatingToCity = false;
+    }, 2000); // 2 second delay to allow for map animation
+}
+
+// Clear city search
+function clearCitySearch() {
+    citySearchInput.value = '';
+    citySearchClearBtn.style.display = 'none';
+    hideCitySearchResults();
+    currentSearchResults = [];
+    selectedCityIndex = -1;
+    citySearchInput.focus();
+}
+
+// Handle map movement start - clear search if user moved away from selected city
+function handleMapMoveStart() {
+    if (isNavigatingToCity) return; // Don't clear if we're in the middle of navigating to a city
+    
+    // Check if there's a city currently shown in the search
+    const currentValue = citySearchInput.value.trim();
+    if (currentValue.length > 0) {
+        // Clear the search after a short delay to allow for the movement to complete
+        setTimeout(() => {
+            if (!isNavigatingToCity) { // Double-check we're not navigating
+                clearCitySearch();
+            }
+        }, 500);
+    }
+}
+
+// Handle map zoom start - clear search if user zoomed away from selected city
+function handleMapZoomStart() {
+    if (isNavigatingToCity) return; // Don't clear if we're in the middle of navigating to a city
+    
+    // Check if there's a city currently shown in the search
+    const currentValue = citySearchInput.value.trim();
+    if (currentValue.length > 0) {
+        // Clear the search after a short delay to allow for the zoom to complete
+        setTimeout(() => {
+            if (!isNavigatingToCity) { // Double-check we're not navigating
+                clearCitySearch();
+            }
+        }, 500);
     }
 }

@@ -299,12 +299,124 @@
             z-index: 700 !important;
             box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
         }
+        
+        /* City search autocomplete styles */
+        .city-search-container {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            padding: 0;
+            min-width: 280px;
+            max-width: 350px;
+        }
+        
+        .city-search-input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: transparent;
+        }
+        
+        .city-search-input::placeholder {
+            color: #999;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            pointer-events: none;
+        }
+        
+        .city-search-results {
+            max-height: 200px;
+            overflow-y: auto;
+            border-top: 1px solid #eee;
+            display: none;
+        }
+        
+        .city-search-result {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 13px;
+        }
+        
+        .city-search-result:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .city-search-result:last-child {
+            border-bottom: none;
+        }
+        
+        .city-name {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .city-details {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .search-clear-btn {
+            position: absolute;
+            right: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            padding: 2px;
+            display: none;
+        }
+        
+        .search-clear-btn:hover {
+            color: #333;
+        }
+        
+        /* Move Leaflet zoom controls down to avoid overlap with search */
+        .leaflet-control-zoom {
+            margin-top: 80px !important;
+        }
+        
+        /* Prevent search container from triggering map events */
+        .city-search-container {
+            pointer-events: auto;
+        }
+        
+        .city-search-container * {
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body>
     <div class="main-container">
         <!-- Map Container -->
         <div id="map">
+            <!-- City Search -->
+            <div class="city-search-container">
+                <input type="text" 
+                       class="city-search-input" 
+                       id="city-search-input"
+                       placeholder="Search for a city..."
+                       autocomplete="off">
+                <button class="search-clear-btn" id="search-clear-btn" title="Clear search">×</button>
+                <div class="search-icon">🔍</div>
+                <div class="city-search-results" id="city-search-results"></div>
+            </div>
+            
             <!-- Best Practices Legend -->
             <div id="exposure-legend" class="exposure-legend">
                 <div class="legend-title" id="legend-title">Additional PM2.5 Exposure</div>
