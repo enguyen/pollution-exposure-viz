@@ -57,8 +57,8 @@ function updateAssetDetailsPanel(asset, overlayData = null) {
             <div class="mt-3">
                 <div class="row">
                     <div class="col-6">
-                        <button class="btn btn-primary btn-sm w-100" onclick="focusOnAsset()">
-                            Center Map
+                        <button class="btn btn-dark-gray btn-sm w-100" onclick="learnMoreAboutAsset()">
+                            Learn more about this asset
                         </button>
                     </div>
                 </div>
@@ -378,10 +378,11 @@ function generateVariableHeightBars(exposureAnalysis) {
 }
 
 
-// Focus map on selected asset
-function focusOnAsset() {
-    if (selectedAsset && map) {
-        map.setView([selectedAsset.center_lat, selectedAsset.center_lon], 10);
+// Open Climate TRACE page for selected asset
+function learnMoreAboutAsset() {
+    if (selectedAsset && selectedAsset.asset_id) {
+        const climateTraceUrl = `https://climatetrace.org/explore#asset=${selectedAsset.asset_id}`;
+        window.open(climateTraceUrl, '_blank');
     }
 }
 

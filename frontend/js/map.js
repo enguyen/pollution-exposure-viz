@@ -3064,8 +3064,9 @@ class CircleCanvasOverlay extends L.Layer {
         this.canvas.style.pointerEvents = 'none';
         // Canvas will inherit z-index from overlay pane (400), no need to set explicitly
         
-        // Add gray border to show overlay bounds
-        this.canvas.style.border = '2px solid #808080';
+        // Add border to show overlay bounds - match selected asset's country color
+        const assetColor = selectedAsset ? (countryColors[selectedAsset.country] || '#808080') : '#808080';
+        this.canvas.style.border = `2px solid ${assetColor}`;
         
         this.ctx = this.canvas.getContext('2d');
         
