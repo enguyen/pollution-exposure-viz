@@ -1040,7 +1040,7 @@ function showAssetOverlay(asset) {
     }
     
     // Check if asset has overlay data and we're zoomed in enough
-    if (!asset.overlay || map.getZoom() < 9) {
+    if (!asset.overlay || map.getZoom() < 7) {
         return;
     }
     
@@ -1067,7 +1067,7 @@ function handleZoomChange() {
     
     // Show/hide overlay based on zoom level
     if (selectedAsset) {
-        if (zoom >= 9) {
+        if (zoom >= 7) {
             // Only recreate overlay if we don't already have one for the current asset
             const currentAssetId = `${selectedAsset.country}_${selectedAsset.asset_id}`;
             if (!canvasOverlay || canvasOverlay.assetId !== currentAssetId) {
@@ -1664,7 +1664,16 @@ function displayPointAnalysisResults(point, contributingAssets, totalNearby) {
                     </div>
                     <div style="font-size: 12px; color: #666; margin-left: 10px;">
                         <strong>Additional PM2.5:</strong> ${contribution.concentration.toFixed(2)} μg/m³<br>
-                        <strong>Distance:</strong> ${distance.toFixed(1)} km ${direction}
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span><strong>Distance:</strong> ${distance.toFixed(1)} km ${direction}</span>
+                            <a href="#" 
+                               onclick="event.stopPropagation(); openClimateTraceAsset('${asset.asset_id}'); return false;"
+                               style="color: #999; font-size: 11px; text-decoration: none; margin-left: 10px;"
+                               onmouseover="this.style.color='#666'; this.style.textDecoration='underline';"
+                               onmouseout="this.style.color='#999'; this.style.textDecoration='none';">
+                               more info
+                            </a>
+                        </div>
                     </div>
                 </div>
             `;
@@ -1755,9 +1764,18 @@ function selectAssetFromPointAnalysis(assetKey) {
     }, 500);
 }
 
+// Open Climate TRACE page for specific asset (used in point analysis)
+function openClimateTraceAsset(assetId) {
+    if (assetId) {
+        const climateTraceUrl = `https://climatetrace.org/explore#asset=${assetId}`;
+        window.open(climateTraceUrl, '_blank');
+    }
+}
+
 // Make functions globally available for onclick handlers
 window.highlightAssetMarker = highlightAssetMarker;
 window.selectAssetFromPointAnalysis = selectAssetFromPointAnalysis;
+window.openClimateTraceAsset = openClimateTraceAsset;
 
 // New function for CircleCanvasOverlay pixel data lookup
 function getCircleCanvasPixelData(latlng, canvasOverlay) {
@@ -2355,9 +2373,9 @@ class CanvasOverlay extends L.Layer {
         // Clear canvas first
         this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         
-        // Only render data at zoom level 10 and above
+        // Only render data at zoom level 8 and above
         const zoom = this.map.getZoom();
-        if (zoom < 10) {
+        if (zoom < 8) {
             return; // Canvas is cleared but no data is drawn
         }
         
@@ -2527,7 +2545,7 @@ function showCanvasOverlay(asset) {
     const zoom = map.getZoom();
     
     // Check if we should show canvas rendering
-    if (zoom < 6) {
+    if (zoom < 4) {
         hideExposureLegend();
         return;
     }
@@ -2697,7 +2715,7 @@ function calculateActualCircleSize(populationBin) {
     const gridCellSize = Math.min(scaleX, scaleY);
     
     // Calculate radius the same way as in renderCircles
-    const maxRadius = gridCellSize * 1;
+    const maxRadius = gridCellSize * 0.75;
     const populationFactor = (populationBin.radius - POPULATION_BINS[0].radius) / 
                            (POPULATION_BINS[POPULATION_BINS.length-1].radius - POPULATION_BINS[0].radius);
     const radius = populationFactor * maxRadius;
@@ -2707,14 +2725,27 @@ function calculateActualCircleSize(populationBin) {
 }
 
 function populateLegendContent() {
+    // Helper function to create darker shade of hex color
+    function getDarkerShade(hexColor) {
+        const rgb = hexToRgb(hexColor);
+        if (!rgb) return '#666'; // fallback
+        const darkerRgb = {
+            r: Math.floor(rgb.r * 0.7),
+            g: Math.floor(rgb.g * 0.7),
+            b: Math.floor(rgb.b * 0.7)
+        };
+        return `rgb(${darkerRgb.r}, ${darkerRgb.g}, ${darkerRgb.b})`;
+    }
+    
     // Populate concentration color legend
     const colorLegend = document.getElementById('concentration-color-legend');
     if (colorLegend) {
         let colorHtml = '';
         CONCENTRATION_BINS.forEach(bin => {
+            const borderColor = getDarkerShade(bin.color);
             colorHtml += `
                 <div style="display: flex; align-items: center; margin-bottom: 3px;">
-                    <div style="width: 12px; height: 12px; background-color: ${bin.color}; border-radius: 50%; margin-right: 6px; border: 1px solid #ccc;"></div>
+                    <div style="width: 12px; height: 12px; opacity: 0.5; background-color: ${bin.color}; border-radius: 50%; margin-right: 6px; border: 1px solid ${borderColor};"></div>
                     <span style="font-size: 10px; color: #333;">${bin.label}</span>
                 </div>
             `;
@@ -2747,7 +2778,7 @@ function populateLegendContent() {
                             height: ${displaySize}px; 
                             background-color: #ccc; 
                             border-radius: 50%; 
-                            border: 1px solid #666;
+                            border: 1px solid ${getDarkerShade('#cccccc')};
                             position: absolute;
                             right: 0;
                             top: 0;
@@ -3066,7 +3097,7 @@ class CircleCanvasOverlay extends L.Layer {
         
         // Add border to show overlay bounds - match selected asset's country color
         const assetColor = selectedAsset ? (countryColors[selectedAsset.country] || '#808080') : '#808080';
-        this.canvas.style.border = `2px solid ${assetColor}`;
+        this.canvas.style.border = `2px dotted ${assetColor}`;
         
         this.ctx = this.canvas.getContext('2d');
         
@@ -3139,9 +3170,9 @@ class CircleCanvasOverlay extends L.Layer {
         // Always clear canvas first to prevent drawing on top of previous content
         this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         
-        // Only render circles at zoom level 10 and above
+        // Only render circles at zoom level 8 and above
         const zoom = this.map.getZoom();
-        if (zoom < 10) {
+        if (zoom < 8) {
             return; // Canvas is cleared but no circles are drawn
         }
         
@@ -3197,12 +3228,11 @@ class CircleCanvasOverlay extends L.Layer {
                 const gridCellSize = Math.min(scaleX, scaleY);
                 
                 // Scale radius based on population bin and grid cell size
-                // Largest circles = 2x grid cell, smallest = 1px minimum
-                const maxRadius = gridCellSize * 1;
+                // Largest circles = 1x grid cell (diameter), smallest = 1px minimum
+                const maxRadius = gridCellSize * .75;
                 const populationFactor = (populationBin.radius - POPULATION_BINS[0].radius) / 
                                        (POPULATION_BINS[POPULATION_BINS.length-1].radius - POPULATION_BINS[0].radius);
                 const radius = (populationFactor * maxRadius);
-                
                 
                 // Draw circle
                 this.ctx.beginPath();
@@ -3217,9 +3247,15 @@ class CircleCanvasOverlay extends L.Layer {
                 this.ctx.fillStyle = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.5)`;
                 this.ctx.fill();
                 
-                // Optional: Add stroke for better visibility
-                this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
-                this.ctx.lineWidth = 0.5;
+                // Add stroke with darker shade of fill color dependent on zoom level
+                const darkScale = zoom > 12 ? 0.3 : (zoom > 10 ? 0.7 : 0.8);
+                const darkerRgb = {
+                    r: Math.floor(rgb.r * darkScale),
+                    g: Math.floor(rgb.g * darkScale),
+                    b: Math.floor(rgb.b * darkScale)
+                };
+                this.ctx.strokeStyle = `rgba(${darkerRgb.r}, ${darkerRgb.g}, ${darkerRgb.b}, 0.75)`;
+                this.ctx.lineWidth = 1;
                 this.ctx.stroke();
             }
         }
