@@ -3260,6 +3260,8 @@ class CircleCanvasOverlay extends L.Layer {
             }
         }
         
+        // Generate and render contour lines
+        this.renderContours(concentrationData, dataWidth, dataHeight, scaleX, scaleY);
         
         // 🎯 Add center cross-hair marker for alignment testing
         this.addCenterMarker();
@@ -3361,6 +3363,60 @@ class CircleCanvasOverlay extends L.Layer {
         const offsetY = assetCanvasY - overlayCanvasY;
         const distance = Math.sqrt(offsetX * offsetX + offsetY * offsetY);
         
+    }
+    
+    renderContours(concentrationData, dataWidth, dataHeight, scaleX, scaleY) {
+        if (!this.ctx) return;
+        
+        // Only render contours at higher zoom levels to avoid performance issues
+        const zoom = this.map.getZoom();
+        if (zoom < 8) return;
+        
+        // Flatten 2D concentration data for ContourGenerator
+        const flatData = [];
+        for (let y = 0; y < dataHeight; y++) {
+            for (let x = 0; x < dataWidth; x++) {
+                flatData.push(concentrationData[y][x] || 0);
+            }
+        }
+        
+        // Generate contours
+        const contourGenerator = new ContourGenerator(flatData, {
+            width: dataWidth,
+            height: dataHeight
+        });
+        
+        const contours = contourGenerator.generateContours();
+        
+        // Render contour lines
+        this.ctx.save();
+        this.ctx.lineWidth = 1.5;
+        this.ctx.globalAlpha = 0.7;
+        
+        contours.forEach(contour => {
+            this.ctx.strokeStyle = contour.color;
+            
+            contour.segments.forEach(segment => {
+                if (segment.length >= 2) {
+                    this.ctx.beginPath();
+                    
+                    // Convert grid coordinates to canvas coordinates
+                    const startX = segment[0].x * scaleX;
+                    const startY = segment[0].y * scaleY;
+                    this.ctx.moveTo(startX, startY);
+                    
+                    for (let i = 1; i < segment.length; i++) {
+                        const x = segment[i].x * scaleX;
+                        const y = segment[i].y * scaleY;
+                        this.ctx.lineTo(x, y);
+                    }
+                    
+                    this.ctx.stroke();
+                }
+            });
+        });
+        
+        this.ctx.restore();
     }
 }
 
@@ -3805,5 +3861,211 @@ function handleMapZoomStart() {
                 clearCitySearch();
             }
         }, 500);
+    }
+}
+
+// Contour Generation using Marching Squares Algorithm
+class ContourGenerator {
+    constructor(concentrationData, dimensions) {
+        this.data = concentrationData;
+        this.width = dimensions.width;
+        this.height = dimensions.height;
+        this.contourCache = new Map();
+        
+        // Define concentration thresholds for contour lines
+        this.contourLevels = [5, 10, 20, 30, 50, 75, 100];
+        
+        // Create data hash for cache invalidation
+        this.dataHash = this.createDataHash(concentrationData);
+        
+        // Static cache shared across instances for performance
+        if (!ContourGenerator.globalCache) {
+            ContourGenerator.globalCache = new Map();
+        }
+    }
+    
+    createDataHash(data) {
+        // Create a simple hash of the data for cache invalidation
+        let hash = 0;
+        const sampleStep = Math.max(1, Math.floor(data.length / 100)); // Sample every N elements
+        for (let i = 0; i < data.length; i += sampleStep) {
+            hash = ((hash << 5) - hash + data[i]) & 0xffffffff;
+        }
+        return hash;
+    }
+    
+    generateContours() {
+        const contours = [];
+        
+        for (const level of this.contourLevels) {
+            // Enhanced cache key with data hash
+            const cacheKey = `${level}_${this.width}_${this.height}_${this.dataHash}`;
+            
+            // Check global cache first
+            if (ContourGenerator.globalCache.has(cacheKey)) {
+                contours.push(...ContourGenerator.globalCache.get(cacheKey));
+                continue;
+            }
+            
+            // Check instance cache
+            if (this.contourCache.has(cacheKey)) {
+                contours.push(...this.contourCache.get(cacheKey));
+                continue;
+            }
+            
+            const levelContours = this.generateContoursForLevel(level);
+            
+            // Store in both caches
+            this.contourCache.set(cacheKey, levelContours);
+            ContourGenerator.globalCache.set(cacheKey, levelContours);
+            
+            // Limit global cache size to prevent memory issues
+            if (ContourGenerator.globalCache.size > 50) {
+                const firstKey = ContourGenerator.globalCache.keys().next().value;
+                ContourGenerator.globalCache.delete(firstKey);
+            }
+            
+            contours.push(...levelContours);
+        }
+        
+        return contours;
+    }
+    
+    generateContoursForLevel(level) {
+        const contours = [];
+        const visited = new Set();
+        
+        // Scan through the grid using marching squares
+        for (let y = 0; y < this.height - 1; y++) {
+            for (let x = 0; x < this.width - 1; x++) {
+                const cellKey = `${x},${y}`;
+                if (visited.has(cellKey)) continue;
+                
+                // Get the four corner values
+                const topLeft = this.getDataValue(x, y);
+                const topRight = this.getDataValue(x + 1, y);
+                const bottomLeft = this.getDataValue(x, y + 1);
+                const bottomRight = this.getDataValue(x + 1, y + 1);
+                
+                // Calculate marching squares configuration
+                const config = this.getMarchingSquaresConfig(
+                    topLeft, topRight, bottomLeft, bottomRight, level
+                );
+                
+                if (config > 0 && config < 15) {
+                    // There's a contour line through this cell
+                    const segments = this.getContourSegments(
+                        x, y, topLeft, topRight, bottomLeft, bottomRight, level, config
+                    );
+                    
+                    if (segments.length > 0) {
+                        contours.push({
+                            level: level,
+                            segments: segments,
+                            color: this.getContourColor(level)
+                        });
+                    }
+                    
+                    visited.add(cellKey);
+                }
+            }
+        }
+        
+        return contours;
+    }
+    
+    getMarchingSquaresConfig(topLeft, topRight, bottomLeft, bottomRight, level) {
+        let config = 0;
+        if (topLeft >= level) config |= 1;
+        if (topRight >= level) config |= 2;
+        if (bottomRight >= level) config |= 4;
+        if (bottomLeft >= level) config |= 8;
+        return config;
+    }
+    
+    getContourSegments(x, y, topLeft, topRight, bottomLeft, bottomRight, level, config) {
+        const segments = [];
+        
+        // Calculate interpolated edge points
+        const edges = this.calculateEdgePoints(x, y, topLeft, topRight, bottomLeft, bottomRight, level);
+        
+        // Define line segments based on marching squares lookup table
+        const segmentMap = {
+            1: [[edges.left, edges.top]],
+            2: [[edges.top, edges.right]],
+            3: [[edges.left, edges.right]],
+            4: [[edges.right, edges.bottom]],
+            5: [[edges.left, edges.top], [edges.right, edges.bottom]],
+            6: [[edges.top, edges.bottom]],
+            7: [[edges.left, edges.bottom]],
+            8: [[edges.bottom, edges.left]],
+            9: [[edges.top, edges.bottom]],
+            10: [[edges.top, edges.right], [edges.bottom, edges.left]],
+            11: [[edges.right, edges.bottom]],
+            12: [[edges.left, edges.right]],
+            13: [[edges.top, edges.right]],
+            14: [[edges.left, edges.top]]
+        };
+        
+        if (segmentMap[config]) {
+            segments.push(...segmentMap[config]);
+        }
+        
+        return segments;
+    }
+    
+    calculateEdgePoints(x, y, topLeft, topRight, bottomLeft, bottomRight, level) {
+        const interpolate = (val1, val2, level) => {
+            if (Math.abs(val1 - val2) < 0.001) return 0.5;
+            return (level - val1) / (val2 - val1);
+        };
+        
+        return {
+            top: {
+                x: x + interpolate(topLeft, topRight, level),
+                y: y
+            },
+            right: {
+                x: x + 1,
+                y: y + interpolate(topRight, bottomRight, level)
+            },
+            bottom: {
+                x: x + interpolate(bottomLeft, bottomRight, level),
+                y: y + 1
+            },
+            left: {
+                x: x,
+                y: y + interpolate(topLeft, bottomLeft, level)
+            }
+        };
+    }
+    
+    getDataValue(x, y) {
+        if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+            return 0;
+        }
+        
+        const index = y * this.width + x;
+        return this.data[index] || 0;
+    }
+    
+    getContourColor(level) {
+        // Use the same color scheme as the concentration circles
+        if (typeof window.getConcentrationColor === 'function') {
+            return window.getConcentrationColor(level);
+        }
+        
+        // Fallback color scheme
+        const colors = {
+            5: '#FFEDA0',
+            10: '#FED976',
+            20: '#FEB24C',
+            30: '#FD8D3C',
+            50: '#FC4E2A',
+            75: '#E31A1C',
+            100: '#BD0026'
+        };
+        
+        return colors[level] || '#808080';
     }
 }
