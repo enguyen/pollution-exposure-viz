@@ -294,10 +294,12 @@
         }
         
         /* Highlighted marker styles (applied via JavaScript) */
-        .marker-highlighted {
-            transform: scale(1.2);
+        .marker-highlighted .asset-marker {
+            transform: scale(1.3);
             z-index: 700 !important;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            border: 3px solid #fff !important;
+            box-shadow: 0 0 0 2px #ff4444, 0 0 8px rgba(255, 68, 68, 0.6) !important;
+            filter: brightness(1.2) saturate(1.3);
         }
         
         /* City search autocomplete styles */
