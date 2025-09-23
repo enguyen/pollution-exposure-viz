@@ -117,6 +117,11 @@ function initializeApp() {
     // Check for URL parameters
     checkUrlParameters();
     
+    // Reset the flag after initial load to allow normal navigation
+    setTimeout(() => {
+        mapStateLoadedFromUrl = false;
+    }, 1000); // Give enough time for URL parameter processing
+    
     // Coordinate test disabled in production - available for debugging if needed
 }
 
@@ -259,8 +264,10 @@ function startPointAnalysisFromUrl(lat, lng) {
     };
     pointAnalysisMode = true;
     
-    // Center map on the analysis point
-    map.setView([lat, lng], Math.max(map.getZoom(), 10));
+    // Center map on the analysis point (only if map state wasn't loaded from URL)
+    if (!mapStateLoadedFromUrl) {
+        map.setView([lat, lng], Math.max(map.getZoom(), 10));
+    }
     
     // Show loading state with visual layer
     showPointAnalysisLoading();
@@ -525,8 +532,10 @@ function jumpToAsset(assetIdentifier) {
     // Clear any error messages
     clearLoadingError();
     
-    // Center map on asset and zoom in
-    map.setView([asset.center_lat, asset.center_lon], 10);
+    // Center map on asset and zoom in (only if map state wasn't loaded from URL)
+    if (!mapStateLoadedFromUrl) {
+        map.setView([asset.center_lat, asset.center_lon], 10);
+    }
     
     // Select the asset
     setTimeout(() => {
@@ -560,7 +569,13 @@ function initializeMap() {
         // 🔄 REVERT: Back to Web Mercator for proper base map tile support
         crs: L.CRS.EPSG3857,
         maxZoom: 13
-    }).setView([20, 0], 2);
+    });
+    
+    // Load map state from URL or use default view
+    if (!loadMapStateFromUrl()) {
+        map.setView([20, 0], 2); // Default view if no URL parameters
+        updateUrlWithMapState(); // Save default state to URL
+    }
     
     // 🗺️ Add proper Web Mercator base map tiles (monochrome style)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -572,8 +587,9 @@ function initializeMap() {
     console.log('🗺️  Map initialized with Web Mercator (EPSG:3857) for proper tile support');
     console.log('🗺️  Added CartoDB light base map tiles');
     
-    // Add basic graticule/grid for geographic reference
+    // Update URL with map state when user pans or zooms
     map.on('zoomend moveend', function() {
+        updateUrlWithMapState();
     });
     
     // Create a custom pane for asset markers to ensure they appear above overlays
@@ -1291,6 +1307,50 @@ function updateUrlWithAsset(assetKey) {
     
     // Update URL without reloading the page
     window.history.replaceState(null, '', url.toString());
+}
+
+function updateUrlWithMapState() {
+    const url = new URL(window.location);
+    
+    // Get current map state
+    const center = map.getCenter();
+    const zoom = map.getZoom();
+    
+    // Round coordinates to reasonable precision (6 decimal places = ~10cm precision)
+    url.searchParams.set('lat', center.lat.toFixed(6));
+    url.searchParams.set('lng', center.lng.toFixed(6));
+    url.searchParams.set('zoom', zoom.toFixed(1));
+    
+    // Update URL without reloading the page
+    window.history.replaceState(null, '', url.toString());
+}
+
+function loadMapStateFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    const lat = urlParams.get('lat');
+    const lng = urlParams.get('lng');
+    const zoom = urlParams.get('zoom');
+    
+    if (lat && lng && zoom) {
+        const latitude = parseFloat(lat);
+        const longitude = parseFloat(lng);
+        const zoomLevel = parseFloat(zoom);
+        
+        // Validate coordinates and zoom level
+        if (!isNaN(latitude) && !isNaN(longitude) && !isNaN(zoomLevel) &&
+            latitude >= -90 && latitude <= 90 &&
+            longitude >= -180 && longitude <= 180 &&
+            zoomLevel >= 1 && zoomLevel <= 18) {
+            
+            console.log(`Loading map state from URL: lat=${latitude}, lng=${longitude}, zoom=${zoomLevel}`);
+            map.setView([latitude, longitude], zoomLevel);
+            mapStateLoadedFromUrl = true;
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 function exitPointAnalysisMode() {
@@ -3633,6 +3693,7 @@ let citySearchClearBtn = null;
 let currentSearchResults = [];
 let selectedCityIndex = -1;
 let isNavigatingToCity = false; // Flag to prevent clearing search when we're navigating
+let mapStateLoadedFromUrl = false; // Flag to track if map state was loaded from URL
 
 // Initialize city search functionality
 function initializeCitySearch() {
